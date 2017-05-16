@@ -7,21 +7,24 @@
  * Time: 1:19 PM
  */
 
+require_once APPPATH.'helpers/DAO/ClientDAOImpl.php';
+require_once APPPATH.'helpers/DAO/UserDAOImpl.php';
+require_once APPPATH.'libraries/REST_Controller.php';
+require_once 'Controller.php';
+
 use \models\User;
 
-class UserController extends Controller
+class UserController extends \Controller
 {
-
-    private $dao;
-
     /**
      * UserController constructor.
      */
     public function __construct()
     {
-        $the_dao = new \DAO\UserDAOImpl();
-        parent::__construct($the_dao);
-        $this->load->helper('url');
+        $CI =& get_instance();
+        $CI->load->library('doctrine');
+        $em = $CI->doctrine->em;
+        $this->dao = new \DAO\UserDAOImpl($em);
     }
 
 

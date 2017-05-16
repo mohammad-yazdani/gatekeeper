@@ -8,6 +8,8 @@
 
 namespace DAO;
 
+require_once 'DAOImpl.php';
+require_once 'AuthDAO.php';
 
 use DateTime;
 use models\Auth;
@@ -15,8 +17,6 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class AuthDAOImpl extends \DAOImpl implements AuthDAO
 {
-
-
     /**
      * AuthDAOImpl constructor.
      * @param $em

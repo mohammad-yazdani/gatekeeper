@@ -8,27 +8,45 @@
  */
 
 require_once APPPATH.'/libraries/REST_Controller.php';
-use \Restserver\Libraries\REST_Controller;
 
-abstract class Controller extends REST_Controller
+abstract class Controller
 {
     protected $dao;
 
-    /**
-     * Controller constructor.
-     * @param \DAO $dao
-     */
-    public function __construct(\DAO $dao = null)
-    {
-        parent::__construct();
-        $this->dao = $dao;
-    }
-
     public function index_get($id)
     {
+        echo "In index_get()";
         try
         {
             $this->REST_GET($id);
+        } catch(exception $e) {
+            echo 'Exception Caught: ', $e->getMessage();
+        }
+    }
+
+    public function index_post($json)
+    {
+        try
+        {
+            $this->REST_POST($json);
+        } catch(exception $e) {
+            echo 'Exception Caught: ', $e->getMessage();
+        }
+    }
+    public function index_put($json)
+    {
+        try
+        {
+            $this->REST_PUT($json);
+        } catch(exception $e) {
+            echo 'Exception Caught: ', $e->getMessage();
+        }
+    }
+    public function index_delete($json)
+    {
+        try
+        {
+            $this->REST_DELETE($json);
         } catch(exception $e) {
             echo 'Exception Caught: ', $e->getMessage();
         }

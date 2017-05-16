@@ -8,6 +8,7 @@
 
 namespace DAO;
 
+require_once 'UserDAO.php';
 
 use DateTime;
 use models\User;

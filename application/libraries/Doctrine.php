@@ -69,9 +69,5 @@ class Doctrine {
 
         // Create EntityManager
         $this->em = EntityManager::create($connectionOptions, $config);
-      
-        $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
-        $classes = $this->em->getMetadataFactory()->getAllMetadata();
-        $schemaTool->createSchema($classes);
     }
 }

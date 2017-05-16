@@ -8,7 +8,6 @@
 
 namespace DAO;
 
-
 use models\User;
 
 interface UserDAO extends \DAO

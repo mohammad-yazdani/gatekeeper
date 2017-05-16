@@ -10,9 +10,11 @@ require_once APPPATH.'helpers/DAO/ClientDAOImpl.php';
 require_once APPPATH.'helpers/DAO/DeviceDAOImpl.php';
 require_once APPPATH.'libraries/REST_Controller.php';
 require_once 'Controller.php';
+require_once 'UserController.php';
 use application\helpers\DAO\ClientDAOImpl;
 use models\Client;
 use models\Device;
+use \models\User;
 use \Crypto\DeviceUID;
 
 
@@ -23,16 +25,18 @@ class ClientController extends \Controller
 {
     private $deviceDAO;
 
+    private $userDAO;
+
     function __construct ()
     {
-        parent::__construct();
-        $this->load->library('doctrine');
-        $em = $this->doctrine->em;
+        $CI =& get_instance();
+        $CI->load->library('doctrine');
+        $em = $CI->doctrine->em;
         $the_dao = new ClientDAOImpl($em);
         $this->dao = $the_dao;
-        $this->load->helper('url');
         // TODO : CHANGE
         $this->deviceDAO = new \DAO\DeviceDAOImpl($em);
+        $this->userDAO = new \DAO\UserDAOImpl($em);
     }
 	
     public function get ($key=NULL, $xss_clean=NULL): Client
@@ -53,10 +57,12 @@ class ClientController extends \Controller
         $json = json_decode($key);
 
         // TODO : REQUEST USER
-        $userCtrl = new UserController();
-        $userId = $userCtrl->post($json->data);
+
+        $user = new User($json->data);
+        $userId = $this->userDAO->save($user);
 
         $client = null;
+
         if ($userId) $client = new Client(
             ( string ) $json->username,
             ( string ) $json->email,

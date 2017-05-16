@@ -11,7 +11,6 @@ namespace models;
 use Doctrine\ORM\Mapping as ORM;
 require_once 'Model.php';
 
-
 // TODO : Find non-casting solution
 
 /**
