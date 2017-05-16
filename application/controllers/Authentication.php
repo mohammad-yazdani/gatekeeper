@@ -9,8 +9,8 @@
 require_once APPPATH."controllers/Controller.php";
 require_once APPPATH."helpers/DAO/AuthDAOImpl.php";
 require_once APPPATH."helpers/DAO/DAOImpl.php";
+require_once APPPATH."helpers/DAO/ClientDAOImpl.php";
 
-use application\helpers\DAO\ClientDAOImpl;
 
 // TODO : DOCUMENTATION
 
@@ -19,6 +19,22 @@ class Authentication extends \Restserver\Libraries\REST_Controller
     protected $controller;
 
     private $clientDAO;
+
+    /**
+     * Authentication constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('doctrine');
+        $em = $this->doctrine->em;
+        $dao = new \DAO\AuthDAOImpl($em);
+        $this->clientDAO = new \DAO\ClientDAOImpl($em);
+        $this->dao = $dao;
+        //$this->dao = n
+        $this->controller = null;
+        $this->load->helper('url');
+    }
 
     private function evaluate ($key, $username, $password) : bool
     {
@@ -30,22 +46,6 @@ class Authentication extends \Restserver\Libraries\REST_Controller
         } else {
             return false;
         }
-    }
-
-    /**
-     * Authentication constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->library('doctrine');
-        $em = $this->doctrine->em;
-        $dao = new \DAO\AuthDAOImpl($em);
-        $this->clientDAO = new ClientDAOImpl($em);
-        $this->dao = $dao;
-        //$this->dao = n
-        $this->controller = null;
-        $this->load->helper('url');
     }
 
     public function index_get()
