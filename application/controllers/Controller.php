@@ -30,7 +30,7 @@ abstract class Controller extends REST_Controller
         {
             $this->REST_GET($id);
         } catch(exception $e) {
-            echo 'Exception Caught: ', $e->getMessage(), "\n";
+            echo 'Exception Caught: ', $e->getMessage();
         }
     }
 
