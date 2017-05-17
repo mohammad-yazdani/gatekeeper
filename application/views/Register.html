@@ -58,7 +58,6 @@
         </form>
     </div>
     <script>
-
         function Server(address) {
 
             this.address = address;
@@ -66,40 +65,36 @@
             this.http = new XMLHttpRequest();
 
             this.get = function (param) {
-                let args = "/";
-                for (let arg in param) {
-                    args += (arg + "/");
+                let args = "";
+                for (let i = 0; i < param.length; i++) {
+                    args += ("/" + param[i]);
                 }
                 this.http.open('GET', this.address + args, true);
             };
 
             this.post = function (param) {
-                alert("in post");
-                let args = "/";
-                for (let arg in param) {
-                    args += (arg + "/");
+                alert(param.length);
+                let args = "";
+                for (let i = 0; i < param.length; i++) {
+                    args += ("/" + param[i]);
                 }
                 alert(this.address + args);
-                this.http.open('POST', this.address + args, true);
-                http.send(null);
+                let httpString = this.address + args;
+                alert("http string: " + httpString);
+                //this.http.open("POST", httpString, true);
+                this.http.open("GET", "http://localhost/gatekeeper/index.php/ClientAuth/null/123123123/123123/123123/jack", true);
+
+                http.send();
                 alert("post post");
                 alert(http.readyState + " " + http.status);
             };
 
             this.put = function (param) {
-                let args = "/";
-                for (let arg in param) {
-                    args += (arg + "/");
+                let args = "";
+                for (let i = 0; i < param.length; i++) {
+                    args += ("/" + param[i]);
                 }
                 this.http.open('PUT', this.address + args, true);
-            };
-
-            this.delete = function (param) {
-                let args = "/";
-                for (let arg in param) {
-                    args += (arg + "/");
-                }
-                this.http.open('DELETE', this.address + args, true);
             };
         }
 
