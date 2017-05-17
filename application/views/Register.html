@@ -8,6 +8,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="scripts/scripts.js"></script>
+
+    <script src="scripts/http.js"></script>
 </head>
 <body>
     <div class="container">
@@ -50,9 +52,102 @@
             </div>
         </div>
         <a href="ForgotPassword.html"><input type="submit" value="Sign Up" class="btn btn-info"></a>
+        <a href=""><input type="submit" value="Do Sign Up" class="btn btn-info" id="sign_up_button" onclick="new Register();"></a>
         <p></p>
         <a href="TestClientLogin.html"><p>Already have an account? Sign in.</p></a>
         </form>
     </div>
+    <script>
+
+        function Server(address) {
+
+            this.address = address;
+
+            this.http = new XMLHttpRequest();
+
+            this.get = function (param) {
+                let args = "/";
+                for (let arg in param) {
+                    args += (arg + "/");
+                }
+                this.http.open('GET', this.address + args, true);
+            };
+
+            this.post = function (param) {
+                alert("in post");
+                let args = "/";
+                for (let arg in param) {
+                    args += (arg + "/");
+                }
+                alert(this.address + args);
+                this.http.open('POST', this.address + args, true);
+                http.send(null);
+                alert("post post");
+                alert(http.readyState + " " + http.status);
+            };
+
+            this.put = function (param) {
+                let args = "/";
+                for (let arg in param) {
+                    args += (arg + "/");
+                }
+                this.http.open('PUT', this.address + args, true);
+            };
+
+            this.delete = function (param) {
+                let args = "/";
+                for (let arg in param) {
+                    args += (arg + "/");
+                }
+                this.http.open('DELETE', this.address + args, true);
+            };
+        }
+
+
+        function Register() {
+            this.address = "http://localhost/gatekeeper/index.php/ClientAuth";
+
+            this.username = document.getElementById("username").value;
+            this.email = document.getElementById("email").value;
+            this.password = document.getElementById("password").value;
+
+            /*
+            alert(this.username);
+            alert(this.email);
+            alert(this.password);
+
+            return; // TODO : FOR TEST
+            */
+
+            this.server = new Server(this.address);
+
+            this.signup = function () {
+                // TODO : Call http
+                let request;
+                //if (this.confirmPassword()) {
+                request = [null, this.username, this.email, this.password, "jackshit"];
+                this.server.post(request);
+                //} else {
+                // TODO : Handle passwords don't match
+                //}
+            };
+
+            this.confirmPassword = function () {
+                // TODO : Compare fields
+            };
+
+            this.validateUsername = function () {
+                // TODO : Call http
+                // TODO : Create backend functionality
+            };
+
+            this.validateEmail = function () {
+                // TODO : Call http
+                // TODO : Create backend functionality
+            };
+
+            this.signup();
+        }
+    </script>
 </body>
 </html>
