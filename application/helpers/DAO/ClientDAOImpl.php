@@ -9,11 +9,11 @@
 
 // TODO : DOCS
 
-namespace application\helpers\DAO;
+namespace DAO;
 
-require_once("DAOImpl.php");
-require_once("ClientDAO.php");
-require_once(APPPATH."models/Client.php");
+require_once "DAOImpl.php";
+require_once "ClientDAO.php";
+require_once APPPATH."models/Client.php";
 
 use models\Client;
 use DAOImpl;

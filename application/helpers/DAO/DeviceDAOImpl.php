@@ -10,15 +10,12 @@ namespace DAO;
 
 require_once APPPATH.'helpers/DAO/DeviceDAO.php';
 
-use application\helpers\DAO\ClientDAOImpl;
 use DateTime;
 use models\Device;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class DeviceDAOImpl extends \DAOImpl implements DeviceDAO
 {
-
-    private $clientDAO;
     /**
      * ClientDAOImpl constructor.
      * @param $em
@@ -90,5 +87,4 @@ class DeviceDAOImpl extends \DAOImpl implements DeviceDAO
     {
         // TODO: Implement getByJSON() method.
     }
-
 }

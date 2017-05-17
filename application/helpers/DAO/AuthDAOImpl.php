@@ -77,16 +77,29 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
     /**
      * @param int $id
      * @param string $password
+     * @return Auth
      */
-    public function encrypt(int $id, string $password)
+    public function encrypt(string $password, int $id = null) : Auth
     {
-        $auth = $this->get($id);
+        $auth = null;
+        if ($id)
+        {
+            $auth = $this->get($id);
+        }
+        else
+        {
+            $auth = new Auth();
+        }
         // TODO : Implement algorithms for authentication
         // TODO : Generate salt
 
         // TODO : WARNING! -> NOT SECURE / TEMPORARY
         $auth->setSalt("saltVal");
         $auth->setAuthString(base64_encode($password.$auth->getSalt()));
+
+        $this->save($auth);
+
+        return $auth;
     }
 
     /**

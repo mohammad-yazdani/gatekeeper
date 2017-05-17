@@ -26,7 +26,7 @@ class UserDAOImpl extends \DAOImpl implements UserDAO
         parent::__construct($em);
     }
 
-    public function save(User $user)
+    public function save(User $user) : int
     {
         $this->em->persist($user);
 
@@ -37,6 +37,8 @@ class UserDAOImpl extends \DAOImpl implements UserDAO
         $this->em->persist($user);
 
         $this->em->flush();
+
+        return $user->getId();
     }
 
     public function get($id)

@@ -19,7 +19,7 @@ interface AuthDAO
 
     public function delete(Auth $auth);
 
-    public function encrypt(int $id, string $password);
+    public function encrypt(string $password, int $id);
 
     public function decrypt(int $id, string $password);
 

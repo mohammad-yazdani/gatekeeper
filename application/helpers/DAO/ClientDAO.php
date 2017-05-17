@@ -6,7 +6,7 @@
  * Time: 5:48 PM
  */
 
-namespace application\helpers\DAO;
+namespace DAO;
 
 
 use models\Client;

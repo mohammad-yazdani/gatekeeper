@@ -16,10 +16,12 @@ require_once 'Client.php';
  */
 class Device extends \Model
 {
-    /** @ORM\Column(type="int") */
+    /** @ORM\Id @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     */
     private $uid;
 
-    /** @ORM\Column(type="object") */
+    /** @ORM\Column(type="integer") */
     private $clientId;
 
     /** @ORM\Column(type="boolean") */
@@ -27,14 +29,14 @@ class Device extends \Model
 
     /**
      * Constructor
-     * @param int $uid
-     * @param Client $client
+     * @param int $clientId
      */
-    public function __construct(int $uid, int $clientId)
+    public function __construct(int $clientId)
     {
         parent::__construct();
-        $this->uid = $uid;
         $this->clientId = $clientId;
+        $this->setPassIsSaved(false);
+        $this->setJSON(json_encode($this->jsonSerialize()));
     }
 
     /**
@@ -60,7 +62,7 @@ class Device extends \Model
     {
         return [
             'uid' => $this->uid,
-            'client' => $this->client
+            'client' => $this->clientId
         ];
     }
 

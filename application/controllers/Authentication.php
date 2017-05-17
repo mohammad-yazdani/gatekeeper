@@ -14,11 +14,13 @@ require_once APPPATH."helpers/DAO/ClientDAOImpl.php";
 
 // TODO : DOCUMENTATION
 
-class Authentication extends \Restserver\Libraries\REST_Controller
+abstract class Authentication extends \Restserver\Libraries\REST_Controller
 {
     protected $controller;
 
-    private $clientDAO;
+    protected $dao;
+
+    protected $clientDAO;
 
     /**
      * Authentication constructor.
@@ -36,8 +38,9 @@ class Authentication extends \Restserver\Libraries\REST_Controller
         $this->load->helper('url');
     }
 
-    private function evaluate ($key, $username, $password) : bool
+    protected function evaluate ($key, $username, $password) : bool
     {
+        echo "<br/>evaluation: <br/>";
         if ($key) {
             return $this->dao->validateKey($key);
         } elseif ($username && $password) {
@@ -48,53 +51,11 @@ class Authentication extends \Restserver\Libraries\REST_Controller
         }
     }
 
-    public function index_get()
-    {
-        $key = $this->uri->segment(1);
-        $username = $this->uri->segment(2);
-        $password = $this->uri->segment(3);
-        $id = $this->uri->segment(4);
+    abstract public function index_get ();
 
-        if ($this->evaluate($key, $username, $password))
-        {
-            return $this->controller->REST_GET($id);
-        }
-    }
+    abstract public function index_post ();
 
-    public function index_post()
-    {
-        $key = $this->uri->segment(1);
-        $username = $this->uri->segment(2);
-        $password = $this->uri->segment(3);
-        $json = $this->uri->segment(4);
+    abstract public function index_put ();
 
-        if ($this->evaluate($key, $username, $password))
-        {
-            return $this->controller->REST_POST($json);
-        }
-    }
-
-    public function index_put()
-    {
-        $key = $this->uri->segment(1);
-        $username = $this->uri->segment(2);
-        $password = $this->uri->segment(3);
-        $json = $this->uri->segment(4);
-        if ($this->evaluate($key, $username, $password))
-        {
-            return $this->controller->REST_PUT($json);
-        }
-    }
-
-    public function index_delete()
-    {
-        $key = $this->uri->segment(1);
-        $username = $this->uri->segment(2);
-        $password = $this->uri->segment(3);
-        $json = $this->uri->segment(4);
-        if ($this->evaluate($key, $username, $password))
-        {
-            return $this->controller->REST_DELETE($json);
-        }
-    }
+    abstract public function index_delete ();
 }

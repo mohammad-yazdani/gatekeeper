@@ -9,6 +9,8 @@
 
 namespace models;
 
+use Doctrine\ORM\Mapping as ORM;
+
 require_once 'Model.php';
 
 /**
@@ -33,12 +35,11 @@ class Auth extends \Model
 
     /**
      * Auth constructor.
-     * @param string $password
      */
-    public function __construct(string $password)
+    public function __construct()
     {
         parent::__construct();
-        $this->encrypt($password);
+        $this->setJSON(json_encode($this->jsonSerialize()));
     }
 
     /**

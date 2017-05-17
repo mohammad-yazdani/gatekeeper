@@ -11,11 +11,10 @@ require_once APPPATH.'helpers/DAO/DeviceDAOImpl.php';
 require_once APPPATH.'libraries/REST_Controller.php';
 require_once 'Controller.php';
 require_once 'UserController.php';
-use application\helpers\DAO\ClientDAOImpl;
+
 use models\Client;
 use models\Device;
 use \models\User;
-use \Crypto\DeviceUID;
 
 
 // TODO : Handle existing stuff like existing username and email.
@@ -32,14 +31,14 @@ class ClientController extends \Controller
         $CI =& get_instance();
         $CI->load->library('doctrine');
         $em = $CI->doctrine->em;
-        $the_dao = new ClientDAOImpl($em);
+        $the_dao = new \DAO\ClientDAOImpl($em);
         $this->dao = $the_dao;
         // TODO : CHANGE
         $this->deviceDAO = new \DAO\DeviceDAOImpl($em);
         $this->userDAO = new \DAO\UserDAOImpl($em);
     }
 	
-    public function get ($key=NULL, $xss_clean=NULL): Client
+    public function get ($key=NULL): Client
     {
         $id = $key;
         $client = $this->dao->get($id);
@@ -52,36 +51,51 @@ class ClientController extends \Controller
         else return $client;
     }
 	
-    public function post ($key = null, $xss_clean=NULL)
+    public function post ($key = null)
     {
         $json = json_decode($key);
 
+        $username = $json->username;
+        $email = $json->email;
+        $data = $json->data;
+        $uid = $json->uid;
+        $authId = $json->authId;
+
         // TODO : REQUEST USER
 
-        $user = new User($json->data);
+        $user = new User($data);
+
         $userId = $this->userDAO->save($user);
 
         $client = null;
 
-        if ($userId) $client = new Client(
-            ( string ) $json->username,
-            ( string ) $json->email,
-            $userId,
-            $json->authId
+        if ($userId)
+        {
+            $client = new Client(
+                ( string ) $username,
+                ( string ) $email,
+                $userId,
+                $authId
             );
-        else return false;
+            echo "client object created<br/>";
+        }
+        else
+        {
+            return false;
+        }
+
+        // TODO : Client is saved, now we have to save their device.
 
         if($this->dao->save($client))
         {
             $device = null;
-            if ($json->uid != null)
+            if ($uid != null)
             {
                 $device = $this->deviceDAO->get($json->uid);
             }
             if ($device == null)
             {
-                $uidGen = new DeviceUID();
-                $device = new Device($uidGen->generateDeviceUID(), $client->getId());
+                $device = new Device($client->getId());
                 if (!$this->deviceDAO->save($device)) return false;
             }
             if($this->dao->save($client)) return true;
@@ -90,7 +104,7 @@ class ClientController extends \Controller
         else return false;
     }
 
-    public function delete($key = NULL, $xss_clean = NULL)
+    public function delete($key = NULL)
     {
         $json = json_decode($key);
         $clientId = null;
@@ -110,7 +124,7 @@ class ClientController extends \Controller
         else return false;
     }
 
-    public function put ($key = null, $xss_clean=NULL)
+    public function put ($key = null)
     {
         // TODO : WARNING! -> TEMPORARY
         $this->post($key);
@@ -123,6 +137,8 @@ class ClientController extends \Controller
 
     public function REST_POST(string $json)
     {
+        //echo "Posting client 2<br/>";
+        //return null;
         $this->post($json);
     }
 

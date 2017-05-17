@@ -9,6 +9,8 @@
 
 namespace models;
 
+use Doctrine\ORM\Mapping as ORM;
+
 require_once 'Model.php';
 
 /**
@@ -20,8 +22,8 @@ class User extends \Model
 {
 
     /**
-     * @Id @Column(type="integer")
-     * @GeneratedValue
+     * @ORM\Id @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      */
     private $id;
 
@@ -36,11 +38,12 @@ class User extends \Model
     {
         parent::__construct();
         $this->data = new Data($data);
+        $this->setJSON(json_encode($this->jsonSerialize()));
     }
 
     public function __destruct()
     {
-        unlink($this->data);
+        unset($this->data);
     }
 
     /**
