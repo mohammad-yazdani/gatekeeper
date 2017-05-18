@@ -38,8 +38,8 @@
                 <input class="form-control" id="password_confirm" name="password_confirm" type="password" placeholder="Re-enter password" required>
             </div>
         </div>
-        <a href=""><input value="Sign Up" class="btn btn-info" id="sign_up_button" onclick="new Register();"></a>
-        <p></p>
+            <p style="color: red" id="error"></p>
+        <a href="#"><input value="Sign Up" type="button" class="btn btn-info" id="sign_up_button" onclick="new Register();"></a href="">
         </div>
     </div>
     <script>
@@ -77,15 +77,12 @@
                 }
                 var result = 0;
                 $.ajax({
-                    type: 'GET',
+                    type: 'POST',
                     url: this.address + args,
-                    async: false,
                     success:function(data){
                         console.log("Callback response: " + data);
-                        result = data;
                     }
                 });
-                return result;
             };
         }
 
@@ -98,6 +95,7 @@
             this.email_repeat = document.getElementById("email_confirm").value;
             this.password = document.getElementById("password").value;
             this.password_repeat = document.getElementById("password_confirm").value;
+            this.error = document.getElementById("error");
 
             this.server = new Server(this.address);
 
@@ -105,16 +103,16 @@
                 let request;
 
                 if (this.validateUsername() === 0) {
-                    alert("username already exists!");
+                    this.error.innerHTML = "username already exists!";
                     return;
                 }
 
                 if (!this.confirmEmail()) {
-                    alert("Emails don't match!");
+                    this.error.innerHTML = "Emails don't match!";
                     return;
                 }
                 if (!this.confirmPassword()) {
-                    alert("Passwords don't match!");
+                    this.error.innerHTML = "Passwords don't match!";
                     return;
                 }
                 request = [null, this.username, this.email, this.password, null];
