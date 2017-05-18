@@ -20,14 +20,12 @@ require_once 'Model.php';
  */
 class Client extends \Model
 {
-    /**
-     * @ORM\Id @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", nullable=false)
+     * @ORM\Id
      */
     private $username;
 
@@ -56,14 +54,6 @@ class Client extends \Model
         $this->user = $userId;
         $this->authId = $authId;
         $this->setJSON(json_encode($this->jsonSerialize()));
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -139,11 +129,10 @@ class Client extends \Model
     public function jsonSerialize() : array
     {
         return [
-            'id' => $this->id,
-            'dateCreated' => $this->getDateCreated()->format('Y-m-d H:i:s'),
-            'dateModified' => $this->getDateModified()->format('Y-m-d H:i:s'),
             'username' => $this->username,
-            'email' => $this->email
+            'email' => $this->email,
+            'dateCreated' => $this->getDateCreated()->format('Y-m-d H:i:s'),
+            'dateModified' => $this->getDateModified()->format('Y-m-d H:i:s')
         ];
     }
 }

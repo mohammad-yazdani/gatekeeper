@@ -26,58 +26,61 @@ class ClientAuth extends Authentication
 
     public function index_get()
     {
-        $key = $this->uri->segment(1);
-        $username = $this->uri->segment(2);
-        $password = $this->uri->segment(3);
-        $id = $this->uri->segment(4);
+        $key = $this->uri->segment(2);
+
+        if ($key == "check")
+        {
+            $statusReturn = 0;
+            $id = $this->uri->segment(3);
+            try
+            {
+                if ($this->controller->get($id, true)) {
+                    $statusReturn = 1;
+                } else {
+                    $statusReturn = 0;
+                }
+            }
+            catch (Exception $e)
+            {
+                $statusReturn = 0;
+            }
+            echo $statusReturn;
+        }
+
+        $username = $this->uri->segment(3);
+        $password = $this->uri->segment(4);
+        $id = $this->uri->segment(5);
 
         if ($this->evaluate($key, $username, $password))
         {
-            $this->controller->REST_GET($id);
+            return $this->controller->REST_GET($id);
         }
     }
 
+    // TODO : DONE
     public function index_post()
     {
-        $key = $this->uri->segment(2);
-        $username = $this->uri->segment(3);
-        $email = $this->uri->segment(4);
-        $password = $this->uri->segment(5);
-        $data = $this->uri->segment(6);
-        $uid = $this->uri->segment(7);
-
         $json = new stdClass();
-        $json->key = $key;
-        $json->username = $username;
-        $json->email = $email;
-        $json->password = $password;
-        $json->data = $data;
-        $json->uid = $uid;
-
-        // TODO : Make sign up secure
-        //if ($this->evaluate($key, $username, $password))
-        //{
-            //echo "Posting client 1<br/>";
-            //return null;
+        $json->key = $this->uri->segment(2);
+        $json->username = $this->uri->segment(3);
+        $json->email = $this->uri->segment(4);
+        $json->password = $this->uri->segment(5);
+        $json->data = $this->uri->segment(6);
+        $json->uid = $this->uri->segment(7);
 
         $authId = $this->dao->encrypt($json->password)->getId();
         $json->authId = $authId;
 
-        /*
-        // TODO : FOR TEST
-        echo "TEST index_get(): <br/>";
-        echo $json->key." 1<br/>";
-        echo $json->username." 2<br/>";
-        echo $json->email." 3<br/>";
-        echo $json->password." 4<br/>";
-        echo $json->data." 5<br/>";
-        echo $json->uid." 6<br/>";
-        echo $json->authId."<br/>";
-        return null;
-        */
-
-        $this->controller->REST_POST(json_encode($json));
-        //}
+        try
+        {
+            $this->controller->REST_POST(json_encode($json));
+            //$this->response(["user created: " => $json->username]);
+        }
+        catch (Exception $e)
+        {
+            log_message('error', $e->getMessage());
+            //$this->response(['error' => $e->getMessage()]);
+        }
     }
 
     public function index_put()

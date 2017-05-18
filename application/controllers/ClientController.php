@@ -38,17 +38,35 @@ class ClientController extends \Controller
         $this->userDAO = new \DAO\UserDAOImpl($em);
     }
 	
-    public function get ($key=NULL): Client
+    public function get ($key=NULL, $check = false)
     {
-        $id = $key;
-        $client = $this->dao->get($id);
-        // TODO : TEST
-        if ($client == NULL) return NULL;
-        echo "<br/><br/>";
-        echo $client->getJSON();
+        if ($check)
+        {
+            return ($this->dao->checkForUsername($key) && $this->dao->checkForEmail($key));
+        }
+        else
+        {
+            $id = $key;
+            $client = $this->dao->get($id);
 
-        if ($client == NULL) return null;
-        else return $client;
+            // TODO : TEST
+            if ($client == NULL)
+            {
+                // TODO : FOR TEST
+                echo "client doesn't exist<br/>";
+                return NULL;
+            }
+            else
+            {
+                // TODO : FOR TEST
+                echo "client exists<br/>";
+            }
+            echo "<br/><br/>";
+            echo $client->getJSON();
+
+            if ($client == NULL) return null;
+            else return $client;
+        }
     }
 	
     public function post ($key = null)
@@ -86,8 +104,11 @@ class ClientController extends \Controller
 
         // TODO : Client is saved, now we have to save their device.
 
+        echo "<br/>before saving client<br/>";
+
         if($this->dao->save($client))
         {
+            echo "<br/>PRE DEVICE<br/>";
             $device = null;
             if ($uid != null)
             {
@@ -95,7 +116,8 @@ class ClientController extends \Controller
             }
             if ($device == null)
             {
-                $device = new Device($client->getId());
+                echo "<br/>device null<br/>";
+                $device = new Device($client->getUsername());
                 if (!$this->deviceDAO->save($device)) return false;
             }
             if($this->dao->save($client)) return true;
@@ -132,7 +154,7 @@ class ClientController extends \Controller
 
     public function REST_GET($id)
     {
-        $this->get($id);
+        return $this->get($id);
     }
 
     public function REST_POST(string $json)
