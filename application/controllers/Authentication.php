@@ -40,7 +40,6 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
 
     protected function evaluate ($key, $username, $password) : bool
     {
-        echo "<br/>evaluation: <br/>";
         if ($key) {
             return $this->dao->validateKey($key);
         } elseif ($username && $password) {

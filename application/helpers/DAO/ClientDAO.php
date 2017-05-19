@@ -18,4 +18,8 @@ interface ClientDAO extends \DAO
     public function get($id);
 
     public function delete(Client $client);
+
+    public function checkForUsername($username) : bool;
+
+    public function checkForEmail($email) : bool;
 }

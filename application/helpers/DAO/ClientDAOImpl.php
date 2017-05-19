@@ -21,6 +21,8 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class ClientDAOImpl extends DAOImpl implements ClientDAO
 {
+    private $repository;
+
     /**
      * ClientDAOImpl constructor.
      * @param $em
@@ -28,6 +30,7 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
     public function __construct($em)
     {
         parent::__construct($em);
+        $this->repository = 'models\Client';
     }
 	
     public function save(Client $client)
@@ -39,9 +42,15 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
 
             // TODO : DOC
             $this->em->persist($client);
+
+            // TODO : TEST
+            echo "<br/>persist done<br/>";
+
             // TODO : DOC
-            $this->em->flush();
-						
+            $this->em->flush($client);
+
+            echo "<br/>flush done<br/>";
+
             $client->updateJSON();
 					
 						// TODO : DOC
@@ -64,7 +73,20 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
       	$client = null;  
         try
         {
-            $client = $this->em->find('models\Client', $id);
+            // TODO : FOR TEST
+            echo "<br/>searching for |".$id."|<br/>";
+
+            $client = $this->em->find($this->repository, $id);
+            if ($client == null)
+            {
+                // TODO : FOR TEST
+                echo "<br/>null client<br/>";
+            }
+            else
+            {
+                // TODO : FOR TEST
+                echo "<br/>NOT NULL CLIENT<br/>";
+            }
         }
         catch (Exception $e)
       	{
@@ -72,6 +94,17 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
         }
         return $client;
     }
+
+    public function checkForUsername($username) : bool
+    {
+        return (null == $this->em->find($this->repository, $username));
+    }
+
+    public function checkForEmail($email) : bool
+    {
+        return null == $this->em->find($this->repository, $email);
+    }
+
 
     public function delete(Client $client)
     {

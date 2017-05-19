@@ -7,22 +7,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="scripts/scripts.js"></script>
+    <script src="scripts/index.js"></script>
 </head>
 <body>
     <div class="container">
         <h2>Register</h2>
-        <form action="action.php" method="post">
-        <div class="row">
-            <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                <label for="firstname">First Name:</label>
-                <input class="form-control" id="firstname" name="firstname" type="text" placeholder="Enter first name" required>
-            </div>
-            <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                <label for="lastname">Last Name:</label>
-                <input class="form-control" id="lastname" name="lastname" type="text" placeholder="Enter last name" required>
-            </div>
-        </div>
+        <div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-6 col-lg-6">
                 <label for="Email">Email Address:</label>
@@ -49,10 +39,12 @@
                 <input class="form-control" id="password_confirm" name="password_confirm" type="password" placeholder="Re-enter password" required>
             </div>
         </div>
-        <a href="ForgotPassword.html"><input type="submit" value="Sign Up" class="btn btn-info"></a>
-        <p></p>
-        <a href="TestClientLogin.html"><p>Already have an account? Sign in.</p></a>
-        </form>
+            <p style="color: red" id="error"></p>
+        <a href="#"><input value="Sign Up" type="button" class="btn btn-info" id="sign_up_button" onclick="new Register();"></a>
+        </div>
     </div>
+    <script>
+        console.log("Register script running...");
+    </script>
 </body>
 </html>

@@ -21,7 +21,7 @@ class Device extends \Model
      */
     private $uid;
 
-    /** @ORM\Column(type="integer") */
+    /** @ORM\Column(type="string") */
     private $clientId;
 
     /** @ORM\Column(type="boolean") */
@@ -29,9 +29,9 @@ class Device extends \Model
 
     /**
      * Constructor
-     * @param int $clientId
+     * @param string $clientId
      */
-    public function __construct(int $clientId)
+    public function __construct(string $clientId)
     {
         parent::__construct();
         $this->clientId = $clientId;
