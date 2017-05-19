@@ -106,10 +106,13 @@ class ClientController extends \Controller
 
         echo "<br/>before saving client<br/>";
 
+
+
         if($this->dao->save($client))
         {
             echo "<br/>PRE DEVICE<br/>";
             $device = null;
+
             if ($uid != null)
             {
                 $device = $this->deviceDAO->get($json->uid);

@@ -68,6 +68,8 @@ class ClientAuth extends Authentication
         $json->data = $this->uri->segment(6);
         $json->uid = $this->uri->segment(7);
 
+        if ($json->uid == "null") $json->uid = null;
+
         $authId = $this->dao->encrypt($json->password)->getId();
         $json->authId = $authId;
 

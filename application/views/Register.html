@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="scripts/index.js"></script>
 </head>
 <body>
     <div class="container">
         <h2>Register</h2>
-        <form>
+        <div>
         <div class="row">
             <div class="form-group col-sm-6 col-md-6 col-lg-6">
                 <label for="Email">Email Address:</label>
@@ -38,143 +39,12 @@
                 <input class="form-control" id="password_confirm" name="password_confirm" type="password" placeholder="Re-enter password" required>
             </div>
         </div>
-        <a href="ForgotPassword.html"><input value="Sign Up" class="btn btn-info"></a>
-        <a href=""><input value="Do Sign Up" class="btn btn-info" id="sign_up_button" onclick="new Register();"></a>
-        <p></p>
-        <a href="TestClientLogin.html"><p>Already have an account? Sign in.</p></a>
-        </form>
+            <p style="color: red" id="error"></p>
+        <a href="#"><input value="Sign Up" type="button" class="btn btn-info" id="sign_up_button" onclick="new Register();"></a>
+        </div>
     </div>
     <script>
-
-        console.log("hello ajax");
-        //let http = new XMLHttpRequest();
-        //http.open('GET', "localhost/gatekeeper/index.php/ClientAuth/check/hello", true);
-        //http.send();
-        //console.log("Status: ".http.readyState + " " + http.status);
-        //let result = http.responseText;
-        //console.log("result: " + result);
-
-        $.get("index.php/ClientAuth/check/hello", function (data, status) {
-            console.log("Data: " + data + "\nStatus: " + status);
-        });
-
-        function Server(address) {
-
-            this.baseAddress = "http://localhost/gatekeeper/index.php/";
-            this.address = this.baseAddress + address;
-
-            this.get = function (param) {
-                alert("in get");
-
-                let args = "";
-                for (let i = 0; i < param.length; i++) {
-                    args += ("/" + param[i]);
-                }
-
-                alert("pre http : " + this.address + args);
-                // let http = new XMLHttpRequest();
-
-
-
-                http.open("GET", this.address + args, true);
-                http.onreadystatechange = function() {
-                    alert("in on ready");
-                    if (http.readyState == 4 && http.status == 200) {
-                        var xmlDoc = http.responseXML;
-                    }
-                }
-                http.send();
-                alert("Status: ".http.readyState + " " + http.status);
-
-                let result = http.responseText;
-                alert("result: " + result);
-                return result;
-            };
-
-            this.post = function (param) {
-                alert(param.length);
-                let args = "";
-                for (let i = 0; i < param.length; i++) {
-                    args += ("/" + param[i]);
-                }
-                alert(this.address + args);
-                let httpString = this.address + args;
-                alert("http string: " + httpString);
-                let http = new XMLHttpRequest();
-                http.open("POST", httpString, true);
-                http.send();
-                alert("Status: ".http.readyState + " " + http.status);
-            };
-
-            this.put = function (param) {
-                let args = "";
-                for (let i = 0; i < param.length; i++) {
-                    args += ("/" + param[i]);
-                }
-                let http = new XMLHttpRequest();
-                http.open('PUT', this.address + args, true);
-                http.send();
-                alert("Status: ".http.readyState + " " + http.status);
-            };
-        }
-
-
-        function Register() {
-            this.address = "ClientAuth";
-
-            this.username = document.getElementById("username").value;
-            this.email = document.getElementById("email").value;
-            this.email_repeat = document.getElementById("email_confirm").value;
-            this.password = document.getElementById("password").value;
-            this.password_repeat = document.getElementById("password_confirm").value;
-
-            this.server = new Server(this.address);
-
-            this.signUp = function () {
-                let request;
-
-                // TODO : TEST
-                alert("validating username");
-                this.validateUsername();
-                alert("done!");
-
-                if (!this.confirmEmail()) {
-                    alert("Emails don't match!");
-                    return;
-                }
-                if (!this.confirmPassword()) {
-                    alert("Passwords don't match!");
-                    return;
-                }
-                request = [null, this.username, this.email, this.password, null];
-                this.server.post(request);
-            };
-
-            this.confirmPassword = function () {
-                let nonEmpty = (this.password.length !== 0);
-                let confirm = (this.password === this.password_repeat);
-                return nonEmpty && confirm;
-            };
-
-            this.confirmEmail = function () {
-                let nonEmpty = (this.email.length !== 0);
-                let confirm = (this.email_repeat === this.email_repeat);
-                return nonEmpty && confirm;
-            };
-
-            this.validateUsername = function () {
-                alert("get for valid");
-                let request = ["check", this.username];
-                this.server.get(request);
-                // TODO : RETURN result
-            };
-            
-            this.validateEmail = function () {
-
-            };
-            
-            this.signUp();
-        }
+        console.log("Register script running...");
     </script>
 </body>
 </html>
