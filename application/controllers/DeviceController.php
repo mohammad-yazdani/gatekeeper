@@ -54,7 +54,7 @@ class DeviceController extends \Controller
 
     public function put($key)
     {
-
+        post($key);
     }
 
     public function delete($key)
