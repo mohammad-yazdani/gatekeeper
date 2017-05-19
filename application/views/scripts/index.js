@@ -57,7 +57,7 @@ function Register() {
         let request;
 
         if (this.validateUsername() === 0) {
-            this.error.innerHTML = "username already exists!";
+            this.error.innerHTML = "This username is taken!";
             return;
         }
 
