@@ -126,7 +126,7 @@ function Login() {
 
             // TODO : FOR TEST
             console.log("Login successful.");
-            window.location.href = "http://localhost";
+            window.location.href = "ClientPortal.html";
         }
 
         return result;
