@@ -17,7 +17,7 @@ function Server(address) {
             url: this.address + args,
             async: false,
             success:function(data){
-                console.log("Callback response: " + data);
+                // console.log("Callback response: " + data);
                 result = data;
             }
         });
@@ -113,14 +113,28 @@ function Login() {
     this.server = new Server(this.address);
 
     this.login = function () {
+        console.log("Login begin..")
+
         let request;
         request = ["null", this.username, this.password];
         let result = this.server.get(request);
+
         console.log(result);
+        this.error = result;
+
+        if (parseInt(result) === 1) {
+
+            // TODO : FOR TEST
+            console.log("Login successful.");
+            window.location.href = "http://localhost";
+        }
+
         return result;
     };
 
     this.moveToPortal = function () {
 
     };
+
+    this.login();
 }

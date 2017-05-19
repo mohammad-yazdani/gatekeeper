@@ -48,7 +48,8 @@ class ClientController extends \Controller
         {
             $id = $key;
             $client = $this->dao->get($id);
-            echo $client->getJSON();
+            // TODO : FOR TEST
+            // echo $client->getJSON();
             return $client;
         }
     }

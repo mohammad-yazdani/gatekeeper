@@ -57,11 +57,12 @@ class ClientAuth extends Authentication
 
         if ($evaluation_result)
         {
+            echo true;
             return $this->controller->REST_GET($id);
         }
         else
         {
-            // TODO : CHECK FOR PROPER RESPONSE
+            echo "Wrong password!";
             return false;
         }
     }
