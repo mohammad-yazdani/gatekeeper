@@ -104,4 +104,18 @@ function Login() {
     this.username = document.getElementById("username").value;
     this.password = document.getElementById("password").value;
     this.error = document.getElementById("error");
+
+    this.server = new Server(this.address);
+
+    this.login = function () {
+        let request;
+        request = ["null", this.username, this.password];
+        let result = this.server.get(request);
+        console.log(result);
+        return result;
+    };
+
+    this.moveToPortal = function () {
+
+    };
 }
