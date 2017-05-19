@@ -73,20 +73,7 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
       	$client = null;  
         try
         {
-            // TODO : FOR TEST
-            echo "<br/>searching for |".$id."|<br/>";
-
             $client = $this->em->find($this->repository, $id);
-            if ($client == null)
-            {
-                // TODO : FOR TEST
-                echo "<br/>null client<br/>";
-            }
-            else
-            {
-                // TODO : FOR TEST
-                echo "<br/>NOT NULL CLIENT<br/>";
-            }
         }
         catch (Exception $e)
       	{

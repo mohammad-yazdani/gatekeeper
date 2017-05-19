@@ -57,35 +57,40 @@ function Register() {
         let request;
 
         if (this.validateUsername() === 0) {
-            this.error.innerHTML = "username already exists!";
+            this.error.innerHTML = "This username is taken!";
             return;
-        } else {
-            this.error.innerHTML = "";
         }
 
         if (!this.confirmEmail()) {
             this.error.innerHTML = "Emails don't match!";
             return;
         }
+
         if (!this.confirmPassword()) {
             this.error.innerHTML = "Passwords don't match!";
             return;
         }
+
+        if (!this.nonEmptyField()) {
+            this.error.innerHTML = "Fields should not be empty!";
+            return;
+        }
+
         this.error.innerHTML = "";
         request = [null, this.username, this.email, this.password, null];
         this.server.post(request);
     };
 
     this.confirmPassword = function () {
-        let nonEmpty = (this.password.length !== 0);
-        let confirm = (this.password === this.password_repeat);
-        return nonEmpty && confirm;
+        return (this.password === this.password_repeat);
     };
 
     this.confirmEmail = function () {
-        let nonEmpty = (this.email.length !== 0);
-        let confirm = (this.email_repeat === this.email_repeat);
-        return nonEmpty && confirm;
+        return (this.email === this.email_repeat);
+    };
+
+    this.nonEmptyField = function () {
+        return (this.email.length !== 0 && this.password.length !== 0);
     };
 
     this.validateUsername = function () {

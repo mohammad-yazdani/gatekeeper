@@ -47,13 +47,22 @@ class ClientAuth extends Authentication
             echo $statusReturn;
         }
 
+        if ($key == "null") $key = null;
+
         $username = $this->uri->segment(3);
         $password = $this->uri->segment(4);
-        $id = $this->uri->segment(5);
+        $id = $this->uri->segment(3);
 
-        if ($this->evaluate($key, $username, $password))
+        $evaluation_result = $this->evaluate($key, $username, $password);
+
+        if ($evaluation_result)
         {
             return $this->controller->REST_GET($id);
+        }
+        else
+        {
+            // TODO : CHECK FOR PROPER RESPONSE
+            return false;
         }
     }
 

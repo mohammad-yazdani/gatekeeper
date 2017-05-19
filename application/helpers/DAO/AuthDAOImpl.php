@@ -113,7 +113,8 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
         // TODO : Implement algorithms for authentication
 
         // TODO : WARNING! -> NOT SECURE / TEMPORARY
-        return ($password."".$auth->getSalt() == base64_decode($auth->getAuthString()));
+        $result = ($password."".$auth->getSalt() == base64_decode($auth->getAuthString()));
+        return $result;
     }
 
     public function validateKey(string $key)
