@@ -121,6 +121,7 @@ function Login() {
     };
 
     this.moveToPortal = function () {
-
+        // unsure if this line works
+        window.location.href = "ClientPortal.html";
     };
 }
