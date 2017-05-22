@@ -44,6 +44,10 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
             return $this->dao->validateKey($key);
         } elseif ($username && $password) {
             $client = $this->clientDAO->get($username);
+            if ($client == null) {
+                echo "Username not found!\n";
+                return false;
+            }
             return $this->dao->decrypt($client->getAuthId(), $password);
         } else {
             return false;

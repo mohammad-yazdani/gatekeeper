@@ -48,24 +48,9 @@ class ClientController extends \Controller
         {
             $id = $key;
             $client = $this->dao->get($id);
-
-            // TODO : TEST
-            if ($client == NULL)
-            {
-                // TODO : FOR TEST
-                echo "client doesn't exist<br/>";
-                return NULL;
-            }
-            else
-            {
-                // TODO : FOR TEST
-                echo "client exists<br/>";
-            }
-            echo "<br/><br/>";
-            echo $client->getJSON();
-
-            if ($client == NULL) return null;
-            else return $client;
+            // TODO : FOR TEST
+            // echo $client->getJSON();
+            return $client;
         }
     }
 	
@@ -106,10 +91,13 @@ class ClientController extends \Controller
 
         echo "<br/>before saving client<br/>";
 
+
+
         if($this->dao->save($client))
         {
             echo "<br/>PRE DEVICE<br/>";
             $device = null;
+
             if ($uid != null)
             {
                 $device = $this->deviceDAO->get($json->uid);

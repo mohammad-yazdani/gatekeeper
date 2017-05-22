@@ -63,4 +63,14 @@ class HomeController extends CI_Controller
     {
 
     }
+
+    public function Login ()
+    {
+        $this->load->view('Login');
+    }
+
+    public function Admin ()
+    {
+        $this->load->view('Admin');
+    }
 }

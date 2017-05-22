@@ -47,13 +47,23 @@ class ClientAuth extends Authentication
             echo $statusReturn;
         }
 
+        if ($key == "null") $key = null;
+
         $username = $this->uri->segment(3);
         $password = $this->uri->segment(4);
-        $id = $this->uri->segment(5);
+        $id = $this->uri->segment(3);
 
-        if ($this->evaluate($key, $username, $password))
+        $evaluation_result = $this->evaluate($key, $username, $password);
+
+        if ($evaluation_result)
         {
+            echo true;
             return $this->controller->REST_GET($id);
+        }
+        else
+        {
+            echo "Wrong password!";
+            return false;
         }
     }
 
@@ -67,6 +77,8 @@ class ClientAuth extends Authentication
         $json->password = $this->uri->segment(5);
         $json->data = $this->uri->segment(6);
         $json->uid = $this->uri->segment(7);
+
+        if ($json->uid == "null") $json->uid = null;
 
         $authId = $this->dao->encrypt($json->password)->getId();
         $json->authId = $authId;

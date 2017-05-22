@@ -98,7 +98,7 @@ class Client extends \Model
         return $this->user;
     }
 
-    /**
+    /**+
      * @param int $user
      */
     public function setUser(int $user)

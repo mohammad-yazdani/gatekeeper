@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ForgotPassword</title>
+    <title>Client Portal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -11,16 +11,17 @@
 </head>
 <body>
     <div class="container">
-        <h2>Reset Password</h2>
-        <h5>Enter your email address below. An email will be sent to you shortly allowing you to reset your password</h5>
-        <form>
-        <div class="form-group">
-            <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
+        <h2>Client Portal</h2>
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <a href="#"><input type="button" class="btn btn-block btn-primary" value="View Files"></a>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <a href="#"><input type="button" class="btn btn-block btn-info" value="Download Files"></a>
+            </div>
         </div>
-        </form>
-        <a href="#"><button type="submit" class="btn btn-primary">Submit</button></a>
         <p></p>
-        <a href="TestClientLogin.html"><p>Return to sign in page</p></a>
+        <a href="TestClientLogin.html"><p>Sign out</p></a>
     </div>
 </body>
 </html>
