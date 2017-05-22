@@ -56,6 +56,14 @@ class Device extends \Model
     }
 
     /**
+     * @return int
+     */
+    public function getUid(): int
+    {
+        return $this->uid;
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize() : array

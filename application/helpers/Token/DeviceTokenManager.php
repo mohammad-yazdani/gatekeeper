@@ -15,13 +15,19 @@ namespace Token;
  */
 class DeviceTokenManager implements TokenManager
 {
+
+    private static $minRandomInt = 1000000001;
+    private static $maxRandomInt = 9999999998;
+
     /**
      * @return mixed
      */
     public function genToken()
     {
         // TODO : Get a random string.
+        $random = random_int(self::$minRandomInt, self::$maxRandomInt);
         // TODO : Seed the constructor.
+
         // TODO : Return the object.
         return null;
     }
