@@ -34,7 +34,7 @@ abstract class FileManager
      */
     protected function __construct()
     {
-        $this->dirPath = APPPATH."files/";
+        $this->dirPath = APPPATH."files\\";
         if (!file_exists($this->dirPath)) mkdir($this->dirPath);
         $this->logHeader = " File manager: ";
     }
@@ -122,9 +122,18 @@ abstract class FileManager
      * @param string $name
      * @return bool
      */
-    public function newDir (string $name): bool
+    protected function newDir (string $name): bool
     {
-        return mkdir($this->dirPath.$name);
+        $result = null;
+        try
+        {
+            $result = mkdir($this->dirPath.$name);
+        }
+        catch (Exception $e)
+        {
+            log_message('error', $e->getMessage());
+        }
+        return $result;
     }
 
     /**

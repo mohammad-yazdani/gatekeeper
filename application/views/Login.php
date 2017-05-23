@@ -25,8 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container">
     <h2>Client Login</h2>
     <div class="form-group">
-        <label for="username">Username or Email Address:</label>
-        <input type="text" class="form-control" id="username" placeholder="Enter username or email address" name="user">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" placeholder="Enter username" name="user">
     </div>
     <div class="form-group">
         <label for="password">Password:</label>

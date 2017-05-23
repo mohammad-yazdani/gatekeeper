@@ -8,6 +8,7 @@
 
 namespace FileSystem;
 
+require_once 'FileManager.php';
 
 use models\File;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -25,15 +26,14 @@ class RSA_FileManager extends FileManager
 
     /**
      * RSA_FileManager constructor.
-     * @param $fileName
      */
-    public function __construct(string $fileName)
+    public function __construct()
     {
         parent::__construct();
-        $this->dirPath = $this->dirPath."auth/";
-        if (!$this->fileExists($this->dirPath)) $this->newDir($this->dirPath);
+        $this->fileName = 'key';
+        if(!($this->fileExists("auth\\"))) $this->newDir("auth\\");
+        $this->dirPath = $this->dirPath."auth\\";
         $this->logHeader = "RSA".$this->logHeader;
-        $this->fileName = $fileName;
     }
 
 
@@ -46,6 +46,13 @@ class RSA_FileManager extends FileManager
         $privateKey = null;
 
         $openssl_res = openssl_pkey_new();
+
+        if ($openssl_res) {
+            echo "OPEN_SSL RES: ".$openssl_res."<br/>";
+        } else {
+            echo "OPEN_SSL RES: Failed<br/>";
+        }
+
         openssl_pkey_export($openssl_res, $privateKey);
 
         $publicKey = openssl_pkey_get_details($openssl_res);
@@ -72,7 +79,7 @@ class RSA_FileManager extends FileManager
     {
         $publicKey = null;
 
-        if ($this->fileExists('key'))
+        if ($this->fileExists($this->fileName))
         {
             $data = $this->loadFile($this->fileName)->getData();
             $data = json_decode(base64_decode($data));
