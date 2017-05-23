@@ -71,14 +71,11 @@ class RSA_FileManager extends FileManager
     public function getPublicKey (): string
     {
         $publicKey = null;
-        // TODO : Check if file exists
+
         if ($this->fileExists('key'))
         {
-            // TODO : Load file
             $data = $this->loadFile($this->fileName)->getData();
-            // TODO : Decode data
             $data = json_decode(base64_decode($data));
-            // TODO : Get public key
             $publicKey = $data['public'];
         }
         return $publicKey;
