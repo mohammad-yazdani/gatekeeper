@@ -45,8 +45,8 @@ class File extends \Model
         $this->data = $data;
         if ($dates)
         {
-            $this->setDateCreated($dates['dateCreated']);
-            $this->setDateModified($dates['dateModified']);
+            $this->setDateCreated($dates["dateCreated"]);
+            $this->setDateModified($dates["dateModified"]);
         }
         $this->setJSON(json_encode($this->jsonSerialize()));
     }

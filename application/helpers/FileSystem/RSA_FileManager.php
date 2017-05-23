@@ -10,6 +10,9 @@ namespace FileSystem;
 
 require_once 'FileManager.php';
 
+require_once APPPATH."third_party\phpseclib\Crypt\RSA.php";
+include_once APPPATH."third_party\phpseclib\Math\BigInteger.php";
+
 use models\File;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -42,25 +45,22 @@ class RSA_FileManager extends FileManager
      */
     public function newPublicKey (): string
     {
-        $publicKey = null;
-        $privateKey = null;
+        $publickey = null;
+        $privatekey = null;
 
-        $openssl_res = openssl_pkey_new();
+        $rsa = new \Crypt_RSA();
 
-        if ($openssl_res) {
-            echo "OPEN_SSL RES: ".$openssl_res."<br/>";
-        } else {
-            echo "OPEN_SSL RES: Failed<br/>";
-        }
+        $rsa->setPrivateKeyFormat(CRYPT_RSA_PRIVATE_FORMAT_PKCS1);
+        $rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_PKCS1);
 
-        openssl_pkey_export($openssl_res, $privateKey);
+        define('CRYPT_RSA_EXPONENT', 65537);
+        define('CRYPT_RSA_SMALLEST_PRIME', 64);
 
-        $publicKey = openssl_pkey_get_details($openssl_res);
-        $publicKey = $publicKey["key"];
+        extract($rsa->createKey());
 
         $keys = [
-            'private' => $privateKey,
-            'public' => $publicKey
+            'private' => $privatekey,
+            'public' => $publickey
         ];
         $json = json_encode($keys);
         $toSave = base64_encode($json);
@@ -69,7 +69,7 @@ class RSA_FileManager extends FileManager
 
         $this->newFile($this->fileName, $toSave);
 
-        return $publicKey;
+        return $publickey;
     }
 
     /**
@@ -83,7 +83,7 @@ class RSA_FileManager extends FileManager
         {
             $data = $this->loadFile($this->fileName)->getData();
             $data = json_decode(base64_decode($data));
-            $publicKey = $data['public'];
+            $publicKey = $data->public;
         }
         return $publicKey;
     }

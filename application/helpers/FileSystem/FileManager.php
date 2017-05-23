@@ -57,7 +57,24 @@ abstract class FileManager
                 $data = fread($handle, filesize($filePath));
 
                 $dates = null;
-                $dates = [filemtime($filePath), fileatime($filePath)];
+                $dateCreated = null;
+                $dateModified = null;
+
+                try
+                {
+                    $dateCreated = new \DateTime(date("Y-m-d H:i:s", filemtime($filePath)));
+                    $dateModified = new \DateTime(date("Y-m-d H:i:s", filemtime($filePath)));
+                    $dates = [
+                        'dateCreated' => $dateCreated,
+                        'dateModified' => $dateModified
+                    ];
+                }
+                catch (Exception $e)
+                {
+                    echo $this->logHeader.$e->getMessage();
+                    log_message($this->logHeader.$e->getMessage(), 'error');
+                    return null;
+                }
 
                 fclose($handle);
 
