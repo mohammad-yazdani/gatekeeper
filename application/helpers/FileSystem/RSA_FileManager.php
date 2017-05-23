@@ -16,179 +16,26 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  * Class RSA_FileManager
  * @package FileSystem
  */
-class RSA_FileManager implements FileManager
+class RSA_FileManager extends FileManager
 {
-
     /**
      * @var string
      */
-    private static $dirPath = APPPATH."auth/";
+    private $fileName;
 
     /**
-     * @var string
+     * RSA_FileManager constructor.
+     * @param $fileName
      */
-    private static $logHeader = "RSA File manager: ";
-
-    /**
-     * @param string $name
-     * @return File
-     */
-    public function loadFile(string $name): File
+    public function __construct(string $fileName)
     {
-        $filePath = self::$dirPath.$name;
-        $openedFile = null;
-        try
-        {
-            if ($this->fileExists($name))
-            {
-                // TODO : Read data
-                $handle = fopen($filePath, "r");
-                $data = fread($handle, filesize($filePath));
-
-                $dates = null;
-                $dates = [filemtime($filePath), fileatime($filePath)];
-
-                fclose($handle);
-
-                $openedFile = new File($filePath, $name, $data, $dates);
-            }
-            else
-            {
-                log_message(self::$logHeader.$name." does not exist!", '
-                error');
-                return null;
-            }
-        }
-        catch (Exception $e)
-        {
-            log_message($e->getMessage(), 'error');
-        }
-
-        return $openedFile;
+        parent::__construct();
+        $this->dirPath = $this->dirPath."auth/";
+        if (!$this->fileExists($this->dirPath)) $this->newDir($this->dirPath);
+        $this->logHeader = "RSA".$this->logHeader;
+        $this->fileName = $fileName;
     }
 
-    /**
-     * @param string $name
-     * @param string $data
-     * @return File
-     */
-    public function newFile(string $name, string $data): File
-    {
-        $filePath = self::$dirPath.$name;
-        $newFile = null;
-
-        try
-        {
-            if (!$this->fileExists($filePath))
-            {
-                $handle = fopen($filePath, 'w+');
-                if (fputs($handle, $data))
-                {
-                    $newFile = new File($filePath, $name, $data);
-                }
-                else
-                {
-                    log_message(self::$logHeader."Cannot write to newly created file!", 'error');
-                }
-                fclose($handle);
-            }
-            else
-            {
-                log_message(self::$logHeader."File already exists!", 'error');
-                return NULL;
-            }
-        }
-        catch (Exception $e)
-        {
-            log_message(self::$logHeader.$e->getMessage(), 'error');
-            return NULL;
-        }
-
-        return $newFile;
-    }
-
-
-    /**
-     * @param File $file
-     * @return bool
-     */
-    public function deleteFile(File $file): bool
-    {
-        $result = false;
-        try
-        {
-            if ($file)
-            {
-                $result = unlink($file->getPath());
-            }
-            else
-            {
-                $result = false;
-                log_message(self::$logHeader."Cannot delete non-existing file ".$file->getPath(), 'error');
-            }
-        }
-        catch (Exception $e)
-        {
-            log_message(self::$logHeader.$e->getMessage(), 'error');
-        }
-        return $result;
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function fileExists(string $name): bool
-    {
-        $filePath = self::$dirPath.$name;
-        return file_exists($filePath);
-    }
-
-
-    /**
-     * @param File $file
-     * @param string $newData
-     * @param bool $append
-     * @return File
-     */
-    public function updateFile(File $file, string $newData, bool $append = false): File
-    {
-        try
-        {
-            if ($file)
-            {
-                $handle = fopen($file->getPath(), 'w+');
-                if (fputs($handle, $newData))
-                {
-                    if ($append)
-                    {
-                        $file->setData($file->getData().$newData);
-                    }
-                    else
-                    {
-                        $file->setData($newData);
-                    }
-                }
-                else
-                {
-                    log_message(self::$logHeader."Cannot update/write to file!", 'error');
-                }
-                fclose($handle);
-            }
-            else
-            {
-                log_message(self::$logHeader."File does not exist!", 'error');
-                return NULL;
-            }
-        }
-        catch (Exception $e)
-        {
-            log_message(self::$logHeader.$e->getMessage(), 'error');
-            return NULL;
-        }
-
-        return $file;
-    }
 
     /**
      * @return string
@@ -196,12 +43,44 @@ class RSA_FileManager implements FileManager
     public function newPublicKey (): string
     {
         $publicKey = null;
+        $privateKey = null;
 
-        // TODO : Generate public and private key
-        // TODO : Save both
-        // TODO : Delete previous key pair
-        // TODO : Return public
+        $openssl_res = openssl_pkey_new();
+        openssl_pkey_export($openssl_res, $privateKey);
 
+        $publicKey = openssl_pkey_get_details($openssl_res);
+        $publicKey = $publicKey["key"];
+
+        $keys = [
+            'private' => $privateKey,
+            'public' => $publicKey
+        ];
+        $json = json_encode($keys);
+        $toSave = base64_encode($json);
+
+        if ($this->fileExists($this->fileName)) $this->deleteFile($this->loadFile($this->fileName));
+
+        $this->newFile($this->fileName, $toSave);
+
+        return $publicKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicKey (): string
+    {
+        $publicKey = null;
+        // TODO : Check if file exists
+        if ($this->fileExists('key'))
+        {
+            // TODO : Load file
+            $data = $this->loadFile($this->fileName)->getData();
+            // TODO : Decode data
+            $data = json_decode(base64_decode($data));
+            // TODO : Get public key
+            $publicKey = $data['public'];
+        }
         return $publicKey;
     }
 }
