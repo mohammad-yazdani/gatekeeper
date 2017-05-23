@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 url: this.address + args,
                 async: false,
                 success:function(data){
-                    // console.log("Callback response: " + data);
+                    console.log("Callback response: " + data);
                     result = data;
                 }
             });
@@ -90,10 +90,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $.ajax({
                 type: "POST",
                 url: this.address + args,
+                async: false,
                 success:function(data){
-                    console.log("Callback response: " + data);
+                    console.log("Callback response: " + data.indexOf("flush done"));
+                    result = (data.indexOf("flush done") !== -1);
+                    console.log("Callback response result: " + result);
                 }
             });
+            return result;
         };
     }
 
@@ -134,7 +138,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             this.error.innerHTML = "";
             request = [null, this.username, this.email, this.password, null];
-            this.server.post(request);
+            let result = this.server.post(request);
+            return result;
         };
 
         this.confirmPassword = function () {
@@ -156,44 +161,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             return result;
         };
 
-        this.signUp();
-    }
-
-    function Login() {
-        this.address = "ClientAuth";
-
-        this.username = document.getElementById("username").value;
-        this.password = document.getElementById("password").value;
-        this.error = document.getElementById("error");
-
-        this.server = new Server(this.address);
-
-        this.login = function () {
-            console.log("Login begin..")
-
-            let request;
-            request = ["null", this.username, this.password];
-            let result = this.server.get(request);
-
-            console.log(result);
-            this.error = result;
-
-            if (parseInt(result) === 1) {
-
-                // TODO : FOR TEST
-                console.log("Login successful.");
-                window.location.href = "ClientPortal.html";
-            }
-
-            return result;
-        };
-
-        this.moveToPortal = function () {
-            // unsure if this line works
-            window.location.href = "ClientPortal.html";
-        };
-
-        this.login();
+        if (this.signUp()) {
+            window.location.href = "<?php echo site_url('HomeController/ClientPortal'); ?>";
+        }
     }
 </script>
 </body>
