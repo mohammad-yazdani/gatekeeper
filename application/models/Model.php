@@ -39,31 +39,31 @@ abstract class Model extends CI_Model implements JsonSerializable
   
     /**
     * Constructor
-     * @param string $name
     */
     public function __construct()
     {
-      $this->setDateCreated(new DateTime());
-      $this->setDateModified(new DateTime());
-      
-      // TODO : TEST
-      //echo "Model ctor running (pre create)<br/>";
-      // TODO : Create table (IF DOESN'T EXIST) using schema tools HERE!
-      try {
-        $tool = new SchemaTool($this->doctrine->em);
-        $class = array(
-          $this->doctrine->em->getClassMetadata(get_class($this))
-        );
-        $tool->createSchema($class);
-        //echo get_class($this)." Table Now Exists <br/>";
-      }
-      catch (Exception $e) {
-        //echo $e->getMessage()."<br/";
-      }
-      // TODO : TEST
-      //echo "<br/>Model Ctor finished<br/>";
+        parent::__construct();
+
+        $this->setDateCreated(new DateTime());
+        $this->setDateModified(new DateTime());
+
+        // TODO : TEST
+        //echo "Model ctor running (pre create)<br/>";
+        // TODO : Create table (IF DOESN'T EXIST) using schema tools HERE!
+        try {
+            $tool = new SchemaTool($this->doctrine->em);
+            $class = array(
+                $this->doctrine->em->getClassMetadata(get_class($this))
+            );
+            $tool->createSchema($class);
+            //echo get_class($this)." Table Now Exists <br/>";
+        }
+        catch (Exception $e) {
+            //echo $e->getMessage()."<br/";
+        }
+        // TODO : TEST
+        //echo "<br/>Model Ctor finished<br/>";
     }
-  
   
     /**
      * @return string
@@ -74,9 +74,9 @@ abstract class Model extends CI_Model implements JsonSerializable
     }
 
     /**
-     * 
+     * @param string $json
      */
-    protected function setJSON($json)
+    protected function setJSON(string $json)
     {
         $this->JSON = $json;
     }
@@ -113,7 +113,16 @@ abstract class Model extends CI_Model implements JsonSerializable
         $this->dateModified = $dateModified;
     }
 
-    abstract public function jsonSerialize();
+    /**
+     * @return array
+     */
+    abstract public function jsonSerialize() : array ;
 
-    abstract public function updateJSON();
+    /**
+     * @return void
+     */
+    public function updateJSON()
+    {
+        $this->setJSON(json_encode($this->jsonSerialize()));
+    }
 }

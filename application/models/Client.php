@@ -11,82 +11,128 @@ namespace models;
 use Doctrine\ORM\Mapping as ORM;
 require_once 'Model.php';
 
-
 // TODO : Find non-casting solution
 
 /**
  * @ORM\Entity(repositoryClass="Client")
- * @ORM\Table(name="client")
+ * @ORM\Table(name="client",uniqueConstraints={@ORM\UniqueConstraint(name="search_idx", columns={"username"})}, uniqueConstraints={@ORM\UniqueConstraint(name="search_idx", columns={"email"})})
  * 
  */
 class Client extends \Model
 {
+
     /**
-    * Constructor
-     * @param string $name
-    */
-    public function __construct($name)
-    {
-        parent::__construct();
-        //echo $name." passed to client ctor as name!<br/>";
-        $this->name = ( string ) $name;
-      
-        $this->setJSON(json_encode($this->jsonSerialize()));
-    }
-  
-    /**
-     * @ORM\Id @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", nullable=false)
+     * @ORM\Id
      */
-    private $clientId;
+    private $username;
 
     /** @ORM\Column(type="string") */
-    private $name;
+    private $email;
+
+    /** @ORM\Column(type="integer") */
+    private $user;
+
+    /** @ORM\Column(type="integer") */
+    private $authId;
+
+    /**
+    * Constructor
+     * @param string $username
+     * @param string $email
+     * @param int $userId
+     * @param int $authId
+    */
+    public function __construct(string $username, string $email, int $userId, int $authId)
+    {
+        parent::__construct();
+
+        $this->username = $username;
+        $this->email = $email;
+        $this->user = $userId;
+        $this->authId = $authId;
+        $this->setJSON(json_encode($this->jsonSerialize()));
+    }
 
     /**
      * @return int
      */
-    public function getClientId()
+    public function getAuthId()
     {
-        return $this->clientId;
+        return $this->authId;
     }
 
     /**
-     * @param int $clientId
+     * @param int $authId
      */
-    public function setClientId(int $clientId)
+    public function setAuthId($authId)
     {
-        $this->clientId = $clientId;
+        $this->authId = $authId;
     }
+
+
 
     /**
      * @return string
      */
-    public function getName()
+    public function getUsername() : string
     {
-        return $this->name;
+        return $this->username;
     }
 
     /**
-     * @param string $name
+     * @param string $username
      */
-    public function setName(string $name)
+    public function setUsername(string $username)
     {
-        $this->name = $name;
+        $this->username = $username;
     }
+
+    /**
+     * @return int
+     */
+    public function getUser(): int
+    {
+        return $this->user;
+    }
+
+    /**+
+     * @param int $user
+     */
+    public function setUser(int $user)
+    {
+        $this->user = $user;
+    }
+
+
+
+    /**
+     * @return string
+     */
+    public function getEmail() : string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+    }
+
+
   
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
         return [
-          'dateCreated' => $this->getDateCreated()->format('Y-m-d H:i:s'),
-          'dateModified' => $this->getDateModified()->format('Y-m-d H:i:s'),
-          'clientId' => $this->clientId,
-          'name' => $this->name
+            'username' => $this->username,
+            'email' => $this->email,
+            'dateCreated' => $this->getDateCreated()->format('Y-m-d H:i:s'),
+            'dateModified' => $this->getDateModified()->format('Y-m-d H:i:s')
         ];
-    }
-  
-    public function updateJSON()
-    {
-        $this->setJSON(json_encode($this->jsonSerialize()));
     }
 }

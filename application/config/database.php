@@ -94,3 +94,10 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+// Create dsn from the info above
+$db['default']['dsn'] = $db['default']['dbdriver'] .
+    '://' . $db['default']['username'] .
+    ':' . $db['default']['password'].
+    '@' . $db['default']['hostname'] .
+    '/' . $db['default']['database'];

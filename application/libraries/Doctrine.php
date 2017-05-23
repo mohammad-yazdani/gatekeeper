@@ -52,8 +52,8 @@ class Doctrine {
         $config->setProxyNamespace('Proxies');
 
         // Set up logger
-        $logger = new EchoSQLLogger;
-        $config->setSQLLogger($logger);
+        //$logger = new EchoSQLLogger;
+        //$config->setSQLLogger($logger);
 
         $config->setAutoGenerateProxyClasses( TRUE );
       
@@ -69,9 +69,5 @@ class Doctrine {
 
         // Create EntityManager
         $this->em = EntityManager::create($connectionOptions, $config);
-      
-        $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
-        $classes = $this->em->getMetadataFactory()->getAllMetadata();
-        $schemaTool->createSchema($classes);
     }
 }

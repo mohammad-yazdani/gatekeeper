@@ -16,12 +16,10 @@ abstract class DAOImpl implements DAO {
 
     /**
      * DAOImpl constructor.
+     * @param $em
      */
-    public function __construct()
+    public function __construct($em)
     {
-        // Connect to Doctrine.
-				$CI =& get_instance();
-				$CI->load->library('doctrine');
-        $this->em = $CI->doctrine->em;
+        $this->em = $em;
     }
 }
