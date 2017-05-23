@@ -73,4 +73,9 @@ class HomeController extends CI_Controller
     {
         $this->load->view('Admin');
     }
+
+    public function Register ()
+    {
+        $this->load->view('Register');
+    }
 }

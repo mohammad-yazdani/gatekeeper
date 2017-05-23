@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <p></p>
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
-            <a href="Register.html"><input type="button" class="btn btn-block btn-primary" value="Register New Client"></a>
+            <a href="<?php echo site_url('HomeController/Register'); ?>"><input type="button" class="btn btn-block btn-primary" value="Register New Client"></a>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6">
             <a href="#"><input type="button" class="btn btn-block btn-primary" value="Assign Permissions"></a>
