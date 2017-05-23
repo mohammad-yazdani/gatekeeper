@@ -42,7 +42,9 @@ class ClientController extends \Controller
     {
         if ($check)
         {
-            return ($this->dao->checkForUsername($key) && $this->dao->checkForEmail($key));
+            $username = $this->dao->checkForUsername($key);
+            $email = $this->dao->checkForEmail($key);
+            return ($username && $email);
         }
         else
         {

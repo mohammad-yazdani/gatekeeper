@@ -30,7 +30,7 @@ class ClientAuth extends Authentication
 
         if ($key == "check")
         {
-            $statusReturn = 0;
+            $statusReturn = 1;
             $id = $this->uri->segment(3);
             try
             {
@@ -42,9 +42,11 @@ class ClientAuth extends Authentication
             }
             catch (Exception $e)
             {
-                $statusReturn = 0;
+                log_message('error', $e->getMessage());
+                $statusReturn = 1;
             }
             echo $statusReturn;
+            return $statusReturn;
         }
 
         if ($key == "null") $key = null;

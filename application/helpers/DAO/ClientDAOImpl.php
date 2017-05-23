@@ -84,7 +84,17 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
 
     public function checkForUsername($username) : bool
     {
-        return (null == $this->em->find($this->repository, $username));
+        $result = NULL;
+        try
+        {
+            $result = $this->em->find($this->repository, $username);
+        }
+        catch (Exception $e)
+        {
+            log_message('error', $e->getMessage());
+            $result = NULL;
+        }
+        return (null == $result);
     }
 
     public function checkForEmail($email) : bool
@@ -115,29 +125,23 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
         return null;
     }
 
-		public function getByDateModified(\DateTime $date)
+    public function getByDateModified(\DateTime $date)
     {
         try
-        {
-
-        }
+        {}
         catch (Exception $e)
-        {
-			
-        }
+        {}
         return null;
     }
   
-		public function getByJSON(string $json)
+    public function getByJSON(string $json)
     {
-    		try 
-				{
-
-				}	
-				catch (Exception $e)
-				{
-						// TODO : Handle exceptions
-				}
-				return null;
+        try
+        {}
+        catch (Exception $e)
+        {
+            // TODO : Handle exceptions
+        }
+        return null;
     }
 }

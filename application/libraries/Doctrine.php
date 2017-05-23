@@ -61,8 +61,8 @@ class Doctrine {
 
         $connectionOptions = array(
           'dbname' =>   'gatekeeper',
-          'user' =>     'root',
-          //'password' => 'gatekeeper',
+          'user' =>     'gatekeeper',
+          'password' => 'gatekeeper',
           'host' =>     'localhost',   
           'driver' => 'pdo_mysql'
         );
