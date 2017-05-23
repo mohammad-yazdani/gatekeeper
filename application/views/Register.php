@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <p style="color: red" id="error"></p>
         <a href="#"><input value="Register" type="button" class="btn btn-info" id="sign_up_button" onclick="new Register();"></a>
         <p></p>
-        <a href="AdminPortal.html"><p>Return to admin portal</p></a>
+        <a href="<?php echo site_url('HomeController/Admin'); ?>"><p>Return to admin portal</p></a>
     </div>
 </div>
 <script>

@@ -76,10 +76,10 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'root1234',
+	'username' => 'gatekeeper',
+	'password' => 'gatekeeper',
 	'database' => 'gatekeeper',
-	'dbdriver' => 'mysqli',
+	'dbdriver' => 'pdo_mysql',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),

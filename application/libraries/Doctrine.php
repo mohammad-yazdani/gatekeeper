@@ -60,11 +60,11 @@ class Doctrine {
         // Database connection information
 
         $connectionOptions = array(
-          'dbname' =>   'gatekeeper',
-          'user' =>     'gatekeeper',
-          'password' => 'gatekeeper',
-          'host' =>     'localhost',   
-          'driver' => 'pdo_mysql'
+            'driver'   => 'pdo_mysql',
+            'host'     => '127.0.0.1',
+            'dbname'   => 'gatekeeper',
+            'user'     => 'gatekeeper',
+            'password' => 'gatekeeper'
         );
 
         // Create EntityManager
