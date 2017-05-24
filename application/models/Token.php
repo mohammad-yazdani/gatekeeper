@@ -13,40 +13,73 @@ namespace models;
  * Class Token
  * @package models
  */
+/**
+ * Class Token
+ * @package models
+ */
 class Token extends \Model
 {
-    private $jwt;
+    /**
+     * @var int
+     */
+    private $availableAt;
 
-    private $lastValidation;
+    /**
+     * @var int
+     */
+    private $expiresAt;
 
-    private $deviceUID;
+    /**
+     * @var string
+     */
+    private $issuedBy;
+
+    /**
+     * @var string
+     */
+    private $issuedTo;
+
+    /**
+     * @var array
+     */
+    private $deviceInfo;
 
     /**
      * Token constructor.
      * @param Device $device
+     * @param string $issuedTo
      */
-    public function __construct(Device $device)
+    public function __construct(Device $device, string $issuedTo)
     {
         parent::__construct();
 
-        $this->deviceUID = $device->getUid();
+        $this->issuedTo = $issuedTo;
 
-        $this->lastValidation = $this->getDateCreated();
+        $this->issuedBy = "gatekeeper";
 
-        $rsa_message = decbin($this->deviceUID) + $this->lastValidation;
+        $this->availableAt = 60;
 
-        // TODO : Get public key
+        $this->expiresAt = 10800;
 
-        // TODO : Generate jwt string
+        $this->deviceInfo = $device->jsonSerialize();
 
-        // TODO : Set as jwt
-
-        $this->auth_string ;
+        $this->setJSON(json_encode($this->jsonSerialize()));
     }
 
-    public function check ()
+    /**
+     * @return string
+     */
+    public function getIssuedTo(): string
     {
+        return $this->issuedTo;
+    }
 
+    /**
+     * @return array
+     */
+    public function getDeviceInfo(): array
+    {
+        return $this->deviceInfo;
     }
 
     /**
@@ -54,6 +87,12 @@ class Token extends \Model
      */
     public function jsonSerialize(): array
     {
-        // TODO: Implement jsonSerialize() method.
+        return [
+            'iss' => $this->issuedBy,
+            'aud' => $this->issuedTo,
+            'init' => $this->availableAt,
+            'exp' => $this->expiresAt,
+            'deviceInfo' => $this->deviceInfo
+        ];
     }
 }

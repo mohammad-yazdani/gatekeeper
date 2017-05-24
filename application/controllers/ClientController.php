@@ -8,14 +8,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 require_once APPPATH.'helpers/DAO/ClientDAOImpl.php';
 require_once APPPATH.'helpers/DAO/DeviceDAOImpl.php';
+require_once APPPATH.'helpers/FileSystem/RSA_FileManager.php';
 require_once APPPATH.'libraries/REST_Controller.php';
 require_once 'Controller.php';
 require_once 'UserController.php';
+require_once APPPATH.'third_party/firebase/php-jwt/src/JWT.php';
+
 
 use models\Client;
+use models\Token;
 use models\Device;
 use \models\User;
-
+use \Firebase\JWT\JWT;
+use \FileSystem\RSA_FileManager;
 
 // TODO : Handle existing stuff like existing username and email.
 // TODO : DOCUMENTATION
@@ -108,6 +113,21 @@ class ClientController extends \Controller
             {
                 echo "<br/>device null<br/>";
                 $device = new Device($client->getUsername());
+
+                // TODO : Make a token and return it
+                $token = (new Token($device, $client->getUsername()))->jsonSerialize();
+                $key_res = new RSA_FileManager();
+
+                $jwt = JWT::encode($token, $key_res->getPublicKey());
+
+                echo "decoded: <br/>";
+
+                $decoded = JWT::decode($jwt, $key, array('RS256'));
+
+                echo $decoded;
+
+                //echo "JWT: <br/>".$jwt;
+
                 if (!$this->deviceDAO->save($device)) return false;
             }
             if($this->dao->save($client)) return true;

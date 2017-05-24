@@ -88,7 +88,7 @@ class ClientAuth extends Authentication
         try
         {
             $this->controller->REST_POST(json_encode($json));
-            //$this->response(["user created: " => $json->username]);
+            $this->set_response($json, 200);
         }
         catch (Exception $e)
         {
