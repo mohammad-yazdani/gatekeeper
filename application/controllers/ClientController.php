@@ -12,7 +12,7 @@ require_once APPPATH.'helpers/FileSystem/RSA_FileManager.php';
 require_once APPPATH.'libraries/REST_Controller.php';
 require_once 'Controller.php';
 require_once 'UserController.php';
-require_once APPPATH.'third_party/firebase/php-jwt/src/JWT.php';
+require_once APPPATH.'helpers\JWT\JWT.php';
 
 
 use models\Client;
