@@ -1,6 +1,9 @@
 <?php
 
 namespace Firebase\JWT;
+
+require_once 'ExpiredException.php';
+
 use \DomainException;
 use \InvalidArgumentException;
 use \UnexpectedValueException;
@@ -224,6 +227,8 @@ class JWT
         list($function, $algorithm) = static::$supported_algs[$alg];
         switch($function) {
             case 'openssl':
+                echo "<br/>Public key:<br/>";
+                echo $key;
                 $success = openssl_verify($msg, $signature, $key, $algorithm);
                 if (!$success) {
                     throw new DomainException("OpenSSL unable to verify data: " . openssl_error_string());

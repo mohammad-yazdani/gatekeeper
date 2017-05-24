@@ -54,7 +54,8 @@ abstract class FileManager
             {
                 // TODO : Read data
                 $handle = fopen($filePath, "r");
-                $data = fread($handle, filesize($filePath));
+                $data = file_get_contents($filePath);
+                //$data = fread($handle, filesize($filePath));
 
                 $dates = null;
                 $dateCreated = null;
@@ -82,8 +83,7 @@ abstract class FileManager
             }
             else
             {
-                log_message($this->logHeader.$name." does not exist!", '
-                error');
+                log_message($this->logHeader.$name." does not exist!", 'error');
                 return null;
             }
         }

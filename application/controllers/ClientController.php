@@ -87,7 +87,7 @@ class ClientController extends \Controller
                 $userId,
                 $authId
             );
-            echo "client object created<br/>";
+            // TODO : FOR TEST echo "client object created<br/>";
         }
         else
         {
@@ -96,13 +96,14 @@ class ClientController extends \Controller
 
         // TODO : Client is saved, now we have to save their device.
 
-        echo "<br/>before saving client<br/>";
+        // TODO : FOR TEST echo "<br/>before saving client<br/>";
 
 
 
-        if($this->dao->save($client))
+        // TODO : Replace with 'true' after test | $this->dao->save($client) |
+        if(true)
         {
-            echo "<br/>PRE DEVICE<br/>";
+            // TODO : FOR TEST echo "<br/>PRE DEVICE<br/>";
             $device = null;
 
             if ($uid != null)
@@ -111,18 +112,20 @@ class ClientController extends \Controller
             }
             if ($device == null)
             {
-                echo "<br/>device null<br/>";
+                // TODO : FOR TEST echo "<br/>device null<br/>";
                 $device = new Device($client->getUsername());
 
                 // TODO : Make a token and return it
                 $token = (new Token($device, $client->getUsername()))->jsonSerialize();
                 $key_res = new RSA_FileManager();
 
-                $jwt = JWT::encode($token, $key_res->getPublicKey());
+                $jwt = JWT::encode($token, $key_res->getKey(true), 'RS256');
+
+                echo "JWT: <br/>".$jwt."<br/>";
 
                 echo "decoded: <br/>";
 
-                $decoded = JWT::decode($jwt, $key, array('RS256'));
+                $decoded = JWT::decode($jwt, $key_res->getKey(), array('RS256'));
 
                 echo $decoded;
 
