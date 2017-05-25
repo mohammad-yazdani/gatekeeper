@@ -70,7 +70,8 @@ class Device extends \Model
     {
         return [
             'uid' => $this->uid,
-            'client' => $this->clientId
+            'client' => $this->clientId,
+            'passSaved' => ($this->isPassSaved)? 'true' : 'false'
         ];
     }
 

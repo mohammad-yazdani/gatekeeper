@@ -16,6 +16,7 @@ require_once APPPATH.'helpers\JWT\JWT.php';
 
 
 use models\Client;
+use models\DeviceController;
 use models\Token;
 use models\Device;
 use \models\User;
@@ -43,7 +44,7 @@ class ClientController extends \Controller
         $this->userDAO = new \DAO\UserDAOImpl($em);
     }
 	
-    public function get ($key=NULL, $check = false)
+    public function get ($key=NULL, $token = NULL, $check = false)
     {
         if ($check)
         {
@@ -54,9 +55,32 @@ class ClientController extends \Controller
         else
         {
             $id = $key;
+            if ($token != NULL)
+            {
+                // TODO : Update the token
+                // TODO : Echo token
+                $key_res = new RSA_FileManager();
+                // TODO : THE DECODE PART
+                $decoded = (array) JWT::decode($token, $key_res->getKey(), array('RS256'));
+                $aud = $decoded['aud'];
+                $uid = $decoded['deviceInfo']->uid;
+                $deviceCtrl = new DeviceController();
+                $device = $deviceCtrl->get($uid);
+
+                $token = (new Token($device, $aud))->jsonSerialize();
+                $key_res = new RSA_FileManager();
+                $jwt = JWT::encode($token, $key_res->getKey(true), 'RS256');
+
+                echo $jwt;
+
+                if ($key == 'null') $key = null;
+                if ($key == NULL)
+                {
+                    $id = $aud;
+                }
+            }
+
             $client = $this->dao->get($id);
-            // TODO : FOR TEST
-            // echo $client->getJSON();
             return $client;
         }
     }
@@ -74,9 +98,7 @@ class ClientController extends \Controller
         // TODO : REQUEST USER
 
         $user = new User($data);
-
         $userId = $this->userDAO->save($user);
-
         $client = null;
 
         if ($userId)
@@ -87,56 +109,40 @@ class ClientController extends \Controller
                 $userId,
                 $authId
             );
-            // TODO : FOR TEST echo "client object created<br/>";
         }
-        else
-        {
-            return false;
-        }
+        else return false;
 
         // TODO : Client is saved, now we have to save their device.
-
         // TODO : FOR TEST echo "<br/>before saving client<br/>";
 
-
-
-        // TODO : Replace with 'true' after test | $this->dao->save($client) |
-        if(true)
+        $jwt = null;
+        if(
+            $this->dao->save($client)
+            //true
+        )
         {
-            // TODO : FOR TEST echo "<br/>PRE DEVICE<br/>";
             $device = null;
-
             if ($uid != null)
             {
                 $device = $this->deviceDAO->get($json->uid);
             }
             if ($device == null)
             {
-                // TODO : FOR TEST echo "<br/>device null<br/>";
                 $device = new Device($client->getUsername());
+                if (!$this->deviceDAO->save($device)) return false;
 
-                // TODO : Make a token and return it
+                // TODO : Send token
                 $token = (new Token($device, $client->getUsername()))->jsonSerialize();
                 $key_res = new RSA_FileManager();
-
                 $jwt = JWT::encode($token, $key_res->getKey(true), 'RS256');
 
-                echo "JWT: <br/>".$jwt."<br/>";
-
-                echo "decoded: <br/>";
-
-                $decoded = JWT::decode($jwt, $key_res->getKey(), array('RS256'));
-
-                echo $decoded;
-
-                //echo "JWT: <br/>".$jwt;
-
-                if (!$this->deviceDAO->save($device)) return false;
+                //echo "JWT: \n".$jwt."\n";
             }
-            if($this->dao->save($client)) return true;
+
+            if($this->dao->save($client)) return $jwt;
             else return false;
         }
-        else return false;
+        return false;
     }
 
     public function delete($key = NULL)
@@ -162,19 +168,17 @@ class ClientController extends \Controller
     public function put ($key = null)
     {
         // TODO : WARNING! -> TEMPORARY
-        $this->post($key);
+        return $this->post($key);
     }
 
-    public function REST_GET($id)
+    public function REST_GET($id, $token = NULL)
     {
-        return $this->get($id);
+        return $this->get($id, $token);
     }
 
     public function REST_POST(string $json)
     {
-        //echo "Posting client 2<br/>";
-        //return null;
-        $this->post($json);
+        return $this->post($json);
     }
 
     public function REST_PUT(string $json)

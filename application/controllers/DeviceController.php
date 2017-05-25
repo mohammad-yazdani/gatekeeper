@@ -24,28 +24,20 @@ class DeviceController extends \Controller
         $CI =& get_instance();
         $CI->load->library('doctrine');
         $em = $CI->doctrine->em;
-        $the_dao = new \DAO\DeviceDAOImpl($em);
+        $this->deviceDAO = new \DAO\DeviceDAOImpl($em);
     }
 
     public function get($key=NULL): Device
     {
         $id = (int) $key;
-        $device = $this->dao->get($id);
-        if ($device == NULL) {
-            return NULL;
-            //echo "<br/><br/>";
-            //echo $device->getJSON();
-        } else {
-            return $device;
-        }
-
+        return $this->deviceDAO->get($id);
     }
 
     public function post($key)
     {
         $json = json_decode($key);
         $device = new Device($json->data);
-        if($this->dao->save($device)){
+        if($this->deviceDAO->save($device)){
             return true;
         } else {
             return false;
@@ -54,15 +46,15 @@ class DeviceController extends \Controller
 
     public function put($key)
     {
-        post($key);
+        $this->post($key);
     }
 
     public function delete($key)
     {
         $json = json_decode($key);
-        $device = $this->dao->get($json->id);
+        $device = $this->deviceDAO->get($json->id);
         if ($device) {
-            if($this->dao->delete($device)) {
+            if($this->deviceDAO->delete($device)) {
                 return true;
             } else {
                 return false;
@@ -74,7 +66,8 @@ class DeviceController extends \Controller
     }
 
 
-    public function REST_GET ($id)
+    // TODO : Do token part later
+    public function REST_GET ($id, $token = NULL)
     {
         $this->get($id);
     }

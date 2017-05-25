@@ -57,9 +57,9 @@ class Token extends \Model
 
         $this->issuedBy = "gatekeeper";
 
-        $this->availableAt = 60;
+        $this->availableAt = time() + 60;
 
-        $this->expiresAt = 10800;
+        $this->expiresAt = (30 * 60); // 30 minutes
 
         $this->deviceInfo = $device->jsonSerialize();
 

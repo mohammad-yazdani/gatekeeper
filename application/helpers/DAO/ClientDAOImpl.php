@@ -42,14 +42,8 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
 
             // TODO : DOC
             $this->em->persist($client);
-
-            // TODO : TEST
-            echo "<br/>persist done<br/>";
-
             // TODO : DOC
             $this->em->flush($client);
-
-            echo "<br/>flush done<br/>";
 
             $client->updateJSON();
 					

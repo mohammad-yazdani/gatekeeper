@@ -58,6 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      * Created by Mohammad Yazdani on 2017-05-18.
      */
 
+    console.log("Register script running...");
 
     function Server(address) {
         this.baseAddress = "http://localhost/gatekeeper/index.php/";
@@ -72,8 +73,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "GET",
                 url: this.address + args,
                 async: false,
-                success:function(data){
+                success:function(data, statusCode){
                     console.log("Callback response: " + data);
+                    console.log("Callback status: " + statusCode);
                     result = data;
                 }
             });
@@ -93,8 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 async: false,
                 success:function(data){
                     console.log("Callback response: " + data.indexOf("flush done"));
-                    result = (data.indexOf("flush done") !== -1);
-                    console.log("Callback response result: " + result);
+                    result = data;
                 }
             });
             return result;
@@ -161,8 +162,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             return result;
         };
 
-        if (this.signUp()) {
-            window.location.href = "<?php echo site_url('HomeController/ClientPortal'); ?>";
+        this.upDateToken = function (token) {
+            return this.server.get([token, null, null]);
+        };
+
+        console.log("Registering...");
+        let result = this.signUp();
+        console.log("Registering finished!");
+        if (!result) console.log("Register failed!");
+        else {
+            console.log("Server response: " + result);
+            // TODO : Store JWT
+            document.cookie = "token=" + result;
+            console.log("The cookie: " + document.cookie);
+            console.log("Back to server: " + this.upDateToken(result));
+            //window.location.href = "<?php echo site_url('HomeController/ClientPortal'); ?>";
         }
     }
 </script>

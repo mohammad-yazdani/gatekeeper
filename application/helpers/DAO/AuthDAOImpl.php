@@ -10,9 +10,13 @@ namespace DAO;
 
 require_once 'DAOImpl.php';
 require_once 'AuthDAO.php';
+require_once APPPATH.'controllers\DeviceController.php';
 
 use DateTime;
+use FileSystem\RSA_FileManager;
+use Firebase\JWT\JWT;
 use models\Auth;
+use models\DeviceController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class AuthDAOImpl extends \DAOImpl implements AuthDAO
@@ -117,9 +121,71 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
         return $result;
     }
 
-    public function validateKey(string $key)
+    public function validateKey(string $key) : bool
     {
-        return strpos($key, "saltVal");
+        $result = 1;
+        // TODO : Validate JWT:
+        // TODO : Validate the issuer, and the info
+        $key_res = new RSA_FileManager();
+        // TODO : THE DECODE PART
+        $decoded = (array) JWT::decode($key, $key_res->getKey(), array('RS256'));
+
+        //print_r($decoded);
+
+        $iss = $decoded['iss'];
+        $aud = $decoded['aud'];
+        $init = (int) $decoded['init'];
+        $exp = (int) $decoded['exp'];
+        $uid = $decoded['deviceInfo']->uid;
+        $username = $decoded['deviceInfo']->client;
+        $passSaved = $decoded['deviceInfo']->passSaved;
+
+        if (!($iss == "gatekeeper")) $result = 0;
+        if (!($username == $aud)) $result = 0;
+        $deviceCtrl = new DeviceController();
+        $device = $deviceCtrl->get($uid);
+        if (!$device) $result = 0;
+        else $device = $device->getPassIsSaved();
+
+        if (time() > ($init + $exp))
+        {
+            $result = 2;
+        }
+
+        if ($passSaved == 'true') $passSaved = true;
+        else $passSaved = false;
+        if ($passSaved !== $device) $result = 0;
+
+        /* TODO : FOR TEST
+        $passSavedString = "false";
+        if ($passSaved) $passSavedString = "true";
+
+        echo "[iss] ".$iss."\n";
+        echo "[aud] ".$aud."\n";
+        echo "[init] ".$init."\n";
+        echo "[exp] ".$exp."\n";
+
+        // TODO : Will be changed for development.
+        // echo "[deviceInfo][uid] ".$uid."\n";
+
+        echo "[deviceInfo][client] ".$username."\n";
+        echo "[deviceInfo][passSaved] ".$passSavedString."\n";
+        */
+        // TODO : Compare save password against database
+
+        switch ($result)
+        {
+            case 0:
+                echo "Corrupted";
+                return false;
+                break;
+            case 2:
+                echo "Expired";
+                return false;
+                break;
+            default:
+                return true;
+        }
     }
 
 

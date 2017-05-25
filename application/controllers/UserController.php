@@ -102,7 +102,8 @@ class UserController extends \Controller
     }
 
 
-    public function REST_GET($id)
+    // TODO : Do the token part later
+    public function REST_GET($id, $token = NULL)
     {
         $id = ( int ) $id;
         $this->get($id);

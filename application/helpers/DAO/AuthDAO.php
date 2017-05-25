@@ -23,5 +23,5 @@ interface AuthDAO
 
     public function decrypt(int $id, string $password);
 
-    public function validateKey (string $key);
+    public function validateKey (string $key) : bool;
 }

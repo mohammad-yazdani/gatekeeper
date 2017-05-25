@@ -52,7 +52,7 @@ abstract class Controller
         }
     }
 
-    abstract public function REST_GET ($id);
+    abstract public function REST_GET ($id, $token = NULL);
     abstract public function REST_POST (string $json);
     abstract public function REST_PUT (string $json);
     abstract public function REST_DELETE (string $json);

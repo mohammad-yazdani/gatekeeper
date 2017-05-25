@@ -36,6 +36,8 @@ class DeviceDAOImpl extends \DAOImpl implements DeviceDAO
 
             $device->updateJSON();
 
+            //print_r($device->jsonSerialize());
+
             $this->em->persist($device);
 
             $this->em->flush();

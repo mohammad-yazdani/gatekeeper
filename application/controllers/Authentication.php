@@ -40,16 +40,34 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
 
     protected function evaluate ($key, $username, $password) : bool
     {
-        if ($key) {
-            return $this->dao->validateKey($key);
-        } elseif ($username && $password) {
+        if ($key)
+        {
+            // TODO : If not validated report corrupt key: Forbidden!
+            if(!$this->dao->validateKey($key))
+            {
+                //http_response_code(403);
+                echo " token ";
+                return false;
+            }
+            else return true;
+        }
+        elseif ($username && $password)
+        {
             $client = $this->clientDAO->get($username);
-            if ($client == null) {
+            if ($client == null)
+            {
                 echo "Username not found!\n";
                 return false;
             }
-            return $this->dao->decrypt($client->getAuthId(), $password);
-        } else {
+            if(!$this->dao->decrypt($client->getAuthId(), $password))
+            {
+                echo "Wrong password ";
+                return false;
+            }
+            else return true;
+        }
+        else
+        {
             return false;
         }
     }

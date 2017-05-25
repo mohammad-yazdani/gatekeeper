@@ -130,9 +130,12 @@ class JWT
         }
 
         // Check if this token has expired.
-        if (isset($payload->exp) && ($timestamp - static::$leeway) >= $payload->exp) {
+        /*if (isset($payload->exp) && ($timestamp - static::$leeway) >= $payload->exp) {
             throw new ExpiredException('Expired token');
-        }
+        }*/
+
+        //if ($payload == null) echo "NULL Payload";
+        //else echo "NOT NULL Payload";
 
         return $payload;
     }
@@ -195,8 +198,15 @@ class JWT
             case 'hash_hmac':
                 return hash_hmac($algorithm, $msg, $key, true);
             case 'openssl':
-                $signature = '';
-                $success = openssl_sign($msg, $signature, $key, $algorithm);
+                $success = true;
+
+                // TODO : Commented out signature because of conflicting libraries.
+                // $success = openssl_sign($msg, $signature, $key, $algorithm);
+
+                $rsa = new \Crypt_RSA();
+                $rsa->loadKey($key);
+                $signature = $rsa->sign($msg);
+                if (!$signature) $success = false;
                 if (!$success) {
                     throw new DomainException("OpenSSL unable to sign data");
                 } else {
@@ -227,11 +237,16 @@ class JWT
         list($function, $algorithm) = static::$supported_algs[$alg];
         switch($function) {
             case 'openssl':
-                echo "<br/>Public key:<br/>";
-                echo $key;
-                $success = openssl_verify($msg, $signature, $key, $algorithm);
+                // TODO : Commented out signature because of conflicting libraries.
+                // $success = openssl_verify($msg, $signature, $key, $algorithm);
+                $rsa = new \Crypt_RSA();
+                $rsa->loadKey($key);
+                $success = $rsa->verify($msg, $signature);
+
                 if (!$success) {
-                    throw new DomainException("OpenSSL unable to verify data: " . openssl_error_string());
+                    // TODO : Commented out signature because of conflicting libraries.
+                    //throw new DomainException("OpenSSL unable to verify data: " . openssl_error_string());
+                    throw new DomainException("PHPSecLib verify() unable to verify data.");
                 } else {
                     return $signature;
                 }
@@ -264,7 +279,8 @@ class JWT
      */
     public static function jsonDecode($input)
     {
-        if (version_compare(PHP_VERSION, '5.4.0', '>=') && !(defined('JSON_C_VERSION') && PHP_INT_SIZE > 4)) {
+        if (version_compare(PHP_VERSION, '5.4.0', '>=') &&
+            !(defined('JSON_C_VERSION') && PHP_INT_SIZE > 4)) {
             /** In PHP >=5.4.0, json_decode() accepts an options parameter, that allows you
              * to specify that large ints (like Steam Transaction IDs) should be treated as
              * strings, rather than the PHP default behaviour of converting them to floats.

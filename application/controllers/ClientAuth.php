@@ -57,16 +57,20 @@ class ClientAuth extends Authentication
 
         $evaluation_result = $this->evaluate($key, $username, $password);
 
+        $clientResult = null;
+
         if ($evaluation_result)
         {
-            echo true;
-            return $this->controller->REST_GET($id);
+            $clientResult =  $this->controller->REST_GET($id, $key);
         }
         else
         {
-            echo "Wrong password!";
+            echo "\nAccess forbidden (403)!\n";
             return false;
         }
+
+        http_response_code(202);
+        return $clientResult;
     }
 
     // TODO : DONE
@@ -87,12 +91,18 @@ class ClientAuth extends Authentication
 
         try
         {
-            $this->controller->REST_POST(json_encode($json));
-            $this->set_response($json, 200);
+            $jwt = $this->controller->REST_POST(json_encode($json));
+            if ($jwt)
+            {
+                // $this->set_response($json, 200);
+                echo $jwt;
+            }
         }
         catch (Exception $e)
         {
             log_message('error', $e->getMessage());
+            //echo $e->getMessage();
+            echo "\nCould not save client. Bad request.";
             //$this->response(['error' => $e->getMessage()]);
         }
     }
