@@ -16,7 +16,10 @@ use DateTime;
 use FileSystem\RSA_FileManager;
 use Firebase\JWT\JWT;
 use models\Auth;
+use models\Client;
+use models\Device;
 use models\DeviceController;
+use models\Token;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class AuthDAOImpl extends \DAOImpl implements AuthDAO
@@ -121,7 +124,7 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
         return $result;
     }
 
-    public function validateKey(string $key) : bool
+    static public function validateKey(string $key) : bool
     {
         $result = 1;
         // TODO : Validate JWT:
@@ -147,10 +150,7 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
         if (!$device) $result = 0;
         else $device = $device->getPassIsSaved();
 
-        if (time() > ($init + $exp))
-        {
-            $result = 2;
-        }
+        if (time() > ($init + $exp)) $result = 2;
 
         if ($passSaved == 'true') $passSaved = true;
         else $passSaved = false;
@@ -186,6 +186,15 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
             default:
                 return true;
         }
+    }
+
+    static public function generateKey(Device $device, Client $client): string
+    {
+        // TODO : Send token
+        $token = (new Token($device, $client->getUsername()))->jsonSerialize();
+        $key_res = new RSA_FileManager();
+        $jwt = JWT::encode($token, $key_res->getKey(true), 'RS256');
+        return $jwt;
     }
 
 

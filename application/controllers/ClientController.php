@@ -22,6 +22,7 @@ use models\Device;
 use \models\User;
 use \Firebase\JWT\JWT;
 use \FileSystem\RSA_FileManager;
+use \DAO\AuthDAOImpl;
 
 // TODO : Handle existing stuff like existing username and email.
 // TODO : DOCUMENTATION
@@ -81,6 +82,17 @@ class ClientController extends \Controller
             }
 
             $client = $this->dao->get($id);
+
+            // TODO : If token is NULL make a new device and send a token
+            if ($token == NULL)
+            {
+               $newDevice = null;
+               $newDevice = new Device($client->getUsername());
+               if (!$this->deviceDAO->save($newDevice)) return false;
+               $newJWT = AuthDAOImpl::generateKey($newDevice, $client);
+               echo $newJWT;
+            }
+
             return $client;
         }
     }
@@ -131,10 +143,7 @@ class ClientController extends \Controller
                 $device = new Device($client->getUsername());
                 if (!$this->deviceDAO->save($device)) return false;
 
-                // TODO : Send token
-                $token = (new Token($device, $client->getUsername()))->jsonSerialize();
-                $key_res = new RSA_FileManager();
-                $jwt = JWT::encode($token, $key_res->getKey(true), 'RS256');
+                $jwt = AuthDAOImpl::generateKey($device, $client);
 
                 //echo "JWT: \n".$jwt."\n";
             }

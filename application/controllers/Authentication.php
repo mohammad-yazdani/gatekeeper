@@ -11,6 +11,7 @@ require_once APPPATH."helpers/DAO/AuthDAOImpl.php";
 require_once APPPATH."helpers/DAO/DAOImpl.php";
 require_once APPPATH."helpers/DAO/ClientDAOImpl.php";
 
+use \DAO\AuthDAOImpl;
 
 // TODO : DOCUMENTATION
 
@@ -43,7 +44,7 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
         if ($key)
         {
             // TODO : If not validated report corrupt key: Forbidden!
-            if(!$this->dao->validateKey($key))
+            if(!AuthDAOImpl::validateKey($key))
             {
                 //http_response_code(403);
                 echo " token ";

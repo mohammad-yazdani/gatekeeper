@@ -43,6 +43,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script>
         console.log("Login script running...");
 
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) === 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        var token = getCookie('token');
+
+        console.log("The token: " + token);
+
+        if (token.length > 1) {
+            new Login();
+        }
+
+        var httpStatus = -1;
+
         /**
          * Created by Mohammad Yazdani on 2017-05-18.
          */
@@ -61,9 +87,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     type: "GET",
                     url: this.address + args,
                     async: false,
-                    success:function(data){
-                        // console.log("Callback response: " + data);
+                    success:function(data, args, code){
+                        console.log("Callback response: " + data);
                         result = data;
+                        httpStatus = code.status;
                     }
                 });
                 return result;
@@ -79,8 +106,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $.ajax({
                     type: "POST",
                     url: this.address + args,
-                    success:function(data){
+                    success:function(data, args, code){
                         console.log("Callback response: " + data);
+                        httpStatus = code.status;
                     }
                 });
             };
@@ -100,19 +128,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 let request;
                 request = ["null", this.username, this.password];
-                let result = this.server.get(request);
-
-                console.log(result);
-                this.error = result;
-
-                if (parseInt(result) === 1) {
-
-                    // TODO : FOR TEST
-                    console.log("Login successful.");
-                    window.location.href = "<?php echo site_url('HomeController/ClientPortal'); ?>";
+                if (token.length > 1) {
+                    request = [token];
                 }
 
+                let result = this.server.get(request);
+                this.error = result;
+
+                if (httpStatus === 202) {
+                    // TODO : FOR TEST
+                    console.log("Login successful.");
+                    console.log(result);
+                    document.cookie = "token=" + result;
+                    this.moveToPortal();
+                }
                 return result;
+            };
+
+            this.upDateToken = function (token) {
+                return this.server.get([token, null, null]);
             };
 
             this.moveToPortal = function () {

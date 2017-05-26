@@ -60,6 +60,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     console.log("Register script running...");
 
+    console.log("The cookie: " + document.cookie);
+
     var httpStatus = -1;
 
     function Server(address) {
@@ -176,7 +178,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         else {
             console.log("Server response: " + result);
             // TODO : Store JWT
-            document.cookie = "token=" + result;
+            console.log("Saving: " + "token=" + result + "; " + (new Date(Date.now() + 18000000)) + "; path=/;");
+            document.cookie = "token=" + result + "; path=/;";
             console.log("The cookie: " + document.cookie);
             console.log("Back to server: " + this.upDateToken(result));
             console.log("Status: " + httpStatus);

@@ -30,7 +30,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         <p></p>
-        <a href="<?php echo site_url('HomeController/Login'); ?>"><p>Sign out</p></a>
+        <a onclick="delete_cookie('token');" href="<?php echo site_url('HomeController/Login'); ?>"><p>Sign out</p></a>
     </div>
+<script>
+    console.log("Client portal script running...");
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function delete_cookie( name ) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+    var token = getCookie('token');
+
+    console.log("The token: " + token);
+</script>
 </body>
 </html>

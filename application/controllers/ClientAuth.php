@@ -101,9 +101,8 @@ class ClientAuth extends Authentication
         catch (Exception $e)
         {
             log_message('error', $e->getMessage());
-            //echo $e->getMessage();
-            echo "\nCould not save client. Bad request.";
-            //$this->response(['error' => $e->getMessage()]);
+            echo "\nCould not save client.";
+            http_response_code(409);
         }
     }
 

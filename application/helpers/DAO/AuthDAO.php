@@ -10,6 +10,8 @@ namespace DAO;
 
 
 use models\Auth;
+use models\Client;
+use models\Device;
 
 interface AuthDAO
 {
@@ -23,5 +25,7 @@ interface AuthDAO
 
     public function decrypt(int $id, string $password);
 
-    public function validateKey (string $key) : bool;
+    static public function validateKey (string $key) : bool;
+
+    static public function generateKey (Device $device, Client $client) : string;
 }
