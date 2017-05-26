@@ -60,6 +60,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     console.log("Register script running...");
 
+    var httpStatus = -1;
+
     function Server(address) {
         this.baseAddress = "http://localhost/gatekeeper/index.php/";
         this.address = this.baseAddress + address;
@@ -73,10 +75,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "GET",
                 url: this.address + args,
                 async: false,
-                success:function(data, statusCode){
+                success:function(data, args, code){
                     console.log("Callback response: " + data);
-                    console.log("Callback status: " + statusCode);
                     result = data;
+                    httpStatus = code.status;
                 }
             });
             return result;
@@ -93,9 +95,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 type: "POST",
                 url: this.address + args,
                 async: false,
-                success:function(data){
+                success:function(data, args, code){
                     console.log("Callback response: " + data.indexOf("flush done"));
                     result = data;
+                    httpStatus = code.status;
                 }
             });
             return result;
@@ -176,7 +179,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             document.cookie = "token=" + result;
             console.log("The cookie: " + document.cookie);
             console.log("Back to server: " + this.upDateToken(result));
-            //window.location.href = "<?php echo site_url('HomeController/ClientPortal'); ?>";
+            console.log("Status: " + httpStatus);
+            if (parseInt(httpStatus, 10) === 202) window.location.href = "<?php echo site_url('HomeController/ClientPortal'); ?>";
         }
     }
 </script>
