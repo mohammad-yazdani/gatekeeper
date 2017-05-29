@@ -21,16 +21,13 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class ClientDAOImpl extends DAOImpl implements ClientDAO
 {
-    private $repository;
-
     /**
      * ClientDAOImpl constructor.
      * @param $em
      */
     public function __construct($em)
     {
-        parent::__construct($em);
-        $this->repository = 'models\Client';
+        parent::__construct($em, 'models\Client');
     }
 	
     public function save(Client $client)

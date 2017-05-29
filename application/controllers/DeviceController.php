@@ -27,13 +27,13 @@ class DeviceController extends \Controller
         $this->deviceDAO = new \DAO\DeviceDAOImpl($em);
     }
 
-    public function get($key=NULL): Device
+    public function get($key=NULL, $xss_clean = NULL): Device
     {
         $id = (int) $key;
         return $this->deviceDAO->get($id);
     }
 
-    public function post($key)
+    public function post($key = NULL, $xss_clean = NULL)
     {
         $json = json_decode($key);
         $device = new Device($json->data);
@@ -44,12 +44,12 @@ class DeviceController extends \Controller
         }
     }
 
-    public function put($key)
+    public function put($key = NULL, $xss_clean = NULL)
     {
         $this->post($key);
     }
 
-    public function delete($key)
+    public function delete($key = NULL, $xss_clean = NULL)
     {
         $json = json_decode($key);
         $device = $this->deviceDAO->get($json->id);

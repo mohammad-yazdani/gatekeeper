@@ -38,14 +38,27 @@ class Client extends \Model
     /** @ORM\Column(type="integer") */
     private $authId;
 
+    /** @ORM\Column(type="boolean") */
+    private $readAccess;
+
+    /** @ORM\Column(type="boolean") */
+    private $writeAccess;
+
+    /** @ORM\Column(type="array") */
+    private $scope;
+
+
     /**
-    * Constructor
+     * Client constructor.
      * @param string $username
      * @param string $email
      * @param int $userId
      * @param int $authId
-    */
-    public function __construct(string $username, string $email, int $userId, int $authId)
+     * @param bool $read
+     * @param bool $write
+     * @param array|null $scope
+     */
+    public function __construct(string $username, string $email, int $userId, int $authId, bool $read = false, bool $write = false, array $scope = null)
     {
         parent::__construct();
 
@@ -53,7 +66,9 @@ class Client extends \Model
         $this->email = $email;
         $this->user = $userId;
         $this->authId = $authId;
-        $this->setJSON(json_encode($this->jsonSerialize()));
+        $this->readAccess = $read;
+        $this->writeAccess = $write;
+        $this->scope = $scope;
     }
 
     /**
@@ -125,14 +140,37 @@ class Client extends \Model
     }
 
 
-  
+    /**
+     * @return array
+     */
     public function jsonSerialize() : array
     {
         return [
             'username' => $this->username,
             'email' => $this->email,
+            'read' => $this->readAccess,
+            'write' => $this->writeAccess,
+            'scope' => $this->scope,
             'dateCreated' => $this->getDateCreated()->format('Y-m-d H:i:s'),
             'dateModified' => $this->getDateModified()->format('Y-m-d H:i:s')
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function getScope() : array
+    {
+        return $this->scope;
+    }
+
+    /**
+     * @param array $scope
+     */
+    public function setScope(array $scope)
+    {
+        $this->scope = $scope;
+    }
+
+
 }

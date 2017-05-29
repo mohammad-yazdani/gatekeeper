@@ -30,7 +30,7 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
      */
     public function __construct($em)
     {
-        parent::__construct($em);
+        parent::__construct($em, 'models\Auth');
     }
 
     public function save(Auth $auth)
@@ -51,7 +51,7 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
         $auth = null;
         try
         {
-            $auth = $this->em->find('models\auth', $id);
+            $auth = $this->em->find($this->repository, $id);
         }
         catch (Exception $e)
         {

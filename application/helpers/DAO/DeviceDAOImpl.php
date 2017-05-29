@@ -22,7 +22,7 @@ class DeviceDAOImpl extends \DAOImpl implements DeviceDAO
      */
     public function __construct($em)
     {
-        parent::__construct($em);
+        parent::__construct($em, 'models\Device');
     }
 
     public function save(Device $device)
@@ -54,7 +54,7 @@ class DeviceDAOImpl extends \DAOImpl implements DeviceDAO
         $device = null;
         try
         {
-            $device = $this->em->find('models\Device', $uid);
+            $device = $this->em->find($this->repository, $uid);
         }
         catch (Exception $e)
         {
@@ -65,7 +65,7 @@ class DeviceDAOImpl extends \DAOImpl implements DeviceDAO
 
     public function getByClient($clientId)
     {
-        $device[] = $this->em->getRepository('models\Device')->findBy('');
+        $device[] = $this->em->getRepository($this->repository)->findBy('');
     }
 
 

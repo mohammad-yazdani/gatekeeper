@@ -24,4 +24,26 @@ class UserAuth extends Authentication
         $em = $this->doctrine->em;
         $this->controller = new UserController();
     }
+
+    public function index_get()
+    {
+        // TODO: Implement index_get() method.
+    }
+
+    public function index_post()
+    {
+        // TODO: Implement index_post() method.
+    }
+
+    public function index_put()
+    {
+        // TODO: Implement index_put() method.
+    }
+
+    public function index_delete()
+    {
+        // TODO: Implement index_delete() method.
+    }
+
+
 }

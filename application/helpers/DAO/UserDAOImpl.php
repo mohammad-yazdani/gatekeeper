@@ -23,7 +23,7 @@ class UserDAOImpl extends \DAOImpl implements UserDAO
      */
     public function __construct($em)
     {
-        parent::__construct($em);
+        parent::__construct($em, 'models\User');
     }
 
     public function save(User $user) : int
@@ -46,7 +46,7 @@ class UserDAOImpl extends \DAOImpl implements UserDAO
         $user = null;
         try
         {
-            $user = $this->em->find('models\User', $id);
+            $user = $this->em->find($this->repository, $id);
         }
         catch (Exception $e)
         {
