@@ -43,9 +43,19 @@ class Inspector extends FileManager
 
     protected function upload(Client $uploader, string $category): File
     {
-        if (!$uploader->getScope()['w'])
+        if (!$uploader->getWriteAccess())
         {
             $error = "Upload.".$this->accessDenied->msg.$uploader->getUsername();
+
+            log_message('error', $error);
+            http_response_code($this->accessDenied->code);
+
+            echo $error;
+            return null;
+        }
+        if (!$uploader->hasAccessToCategory($category))
+        {
+            $error = "Upload.".$this->accessDenied->msg.$uploader->getUsername()." for category ".$category;
 
             log_message('error', $error);
             http_response_code($this->accessDenied->code);
@@ -75,6 +85,10 @@ class Inspector extends FileManager
         }
 
         // TODO : Create file object from upload results and save to DB
-
+        $result = $result['upload_data'];
+        $filename = $result[];
+        $file_path;
+        $client;
+        $file_size;
     }
 }

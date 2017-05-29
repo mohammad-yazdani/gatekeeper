@@ -33,7 +33,7 @@ class ClientFile extends File
     /** @ORM\Column(type="string") */
     private $owner;
 
-    public function __construct($path, $name, $data, $dates = NULL, string $owner, string $category, string $details)
+    public function __construct($path, $name, string $owner, string $category, string $details, $data = NULL, $dates = NULL)
     {
         parent::__construct($path, $name, $data, $dates);
         $this->category = $category;

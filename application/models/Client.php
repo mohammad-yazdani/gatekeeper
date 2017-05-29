@@ -172,5 +172,40 @@ class Client extends \Model
         $this->scope = $scope;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getReadAccess()
+    {
+        return $this->readAccess;
+    }
 
+    /**
+     * @param mixed $readAccess
+     */
+    public function setReadAccess($readAccess)
+    {
+        $this->readAccess = $readAccess;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getWriteAccess()
+    {
+        return $this->writeAccess;
+    }
+
+    /**
+     * @param bool $writeAccess
+     */
+    public function setWriteAccess($writeAccess)
+    {
+        $this->writeAccess = $writeAccess;
+    }
+
+    public function hasAccessToCategory(string $category) : bool
+    {
+        return in_array($category, $this->scope);
+    }
 }

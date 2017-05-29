@@ -28,7 +28,26 @@ class ClientFiles extends Authentication
 
     public function index_post()
     {
+        $config['upload_path'] = APPPATH.'files\clientFiles';
+        $config['allowed_types'] = 'xls|txt';
 
+        $CI =& get_instance();
+        $CI->load->library('upload', $config);
+
+        $CI->upload->initialize($config);
+
+        $result = $CI->upload->do_upload('file');
+
+        if (!$result)
+        {
+            $result = $CI->upload->display_errors();
+            log_message('error', $result);
+        }
+        else
+        {
+            $result = array('upload_data' => $this->upload->data());
+        }
+        print_r($result);
     }
 
     public function index_put()
