@@ -47,11 +47,21 @@ class ClientController extends \Controller
 	
     public function get ($key=NULL, $token = NULL, $check = false)
     {
+        $jwt= null;
         if ($check)
         {
             $username = $this->dao->checkForUsername($key);
             $email = $this->dao->checkForEmail($key);
-            return ($username && $email);
+
+            if (!$username && !$email) return false;
+            else
+            {
+                $result = null;
+                if ($username) $result = $this->dao->get($key);
+                else $result = $this->dao->get($key);
+
+                return $result;
+            }
         }
         else
         {
@@ -89,15 +99,15 @@ class ClientController extends \Controller
                $newDevice = null;
                $newDevice = new Device($client->getUsername());
                if (!$this->deviceDAO->save($newDevice)) return false;
-               $newJWT = AuthDAOImpl::generateKey($newDevice, $client);
-               echo $newJWT;
+               $jwt = AuthDAOImpl::generateKey($newDevice, $client);
+               echo $jwt;
             }
 
             return $client;
         }
     }
 	
-    public function post ($key = null)
+    public function post ($key = null, $xss_clean = NULL)
     {
         $json = json_decode($key);
 
@@ -126,10 +136,11 @@ class ClientController extends \Controller
 
         // TODO : Client is saved, now we have to save their device.
         // TODO : FOR TEST echo "<br/>before saving client<br/>";
-
         $jwt = null;
+
+        $saveResult = $this->dao->save($client);
         if(
-            $this->dao->save($client)
+            $saveResult
             //true
         )
         {
@@ -154,7 +165,7 @@ class ClientController extends \Controller
         return false;
     }
 
-    public function delete($key = NULL)
+    public function delete($key = NULL, $xss_clean = NULL)
     {
         $json = json_decode($key);
         $clientId = null;
@@ -174,7 +185,7 @@ class ClientController extends \Controller
         else return false;
     }
 
-    public function put ($key = null)
+    public function put ($key = NULL, $xss_clean = NULL)
     {
         // TODO : WARNING! -> TEMPORARY
         return $this->post($key);

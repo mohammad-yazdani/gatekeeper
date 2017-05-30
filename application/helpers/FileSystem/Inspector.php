@@ -8,6 +8,7 @@
 
 namespace FileSystem;
 
+use DAO\ClientDAOImpl;
 use DAO\ClientFileDAOImpl;
 use models\Client;
 use models\File;
@@ -15,6 +16,7 @@ use models\File;
 
 require_once 'FileManager.php';
 require_once APPPATH.'helpers\DAO\ClientFileDAOImpl.php';
+require_once APPPATH.'models\ClientFile.php';
 
 class Inspector extends FileManager
 {
@@ -41,11 +43,11 @@ class Inspector extends FileManager
         $this->accessDenied->code = 403;
     }
 
-    protected function upload(Client $uploader, string $category): File
+    public function upload(Client $uploader, string $category)
     {
         if (!$uploader->getWriteAccess())
         {
-            $error = "Upload.".$this->accessDenied->msg.$uploader->getUsername();
+            $error = "Upload".$this->accessDenied->msg."for user: ".$uploader->getUsername().".";
 
             log_message('error', $error);
             http_response_code($this->accessDenied->code);
@@ -55,7 +57,8 @@ class Inspector extends FileManager
         }
         if (!$uploader->hasAccessToCategory($category))
         {
-            $error = "Upload.".$this->accessDenied->msg.$uploader->getUsername()." for category ".$category;
+            $error = "Upload".$this->accessDenied->msg."for user: ".$uploader->getUsername()
+                ." for category ".$category.".";
 
             log_message('error', $error);
             http_response_code($this->accessDenied->code);
@@ -81,14 +84,30 @@ class Inspector extends FileManager
         }
         else
         {
-            $result = array('upload_data' => $this->upload->data());
+            $result = array('upload_data' => $CI->upload->data());
         }
 
         // TODO : Create file object from upload results and save to DB
         $result = $result['upload_data'];
-        $filename = $result[];
-        $file_path;
-        $client;
-        $file_size;
+
+        $file_name = $result['file_name'];
+        $file_path = $result['full_path'];
+        $client = $uploader->getUsername();
+        $file_size = $result['file_size'];
+
+        $file = new \ClientFile($file_path, $file_name, $uploader->getUsername(), $client, $file_size);
+
+        $this->fileDAO->save($file);
+
+        if ($file)
+        {
+            http_response_code(201);
+            return true;
+        }
+        else
+        {
+            http_response_code(409);
+            return false;
+        }
     }
 }

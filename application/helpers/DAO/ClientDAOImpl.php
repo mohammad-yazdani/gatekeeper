@@ -36,15 +36,15 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
         // TODO : FIX DESIGN
         try
         {
-
             // TODO : DOC
             $this->em->persist($client);
+
             // TODO : DOC
             $this->em->flush($client);
 
             $client->updateJSON();
-					
-						// TODO : DOC
+
+            // TODO : DOC
             $this->em->persist($client);
             // TODO : DOC
             $this->em->flush();
@@ -85,12 +85,15 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
             log_message('error', $e->getMessage());
             $result = NULL;
         }
-        return (null == $result);
+        if ($result == null) return false;
+        else return true;
     }
 
     public function checkForEmail($email) : bool
     {
-        return null == $this->em->find($this->repository, $email);
+        $result = $this->em->find($this->repository, $email);
+        if ($result == null) return false;
+        else return true;
     }
 
 

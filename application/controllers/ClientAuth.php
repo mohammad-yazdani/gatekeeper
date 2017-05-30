@@ -34,7 +34,7 @@ class ClientAuth extends Authentication
             $id = $this->uri->segment(3);
             try
             {
-                if ($this->controller->get($id, true)) {
+                if (!$this->controller->get($id, true)) {
                     $statusReturn = 1;
                 } else {
                     $statusReturn = 0;
@@ -94,7 +94,7 @@ class ClientAuth extends Authentication
             $jwt = $this->controller->REST_POST(json_encode($json));
             if ($jwt)
             {
-                // $this->set_response($json, 200);
+                http_response_code(200);
                 echo $jwt;
             }
         }

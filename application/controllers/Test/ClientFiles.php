@@ -8,17 +8,22 @@
  */
 
 require_once APPPATH.'controllers\Authentication.php';
+require_once APPPATH.'controllers\ClientController.php';
 require_once APPPATH.'helpers\FileSystem\Inspector.php';
 
 class ClientFiles extends Authentication
 {
+    private $inspector;
+
+    private $clientCtrl;
     /**
      * ClientFiles constructor.
      */
     public function __construct()
     {
         parent::__construct();
-        new \FileSystem\Inspector();
+        $this->inspector = new \FileSystem\Inspector();
+        $this->clientCtrl = new ClientController();
     }
 
     public function index_get()
@@ -28,26 +33,17 @@ class ClientFiles extends Authentication
 
     public function index_post()
     {
-        $config['upload_path'] = APPPATH.'files\clientFiles';
-        $config['allowed_types'] = 'xls|txt';
-
-        $CI =& get_instance();
-        $CI->load->library('upload', $config);
-
-        $CI->upload->initialize($config);
-
-        $result = $CI->upload->do_upload('file');
-
-        if (!$result)
+        $client = $this->uri->segment(3);
+        $category = $this->uri->segment(4);
+        $client = $this->clientCtrl->get($client, null, true);
+        if($client)
         {
-            $result = $CI->upload->display_errors();
-            log_message('error', $result);
+            $this->inspector->upload($client, $category);
         }
         else
         {
-            $result = array('upload_data' => $this->upload->data());
+            http_response_code(401);
         }
-        print_r($result);
     }
 
     public function index_put()

@@ -7,6 +7,9 @@
  * Time: 11:46 AM
  */
 
+require_once 'File.php';
+
+use Doctrine\ORM\Mapping as ORM;
 use \models\File;
 
 /**
@@ -20,6 +23,7 @@ class ClientFile extends File
     /**
      *
      * @ORM\Column(name="uid", type="integer", nullable=false)
+     * @ORM\GeneratedValue
      * @ORM\Id
      */
     private $uid;
@@ -33,8 +37,10 @@ class ClientFile extends File
     /** @ORM\Column(type="string") */
     private $owner;
 
-    public function __construct($path, $name, string $owner, string $category, string $details, $data = NULL, $dates = NULL)
+    public function __construct($path, $name, string $owner, string $category,
+                                string $details, $data = "", $dates = NULL)
     {
+        $path = substr($path, strlen(APPPATH), strlen($path));
         parent::__construct($path, $name, $data, $dates);
         $this->category = $category;
         $this->details = $details;

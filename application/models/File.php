@@ -8,21 +8,25 @@
 
 namespace models;
 
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class File
  * @package models
  */
+/** @ORM\MappedSuperclass */
 class File extends \Model
 {
     /**
      * @var string
      */
+    /** @ORM\Column(type="string") */
     private $path;
 
     /**
      * @var string
      */
+    /** @ORM\Column(type="string") */
     private $name;
 
     /**
