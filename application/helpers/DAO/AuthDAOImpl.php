@@ -11,6 +11,8 @@ namespace DAO;
 require_once 'DAOImpl.php';
 require_once 'AuthDAO.php';
 require_once APPPATH.'controllers\DeviceController.php';
+require_once APPPATH.'helpers\FileSystem\RSA_FileManager.php';
+require_once APPPATH.'helpers\JWT\JWT.php';
 
 use DateTime;
 use FileSystem\RSA_FileManager;

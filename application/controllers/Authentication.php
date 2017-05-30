@@ -23,6 +23,15 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
 
     protected $clientDAO;
 
+    static protected $badRequest_400 = "<h1>Bad request! (400)</h1>";
+    static protected $unauthorized_401 = "<h1>Unauthorized access! (401)</h1>";
+    static protected $forbidden_403 = "<h1>Access forbidden! (403)</h1>";
+    static protected $notFound_404 = "<h1>Resource not found! (404)</h1>";
+    static protected $notAllowed_405 = "<h1>Method not allowed! (405)</h1>";
+    static protected $notAcceptable_406 = "<h1>Request not acceptable! (406)</h1>";
+    static protected $timeout_408 = "<h1>Request timeout! (408)</h1>";
+    static protected $conflict_409 = "<h1>Conflict! (409)</h1>";
+
     /**
      * Authentication constructor.
      */
@@ -39,7 +48,7 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
         $this->load->helper('url');
     }
 
-    protected function evaluate ($key, $username, $password) : bool
+    protected function evaluate ($key = NULL, $username = NULL, $password = NULL) : bool
     {
         if ($key)
         {

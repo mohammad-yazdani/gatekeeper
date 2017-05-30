@@ -65,7 +65,7 @@ class ClientAuth extends Authentication
         }
         else
         {
-            echo "\nAccess forbidden (403)!\n";
+            echo Authentication::$forbidden_403;
             return false;
         }
 

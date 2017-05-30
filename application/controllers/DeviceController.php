@@ -27,7 +27,7 @@ class DeviceController extends \Controller
         $this->deviceDAO = new \DAO\DeviceDAOImpl($em);
     }
 
-    public function get($key=NULL, $xss_clean = NULL): Device
+    public function get($key=NULL, $xss_clean = NULL)
     {
         $id = (int) $key;
         return $this->deviceDAO->get($id);
@@ -69,7 +69,7 @@ class DeviceController extends \Controller
     // TODO : Do token part later
     public function REST_GET ($id, $token = NULL)
     {
-        $this->get($id);
+        return $this->get($id);
     }
     public function REST_POST (string $json)
     {
