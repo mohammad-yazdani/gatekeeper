@@ -7,6 +7,8 @@
  */
 
 namespace Token;
+use models\Client;
+use models\Device;
 
 
 /**
@@ -15,33 +17,9 @@ namespace Token;
  */
 interface TokenManager
 {
-    /**
-     * @return mixed
-     */
-    public function genToken ();
+    static public function generate (Device $device, Client $client) : string;
 
+    static public function validate (string $key) : bool;
 
-    /**
-     * @param $token
-     * @return mixed
-     */
-    public function validateToken ($token);
-
-    /**
-     * @param $token
-     * @return mixed
-     */
-    public function updateToken ($token);
-
-    /**
-     * @param $token
-     * @return mixed
-     */
-    public function registerToken ($token);
-
-    /**
-     * @param $token
-     * @return mixed
-     */
-    public function expireToken ($token);
+    static public function update (string $token) : string ;
 }

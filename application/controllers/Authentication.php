@@ -10,6 +10,7 @@ require_once APPPATH."controllers/Controller.php";
 require_once APPPATH."helpers/DAO/AuthDAOImpl.php";
 require_once APPPATH."helpers/DAO/DAOImpl.php";
 require_once APPPATH."helpers/DAO/ClientDAOImpl.php";
+require_once APPPATH."helpers\Token\DeviceTokenManager.php";
 
 use \DAO\AuthDAOImpl;
 
@@ -23,14 +24,15 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
 
     protected $clientDAO;
 
-    static protected $badRequest_400 = "<h1>Bad request! (400)</h1>";
-    static protected $unauthorized_401 = "<h1>Unauthorized access! (401)</h1>";
-    static protected $forbidden_403 = "<h1>Access forbidden! (403)</h1>";
-    static protected $notFound_404 = "<h1>Resource not found! (404)</h1>";
-    static protected $notAllowed_405 = "<h1>Method not allowed! (405)</h1>";
-    static protected $notAcceptable_406 = "<h1>Request not acceptable! (406)</h1>";
-    static protected $timeout_408 = "<h1>Request timeout! (408)</h1>";
-    static protected $conflict_409 = "<h1>Conflict! (409)</h1>";
+    static public $badRequest_400 = "<h1>Bad request! (400)</h1>";
+    static public $unauthorized_401 = "<h1>Unauthorized access! (401)</h1>";
+    static public $forbidden_403 = "<h1>Access forbidden! (403)</h1>";
+    static public $expired_403 = "<h1>Expired authentication! (403)</h1>";
+    static public $notFound_404 = "<h1>Resource not found! (404)</h1>";
+    static public $notAllowed_405 = "<h1>Method not allowed! (405)</h1>";
+    static public $notAcceptable_406 = "<h1>Request not acceptable! (406)</h1>";
+    static public $timeout_408 = "<h1>Request timeout! (408)</h1>";
+    static public $conflict_409 = "<h1>Conflict! (409)</h1>";
 
     /**
      * Authentication constructor.
@@ -53,10 +55,8 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
         if ($key)
         {
             // TODO : If not validated report corrupt key: Forbidden!
-            if(!AuthDAOImpl::validateKey($key))
+            if(!\Token\DeviceTokenManager::validate($key))
             {
-                //http_response_code(403);
-                echo " token ";
                 return false;
             }
             else return true;

@@ -75,12 +75,49 @@ class DeviceAuth extends Authentication
         // TODO : FOR TEST
         print_r($deviceResult);
 
-        return $deviceResult;
+        http_response_code(201);
+        echo \Token\DeviceTokenManager::update($key);
+        return true;
     }
 
     public function index_post()
     {
-        // TODO: Implement index_post() method.
+        $json = new stdClass();
+        $json->key = $this->uri->segment(2);
+        $json->clientId = $this->uri->segment(3);
+
+        if (strlen($json->key) === 0)
+        {
+            http_response_code(401);
+            echo Authentication::$unauthorized_401;
+            return null;
+        }
+
+        $deviceResult = null;
+
+        try
+        {
+            $evaluation_result = $this->evaluate($json->key);
+        }
+        catch (UnexpectedValueException $e)
+        {
+            log_message('error', $e->getMessage());
+            http_response_code(400);
+            echo Authentication::$badRequest_400;
+            return false;
+        }
+
+        if ($evaluation_result)
+        {
+            if ($this->controller->post(json_encode($json)))
+            {
+                http_response_code(201);
+                \Token\DeviceTokenManager::update($json->key);
+                return true;
+            }
+            else false;
+        }
+        return false;
     }
 
     public function index_put()

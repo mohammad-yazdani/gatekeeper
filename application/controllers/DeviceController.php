@@ -36,7 +36,7 @@ class DeviceController extends \Controller
     public function post($key = NULL, $xss_clean = NULL)
     {
         $json = json_decode($key);
-        $device = new Device($json->data);
+        $device = new Device($json->clientId);
         if($this->deviceDAO->save($device)){
             return true;
         } else {

@@ -199,6 +199,11 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
         return $jwt;
     }
 
+    static public function updateKey(string $key): string
+    {
+        // TODO: Implement updateKey() method.
+    }
+
 
     public function getByDateCreated(DateTime $date)
     {

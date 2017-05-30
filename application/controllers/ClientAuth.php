@@ -65,6 +65,7 @@ class ClientAuth extends Authentication
         }
         else
         {
+            http_response_code(403);
             echo Authentication::$forbidden_403;
             return false;
         }
@@ -101,8 +102,8 @@ class ClientAuth extends Authentication
         catch (Exception $e)
         {
             log_message('error', $e->getMessage());
-            echo "\nCould not save client.";
             http_response_code(409);
+            echo Authentication::$conflict_409;
         }
     }
 
