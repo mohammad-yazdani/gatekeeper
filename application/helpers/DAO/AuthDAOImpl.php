@@ -126,7 +126,7 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
         return $result;
     }
 
-    static public function validateKey(string $key) : bool
+    /*static public function validateKey(string $key) : bool
     {
         $result = 1;
         // TODO : Validate JWT:
@@ -157,22 +157,6 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
         if ($passSaved == 'true') $passSaved = true;
         else $passSaved = false;
         if ($passSaved !== $device) $result = 0;
-
-        /* TODO : FOR TEST
-        $passSavedString = "false";
-        if ($passSaved) $passSavedString = "true";
-
-        echo "[iss] ".$iss."\n";
-        echo "[aud] ".$aud."\n";
-        echo "[init] ".$init."\n";
-        echo "[exp] ".$exp."\n";
-
-        // TODO : Will be changed for development.
-        // echo "[deviceInfo][uid] ".$uid."\n";
-
-        echo "[deviceInfo][client] ".$username."\n";
-        echo "[deviceInfo][passSaved] ".$passSavedString."\n";
-        */
         // TODO : Compare save password against database
 
         switch ($result)
@@ -203,6 +187,7 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
     {
         // TODO: Implement updateKey() method.
     }
+    */
 
 
     public function getByDateCreated(DateTime $date)

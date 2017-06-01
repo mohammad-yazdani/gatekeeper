@@ -33,8 +33,6 @@ class DeviceTokenManager implements TokenManager
         $key_res = new RSA_FileManager();
         $jwt = JWT::encode($token, $key_res->getKey(true), 'RS256');
 
-        echo $jwt;
-
         return $jwt;
     }
 
@@ -68,7 +66,7 @@ class DeviceTokenManager implements TokenManager
         if (!$device) $result = 0;
         else $device = $device->getPassIsSaved();
 
-        //if (time() > ($init + $exp)) $result = 2;
+        if (time() > ($init + $exp)) $result = 2;
 
         if ($passSaved == 'true') $passSaved = true;
         else $passSaved = false;
@@ -105,6 +103,7 @@ class DeviceTokenManager implements TokenManager
                 break;
             default:
                 return true;
+                //return false; // TODO : FOR TEST
         }
     }
 

@@ -24,10 +24,4 @@ interface AuthDAO
     public function encrypt(string $password, int $id);
 
     public function decrypt(int $id, string $password);
-
-    static public function validateKey (string $key) : bool;
-
-    static public function generateKey (Device $device, Client $client) : string;
-
-    static public function updateKey (string $key) : string;
 }

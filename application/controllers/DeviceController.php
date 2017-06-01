@@ -27,7 +27,7 @@ class DeviceController extends \Controller
         $this->deviceDAO = new \DAO\DeviceDAOImpl($em);
     }
 
-    public function get($key=NULL, $xss_clean = NULL)
+    public function get($key=NULL, $xss_clean = NULL) : Device
     {
         $id = (int) $key;
         return $this->deviceDAO->get($id);

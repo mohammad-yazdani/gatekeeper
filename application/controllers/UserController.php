@@ -106,12 +106,12 @@ class UserController extends \Controller
     public function REST_GET($id, $token = NULL)
     {
         $id = ( int ) $id;
-        $this->get($id);
+        return $this->get($id);
     }
 
     public function REST_POST(string $json)
     {
-        $this->post($json);
+        return $this->post($json);
     }
 
     public function REST_PUT(string $json)

@@ -30,33 +30,105 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         <p></p>
-        <a onclick="delete_cookie('token');" href="<?php echo site_url('HomeController/Login'); ?>"><p>Sign out</p></a>
+        <a onclick="tokenHandler.erase();" href="<?php echo site_url('HomeController/Login'); ?>"><p>Sign out</p></a>
     </div>
 <script>
     console.log("Client portal script running...");
 
-    function getCookie(cname) {
-        let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(';');
-        for(let i = 0; i <ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1);
+    var httpStatus;
+
+    function Server(address) {
+        this.baseAddress = "http://localhost/gatekeeper/index.php/";
+        this.address = this.baseAddress + address;
+        this.get = function (param) {
+            let args = "";
+            for (let i = 0; i < param.length; i++) {
+                args += ("/" + param[i]);
             }
-            if (c.indexOf(name) === 0) {
-                return c.substring(name.length, c.length);
+            var result = 0;
+            $.ajax({
+                type: "GET",
+                url: this.address + args,
+                async: false,
+                success:function(data, args, code){
+                    console.log("Callback response: " + data);
+                    result = data;
+                    httpStatus = code.status;
+                }
+            });
+            return result;
+        };
+
+        this.post = function (param) {
+            console.log(param.length);
+            let args = "";
+            for (let i = 0; i < param.length; i++) {
+                args += ("/" + param[i]);
             }
-        }
-        return "";
+            var result = 0;
+            $.ajax({
+                type: "POST",
+                url: this.address + args,
+                async: false,
+                success:function(data, args, code){
+                    console.log("Callback response: " + data.indexOf("flush done"));
+                    result = data;
+                    httpStatus = code.status;
+                }
+            });
+            return result;
+        };
     }
 
-    function delete_cookie( name ) {
-        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    }
-    var token = getCookie('token');
+    function TokenHandler() {
 
-    console.log("The token: " + token);
+        this.cname = 'token';
+        this.address = "DeviceAuth";
+        this.server = new Server(this.address);
+
+        this.get = function() {
+            let name = this.cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) === 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        };
+
+        this.erase = function() {
+            let name = this.cname;
+            console.log('Deleting token...');
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+            console.log("Cookies after delete: " + document.cookie);
+        };
+
+        this.validate = function () {
+            console.log("validating");
+            let request = [this.get()];
+            let result = parseInt(this.server.get(request));
+            console.log("Validation result: " + httpStatus);
+            return parseInt(httpStatus, 10);
+        };
+    }
+
+    // TODO : Validate if session is not expired
+    let tokenHandler = new TokenHandler();
+    console.log("Present token: " + tokenHandler.get());
+    if (tokenHandler.validate() === 202) {
+        console.log("Valid session.");
+    } else {
+        console.log("Invalid session.");
+        tokenHandler.erase();
+        window.location.href = "<?php echo site_url('HomeController/Login'); ?>";
+    }
 </script>
 </body>
 </html>

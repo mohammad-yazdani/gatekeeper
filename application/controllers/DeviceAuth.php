@@ -51,9 +51,9 @@ class DeviceAuth extends Authentication
         {
             if (strlen($uid) === 0)
             {
-                http_response_code(400);
-                echo Authentication::$badRequest_400;
-                return false;
+                // TODO : validate the token and send back
+                http_response_code(202);
+                return true;
             }
             $deviceResult = $this->controller->REST_GET($uid, $key);
         }
@@ -122,7 +122,7 @@ class DeviceAuth extends Authentication
 
     public function index_put()
     {
-        // TODO: Implement index_put() method.
+
     }
 
     public function index_delete()

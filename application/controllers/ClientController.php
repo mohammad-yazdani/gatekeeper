@@ -45,7 +45,7 @@ class ClientController extends \Controller
         $this->userDAO = new \DAO\UserDAOImpl($em);
     }
 	
-    public function get ($key=NULL, $token = NULL, $check = false)
+    public function get ($key=NULL, $token = NULL, $check = false) : Client
     {
         $jwt= null;
         if ($check)
@@ -53,7 +53,7 @@ class ClientController extends \Controller
             $username = $this->dao->checkForUsername($key);
             $email = $this->dao->checkForEmail($key);
 
-            if (!$username && !$email) return false;
+            if (!$username && !$email) return null;
             else
             {
                 $result = null;
@@ -98,9 +98,9 @@ class ClientController extends \Controller
             {
                $newDevice = null;
                $newDevice = new Device($client->getUsername());
-               if (!$this->deviceDAO->save($newDevice)) return false;
-               $jwt = AuthDAOImpl::generateKey($newDevice, $client);
-               echo $jwt;
+               if (!$this->deviceDAO->save($newDevice)) return null;
+               $jwt = \Token\DeviceTokenManager::generate($newDevice, $client);
+                echo $jwt;
             }
 
             return $client;
@@ -154,7 +154,8 @@ class ClientController extends \Controller
                 $device = new Device($client->getUsername());
                 if (!$this->deviceDAO->save($device)) return false;
 
-                $jwt = AuthDAOImpl::generateKey($device, $client);
+                $jwt = \Token\DeviceTokenManager::generate($device, $client);
+                //$jwt = tok::generateKey($device, $client);
 
                 //echo "JWT: \n".$jwt."\n";
             }

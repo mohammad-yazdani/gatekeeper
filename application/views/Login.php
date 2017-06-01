@@ -150,7 +150,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             };
 
             this.moveToPortal = function () {
-                // unsure if this line works
                 window.location.href = "<?php echo site_url('HomeController/ClientPortal'); ?>";
             };
 
