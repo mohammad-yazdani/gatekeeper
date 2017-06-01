@@ -128,9 +128,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 let request;
                 request = ["null", this.username, this.password];
-                if (token.length > 1) {
-                    request = [token];
-                }
 
                 let result = this.server.get(request);
                 this.error = result;

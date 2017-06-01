@@ -38,9 +38,9 @@ class DeviceTokenManager implements TokenManager
 
     /**
      * @param string $key
-     * @return bool
+     * @return mixed
      */
-    static public function validate(string $key) : bool
+    static public function validate(string $key)
     {
         $result = 1;
         // TODO : Validate JWT:
@@ -102,7 +102,7 @@ class DeviceTokenManager implements TokenManager
                 return false;
                 break;
             default:
-                return true;
+                return $aud;
                 //return false; // TODO : FOR TEST
         }
     }

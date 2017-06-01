@@ -19,7 +19,7 @@ interface TokenManager
 {
     static public function generate (Device $device, Client $client) : string;
 
-    static public function validate (string $key) : bool;
+    static public function validate (string $key);
 
     static public function update (string $token) : string ;
 }

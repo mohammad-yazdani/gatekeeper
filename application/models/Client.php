@@ -68,7 +68,11 @@ class Client extends \Model
         $this->authId = $authId;
         $this->readAccess = $read;
         $this->writeAccess = $write;
-        $this->scope = $scope;
+        if ($scope == null)
+        {
+            $this->scope = ['none'];
+        }
+        else $this->scope = $scope;
 
         $this->setJSON(json_encode($this->jsonSerialize()));
     }

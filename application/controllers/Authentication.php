@@ -50,16 +50,20 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
         $this->load->helper('url');
     }
 
-    protected function evaluate ($key = NULL, $username = NULL, $password = NULL) : bool
+    protected function evaluate ($key = NULL, $username = NULL, $password = NULL)
     {
         if ($key)
         {
             // TODO : If not validated report corrupt key: Forbidden!
-            if(!\Token\DeviceTokenManager::validate($key))
+            $tokenResult = \Token\DeviceTokenManager::validate($key);
+            if(!$tokenResult)
             {
                 return false;
             }
-            else return true;
+            else
+            {
+                return $tokenResult;
+            }
         }
         elseif ($username && $password)
         {

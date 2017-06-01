@@ -70,8 +70,16 @@ class Inspector extends FileManager
         return true;
     }
 
-    public function upload()
+    public function upload(Client $uploader, string $category)
     {
+        if (!$this->checkAccess($uploader, $category))
+        {
+            http_response_code(401);
+            echo \Authentication::$unauthorized_401;
+            return false;
+        }
+
+
         $config['upload_path'] = APPPATH.'files\clientFiles';
         $config['allowed_types'] = 'xls|txt';
 
@@ -94,17 +102,14 @@ class Inspector extends FileManager
         }
 
         // TODO : Create file object from upload results and save to DB
-
-        print_r($result);
-
-        /*
         $result = $result['upload_data'];
 
         $file_name = $result['file_name'];
         $file_path = $result['full_path'];
+        $owner = $uploader->getUsername();
         $file_size = $result['file_size'];
 
-        $file = new \ClientFile($file_path, $file_name, $uploader->getUsername(), $client, $file_size);
+        $file = new \ClientFile($file_path, $file_name, $owner, $category, $file_size);
 
         $this->fileDAO->save($file);
 
@@ -118,6 +123,5 @@ class Inspector extends FileManager
             http_response_code(409);
             return false;
         }
-        */
     }
 }
