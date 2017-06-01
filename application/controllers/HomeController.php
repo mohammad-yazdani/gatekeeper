@@ -83,4 +83,11 @@ class HomeController extends CI_Controller
     {
         $this->load->view('ClientPortal');
     }
+
+    public function UploadUtility ()
+    {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->load->view('Test/FileUploadTest');
+    }
 }

@@ -43,29 +43,35 @@ class Inspector extends FileManager
         $this->accessDenied->code = 403;
     }
 
-    public function upload(Client $uploader, string $category)
+    public function checkAccess (Client $client, string $category) : bool
     {
-        if (!$uploader->getWriteAccess())
+        if (!$client->getWriteAccess())
         {
-            $error = "Upload".$this->accessDenied->msg."for user: ".$uploader->getUsername().".";
+            $error = "Upload".$this->accessDenied->msg."for user: ".$client->getUsername().".";
 
             log_message('error', $error);
             http_response_code($this->accessDenied->code);
 
             echo $error;
-            return null;
+            return false;
         }
-        if (!$uploader->hasAccessToCategory($category))
+        if (!$client->hasAccessToCategory($category))
         {
-            $error = "Upload".$this->accessDenied->msg."for user: ".$uploader->getUsername()
+            $error = "Upload".$this->accessDenied->msg."for user: ".$client->getUsername()
                 ." for category ".$category.".";
 
             log_message('error', $error);
             http_response_code($this->accessDenied->code);
 
             echo $error;
-            return null;
+            return false;
         }
+
+        return true;
+    }
+
+    public function upload()
+    {
         $config['upload_path'] = APPPATH.'files\clientFiles';
         $config['allowed_types'] = 'xls|txt';
 
@@ -88,11 +94,14 @@ class Inspector extends FileManager
         }
 
         // TODO : Create file object from upload results and save to DB
+
+        print_r($result);
+
+        /*
         $result = $result['upload_data'];
 
         $file_name = $result['file_name'];
         $file_path = $result['full_path'];
-        $client = $uploader->getUsername();
         $file_size = $result['file_size'];
 
         $file = new \ClientFile($file_path, $file_name, $uploader->getUsername(), $client, $file_size);
@@ -109,5 +118,6 @@ class Inspector extends FileManager
             http_response_code(409);
             return false;
         }
+        */
     }
 }

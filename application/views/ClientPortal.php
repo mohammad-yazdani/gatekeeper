@@ -23,10 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <h2>Client Portal</h2>
         <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-6">
-                <a href="#"><input type="button" class="btn btn-block btn-primary" value="View Files"></a>
+                <a href="#"><input type="button" class="btn btn-block btn-primary" value="Download Files"></a>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
-                <a href="#"><input type="button" class="btn btn-block btn-info" value="Download Files"></a>
+                <a href="<?php echo site_url('HomeController/UploadUtility'); ?>"><input
+                            type="button" class="btn btn-block btn-info" value="Upload Files"></a>
             </div>
         </div>
         <p></p>

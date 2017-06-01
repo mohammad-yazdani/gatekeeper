@@ -33,17 +33,32 @@ class ClientFiles extends Authentication
 
     public function index_post()
     {
-        $client = $this->uri->segment(3);
-        $category = $this->uri->segment(4);
-        $client = $this->clientCtrl->get($client, null, true);
-        if($client)
+        //$this->inspector->upload();
+
+        $config['upload_path'] = APPPATH.'files\clientFiles';
+        $config['allowed_types'] = 'xls|txt';
+
+        $CI =& get_instance();
+        $CI->load->library('upload', $config);
+
+        $CI->upload->initialize($config);
+
+        $result = $CI->upload->do_upload('file');
+
+        if (!$result)
         {
-            $this->inspector->upload($client, $category);
+            $result = $CI->upload->display_errors();
+            log_message('error', $result);
+            echo $result;
         }
         else
         {
-            http_response_code(401);
+            $result = array('upload_data' => $CI->upload->data());
+
+            print_r($result);
         }
+
+        // TODO : Create file object from upload results and save to DB
     }
 
     public function index_put()
