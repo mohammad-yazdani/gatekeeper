@@ -1,0 +1,19 @@
+<header class="header">Monthly Reports</header>
+<div class="jumbotron">
+  <ul class="list-inline profile_add">
+    <li class="list-group-item"><button class="btn btn-default" ng-click="add_app();">+</button></li>
+    <li class="list-group-item"><input class="input-sm" placeholder="Profile Name" ng-model="new_profile_name"></li>
+  </ul>
+  <br/>
+  <br/>
+  <div class="container profile_container">
+    <div id="app_menu" class="row">
+      <div ng-repeat="profile_name in apps" class="card col-sm-3 profile" style="width: 25rem;">
+        <div class="card-block"> <h4 class="card-title" ng-click="open_app(profile_name);">{{profile_name}}</h4>
+          <a href="#" class="btn btn-default btn-xs" ng-click="delete_app(profile_name)">Delete</a>
+          <a href="#" class="btn btn-default" ng-click="edit_app(profile_name)">Edit</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

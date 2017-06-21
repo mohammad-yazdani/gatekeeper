@@ -1,0 +1,16 @@
+ <div class=" container">
+   <h1 class="profile_header">Black Forest Monthly</h1>
+   <br/>
+
+   <form class="form-group">
+     <div class="list-group form-group profile-input-list">
+       <div ng-repeat="file_name in files" class="list-group-item file_upload_row">
+         <span class="custom-file-control">Choose {{file_name}}</span>
+         <label class="btn btn-default btn-file">
+           Browse <input type="file" style="display: none;" file-model="myFile" class="custom-file-input">
+         </label>
+       </div>
+     </div>
+     <button class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="upload_file()">Publish Report</button>
+   </form>
+ </div>
