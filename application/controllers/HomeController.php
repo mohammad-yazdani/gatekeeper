@@ -90,4 +90,15 @@ class HomeController extends CI_Controller
         $this->load->library('form_validation');
         $this->load->view('Test/FileUploadTest');
     }
+
+    public function Apps ()
+    {
+        //$this->load->view("AppMenu");
+        redirect("http://localhost:9000");
+        //$this->load->view("app/app/redirect");
+        //$this->load->view("app/app/index");
+        //$this->load->view("_shared/_layout");
+        //$this->load->view("_shared/_catalog");
+        //$this->load->view("_shared/index.html");
+    }
 }

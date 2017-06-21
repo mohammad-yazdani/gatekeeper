@@ -81,7 +81,7 @@ class Inspector extends FileManager
 
 
         $config['upload_path'] = APPPATH.'files\clientFiles';
-        $config['allowed_types'] = 'xls|txt';
+        $config['allowed_types'] = 'xlsx|txt';
 
         $CI =& get_instance();
         $CI->load->library('upload', $config);

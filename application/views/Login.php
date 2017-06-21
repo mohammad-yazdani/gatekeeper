@@ -43,6 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script>
         console.log("Login script running...");
 
+        //console.log("Old user: " + window.localStorage.getItem('user'));
+
         function getCookie(cname) {
             let name = cname + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
@@ -118,6 +120,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             this.address = "ClientAuth";
 
             this.username = document.getElementById("username").value;
+            window.localStorage.setItem('user', this.username);
+
             this.password = document.getElementById("password").value;
             this.error = document.getElementById("error");
 

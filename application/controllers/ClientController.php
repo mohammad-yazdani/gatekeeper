@@ -22,7 +22,6 @@ use models\Device;
 use \models\User;
 use \Firebase\JWT\JWT;
 use \FileSystem\RSA_FileManager;
-use \DAO\AuthDAOImpl;
 
 // TODO : Handle existing stuff like existing username and email.
 // TODO : DOCUMENTATION
@@ -45,7 +44,7 @@ class ClientController extends \Controller
         $this->userDAO = new \DAO\UserDAOImpl($em);
     }
 	
-    public function get ($key=NULL, $token = NULL, $check = false) : Client
+    public function get ($key=NULL, $token = NULL, $check = false)
     {
         $jwt= null;
         if ($check)

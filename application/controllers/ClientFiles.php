@@ -34,8 +34,8 @@ class ClientFiles extends Authentication
     public function index_post()
     {
         echo "Start...\n";
-        $key = $this->uri->segment(3);
-        $category = $this->uri->segment(4);
+        $key = $this->uri->segment(2);
+        $category = $this->uri->segment(3);
 
         echo "Key: ".$key."<br/>";
 
