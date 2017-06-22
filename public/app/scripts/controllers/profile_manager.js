@@ -12,7 +12,8 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location',  function(
 ) {
 
     $scope.apps = [
-      "Black Forest Monthly"
+      "Black Forest Monthly",
+      "Test"
       //"Sample1",
       //"Sample2"
     ];
@@ -35,6 +36,7 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location',  function(
 
     $scope.open_app = function (name) {
       console.log(name);
+      // TODO: Pass param
       $location.path("/single_profile");
     };
 

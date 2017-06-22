@@ -62,6 +62,7 @@ class DeviceTokenManager implements TokenManager
         if (!($iss == "gatekeeper")) $result = 0;
         if (!($username == $aud)) $result = 0;
         $deviceCtrl = new DeviceController();
+
         $device = $deviceCtrl->get($uid);
         if (!$device) $result = 0;
         else $device = $device->getPassIsSaved();

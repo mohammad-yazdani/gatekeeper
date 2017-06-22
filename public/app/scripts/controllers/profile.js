@@ -5,14 +5,24 @@
 'use strict';
 
 AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', function ($scope, fileUpload, fileService) {
-
     $scope.garbage = "garbage";
-
+    $scope.files = [];
+    $scope.init = function (files) {
+      $scope.files = files;
+    };
+    /*
     $scope.files = [
       "BFSL_NAV"
       , "Drawn_Capital"
       , "Template"
     ];
+    */
+
+    $scope.holders = [];
+
+    for (var c = 0; c < $scope.files.length; c++) {
+      $scope.holders[$scope.files[c]] = "file" + c.toString();
+    }
 
     $scope.holders = {
       "BFSL NAV" : "file1",

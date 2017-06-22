@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080.0" height="520.0" viewBox="30.0 230.0 1080.0 520.0" version="1.1">
+<rect x="30.0" y="230.0" width="1080.0" height="520.0" fill="rgb(255,255,255)"/>
+<g id="s1106086928">
+<polygon id="s1106086928" points="360.00003,280.0 560.00024,280.0 560.00024,420.0 360.00003,420.0 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<g id="t1106086928">
+<text x="407.50012" y="307.42188" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="105.0">PatternEvaluator</text>
+<path id="s1106004200" d="M 360.00003,322.12988 560.00024,322.12988 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="365.0" y="344.58203" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="74.0">- input : File</text>
+<text x="365.0" y="363.1621" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="92.0">- config : Array</text>
+<path id="s1106032848" d="M 360.00003,377.87012 560.00024,377.87012 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="365.0" y="400.32227" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="149.0">+ evaluate () : DataNode</text>
+</g>
+</g>
+<g id="s1106098072">
+<polygon id="s1106098072" points="600.0,280.0 780.0,280.0 779.99963,380.0 600.0,380.0 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<g id="t1106098072">
+<text x="662.0" y="296.7119" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="56.0">DataTree</text>
+<path id="s1106956608" d="M 600.0,311.41992 779.9999,311.41992 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="605.0" y="333.87207" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="106.0">- root : DataNode</text>
+<path id="s1106763072" d="M 600.0,348.58008 779.99976,348.58008 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="605.0" y="371.03223" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="92.0">/* to do later */</text>
+</g>
+</g>
+<g id="s1104900600">
+<polygon id="s1104900600" points="860.0,260.0 1080.0,260.0 1080.0,359.99988 860.0,360.0 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<g id="t1104900600">
+<text x="939.0" y="276.7119" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="62.0">DataNode</text>
+<path id="s1106907288" d="M 860.0,291.41992 1080.0,291.41992 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="865.0" y="313.87207" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="173.0">- leaves : Array of DataNode</text>
+<path id="s1105977872" d="M 860.0,328.58008 1080.0,328.58008 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="865.0" y="351.03223" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="92.0">/* to do later */</text>
+</g>
+</g>
+<g id="s1103554800">
+<polygon id="s1103554800" points="140.0,340.0 339.99997,340.0 339.99997,440.0 140.0,439.99982 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<g id="t1103554800">
+<text x="203.99998" y="366.00195" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="72.0">DataEngine</text>
+<path id="s1107268824" d="M 140.0,380.70996 339.99997,380.70996 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="145.0" y="403.1621" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="171.0">+ process (input : DataTree)</text>
+<text x="145.0" y="421.7422" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="136.0">+ output () : DataNode</text>
+</g>
+</g>
+<g id="s1105860416">
+<polygon id="s1105860416" points="600.0,460.0 779.99963,460.0 780.0,660.0 600.0,659.9996 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<g id="t1105860416">
+<text x="659.0" y="480.26172" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="62.0">Controller</text>
+<path id="s1107254336" d="M 600.0,494.96973 779.9997,494.96973 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="605.0" y="517.4219" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="133.0">- engine : DataEngine</text>
+<text x="605.0" y="536.00195" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="75.0">- evaluator :</text>
+<text x="605.0" y="554.58203" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="105.0">PatternEvaluator</text>
+<text x="605.0" y="573.1621" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="103.0">- data : DataTree</text>
+<text x="605.0" y="591.7422" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="111.0">- fileBag : FileBag</text>
+<path id="s1106990368" d="M 600.0,606.4502 779.9999,606.4502 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="605.0" y="628.90234" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="138.0">+ readInput () : fileBag</text>
+<text x="605.0" y="647.4824" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="39.0">MORE</text>
+</g>
+</g>
+<g id="s1109111832">
+<polygon id="s1109111832" points="280.0,600.0 459.99997,600.0 460.0,720.0 280.0,720.0 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<g id="t1109111832">
+<text x="346.0" y="626.7119" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="48.0">FileBag</text>
+<path id="s1105642736" d="M 280.0,641.4199 459.99997,641.4199 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="285.0" y="663.8721" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="120.0">- files : Array of File</text>
+<path id="s1109135264" d="M 280.0,678.5801 460.0,678.5801 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="285.0" y="701.0322" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="100.0">+ add (file : File)</text>
+</g>
+</g>
+<g id="s1106669448">
+<polygon id="s1106669448" points="60.000004,600.0 200.0,600.0 200.0,680.0 60.000004,680.0 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<g id="t1106669448">
+<text x="118.5" y="616.00195" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="23.0">File</text>
+<path id="s1109047344" d="M 60.000004,630.70996 200.0,630.70996 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<text x="65.0" y="653.1621" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="87.0">PYTHON FILE</text>
+<text x="65.0" y="671.7422" font-family="Helvetica" fill="rgb(0,0,0)" font-size="14" textLength="52.0">OBJECT</text>
+</g>
+</g>
+<g id="la1103821656">
+<path id="s1103821656" d="M 709.9998,380.0 709.99945,460.0 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<polygon id="s1103666904" points="709.99945,460.0 703.4563,448.65112 709.9996,437.3023 716.5427,448.65118 " fill="rgb(0,0,0)" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+</g>
+<g id="la1108762728">
+<path id="s1108762728" d="M 460.00012,420.0 460.00012,559.99963 600.0,559.99976 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<polygon id="s1103825696" points="600.0,559.99976 588.6511,566.54297 577.3023,559.99976 588.6511,553.45654 " fill="rgb(0,0,0)" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+</g>
+<g id="la1104952840">
+<path id="s1104952840" d="M 239.99998,439.9999 239.99998,559.99963 600.0,559.99976 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+</g>
+<g id="la1108745840">
+<path id="s1108745840" d="M 860.0,330.0 779.9998,330.0 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<polygon id="s1109113736" points="779.9998,330.0 791.3487,323.4568 802.6975,330.0 791.3487,336.5432 " fill="rgb(0,0,0)" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+</g>
+<g id="la1105951000">
+<path id="s1105951000" d="M 200.0,660.0 280.0,660.0 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<polygon id="s1105998288" points="280.0,660.0 268.65115,666.5432 257.3023,660.0 268.65115,653.4568 " fill="rgb(255,255,255)" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+</g>
+<g id="la1109222568">
+<path id="s1109222568" d="M 459.99997,620.0 600.0,619.9995 " fill="none" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+<polygon id="s1107217864" points="600.0,619.9995 588.6512,626.5428 577.3023,619.9996 588.6511,613.45636 " fill="rgb(0,0,0)" stroke-width="2.0" stroke="rgb(0,0,0)"/>
+</g>
+</svg>

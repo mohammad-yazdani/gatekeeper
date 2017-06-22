@@ -1,0 +1,1 @@
+py application\analytics\blackforest_monthly.py Consolidated_Invested_Amount monthly_report
