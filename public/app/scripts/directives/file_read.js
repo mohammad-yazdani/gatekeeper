@@ -4,16 +4,20 @@
 
 'use strict';
 
-AnalyticsApp.directive('fileModel', ['$parse', function ($parse) {
+AnalyticsApp.directive('fileModel', ['$parse', 'fileService', function ($parse, fileService) {
   return {
     restrict: 'A',
-    link: function(scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
-
+    link: function(scope, element) {
       element.bind('change', function(){
         scope.$apply(function(){
-          modelSetter(scope, element[0].files[0]);
+          if (element[0].files !== undefined) {
+            fileService.push(element[0].files[0]);
+            // TODO : Broadcast to profile controller
+            //$rootScope.$broadcast("file_pushed");
+            //console.log('directive applying with file');
+          } else {
+            console.log("FILES ARE UNDEFINED")
+          }
         });
       });
     }

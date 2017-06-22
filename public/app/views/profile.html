@@ -5,15 +5,24 @@
    <form class="form-group">
      <div class="list-group form-group profile-input-list">
        <div ng-repeat="file_name in files" class="list-group-item file_upload_row">
-         <span class="custom-file-control">Choose {{file_name}}</span>
+         <span id="{{file_name}}" class="custom-file-control">{{file_name}}</span>
          <input ng-model="myFile" style="display: none;" name="myFile">
          <label class="btn btn-default btn-file">
            Browse
-           <input type="file" file-model="myFile" style="display: none;" name="myFile" class="custom-file-input">
-           <button ng-click="uploadFile()">Upload</button>
+           <input type="file" ng-model="garbage"
+                  file-model="myFile" style="display: none;" name="{{file_name}}" onchange="update_field(this);" class="custom-file-input">
          </label>
        </div>
      </div>
-     <button class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="">Publish Report</button>
+     <button class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="uploadFile()">Submit Files</button>
+     <br/>
+     <button id="publish_btn" class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="publish_report()">{{publish_ready}}</button>
    </form>
+   <script>
+     function update_field(elem) {
+         console.log(elem.value);
+         document.getElementById(elem.name).innerHTML = elem.value.substring(12);
+         input = elem;
+     }
+   </script>
  </div>

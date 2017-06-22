@@ -4,12 +4,21 @@
 
 'use strict';
 
-AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', function ($scope, fileUpload) {
+AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', function ($scope, fileUpload, fileService) {
+
+    $scope.garbage = "garbage";
 
     $scope.files = [
       "BFSL NAV"
-      //, "Drawn Capital"
+      , "Drawn Capital"
+      , "Template"
     ];
+
+    $scope.holders = {
+      "BFSL NAV" : "file1",
+      "Drawn Capital" : "file2",
+      "Template" : "file3"
+    };
 
     var token = window.localStorage.getItem('token');
     var user = window.localStorage.getItem('user');
@@ -18,16 +27,52 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', function ($scope
 
     console.log("Token: " + token);
 
+    $scope.publish_ready = "Upload Files Please!";
+
+    $scope.publish_button = $('#publish_btn');
+
+    $scope.publish_button.attr('disabled','disabled');
+
+    var files_count = 0;
+
     $scope.uploadFile = function () {
-      var file = $scope.myFile;
 
-      console.log('file is ' + file);
+      console.log("Stack length: " + files_count);
+      console.log("Uploaded Files: " + fileService);
 
-      return; // TODO : FOR TEST
+      files_count = fileService.length;
 
-      console.dir(file);
+      for (var i = 0; i < files_count; i++) {
+        var file = fileService[i];
+        console.log(file);
+        fileUpload.uploadFileToUrl(file, uploadUrl);
+      }
 
-      fileUpload.uploadFileToUrl(file, uploadUrl);
+      $scope.clearFiles();
+
+      $scope.$on('profile_upload_failed', function (event, args) {
+        $scope.publish_ready = "File upload not successful!";
+        $scope.publish_button.css("background-color", "red");
+        $scope.publish_button.css("color", "white");
+        $scope.publish_button.attr('disabled','disabled');
+        return null;
+      });
+      $scope.publish_ready = "Publish Report";
+      // TODO : Colorful
+      $scope.publish_button.css("background-color", "#27c400");
+      $scope.publish_button.css("color", "white");
+      $scope.publish_button.removeAttr('disabled');
+
+      console.log("Post Push Files: " + fileService);
+
+      //window.location.reload();
+    };
+
+    $scope.clearFiles = function () {
+      for (var j = 0; j < files_count; j++) {
+        console.log("Popping file ..." + j);
+        fileService.pop();
+      }
     };
 
     $scope.start_engine = function () {
@@ -35,7 +80,7 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', function ($scope
     };
 
     $scope.publish_report = function () {
-
+      alert("Now publish");
     };
 
   }]);

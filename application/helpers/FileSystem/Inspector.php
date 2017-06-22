@@ -79,8 +79,7 @@ class Inspector extends FileManager
             return false;
         }
 
-
-        $config['upload_path'] = APPPATH.'files\clientFiles';
+        $config['upload_path'] = $this->dirPath;
         $config['allowed_types'] = 'xlsx|txt';
 
         $CI =& get_instance();
@@ -115,8 +114,13 @@ class Inspector extends FileManager
 
         if ($file)
         {
-            http_response_code(201);
-            return true;
+            if ($result) {
+                http_response_code(201);
+                return true;
+            } else {
+                http_response_code(\Authentication::$badRequest_400);
+                return true;
+            }
         }
         else
         {
