@@ -12,6 +12,7 @@ use DAO\ClientDAOImpl;
 use DAO\ClientFileDAOImpl;
 use models\Client;
 use models\File;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 
 require_once 'FileManager.php';
@@ -70,7 +71,7 @@ class Inspector extends FileManager
         return true;
     }
 
-    public function upload(Client $uploader, string $category)
+    public function upload(Client $uploader, string $category, string $directory)
     {
         if (!$this->checkAccess($uploader, $category))
         {
@@ -79,8 +80,20 @@ class Inspector extends FileManager
             return false;
         }
 
-        $config['upload_path'] = $this->dirPath;
+        $upload_dir = $this->dirPath.$directory;
+
+        try
+        {
+            if (!file_exists($upload_dir)) mkdir($upload_dir);
+        }
+        catch (Exception $e)
+        {
+
+        }
+
+        $config['upload_path'] = $upload_dir;
         $config['allowed_types'] = 'xlsx|txt';
+
 
         $CI =& get_instance();
         $CI->load->library('upload', $config);

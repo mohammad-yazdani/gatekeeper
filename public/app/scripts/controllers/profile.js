@@ -9,8 +9,8 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', f
     $scope.garbage = "garbage";
 
     $scope.files = [
-      "BFSL NAV"
-      , "Drawn Capital"
+      "BFSL_NAV"
+      , "Drawn_Capital"
       , "Template"
     ];
 
@@ -23,7 +23,7 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', f
     var token = window.localStorage.getItem('token');
     var user = window.localStorage.getItem('user');
 
-    var uploadUrl = 'http://localhost/gatekeeper/index.php/ClientFiles/' + token + '/' + user;
+    var uploadUrl = 'http://localhost/gatekeeper/index.php/ClientFiles/' + token + '/' + user + '/';
 
     console.log("Token: " + token);
 
@@ -44,8 +44,8 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', f
 
       for (var i = 0; i < files_count; i++) {
         var file = fileService[i];
-        console.log(file);
-        fileUpload.uploadFileToUrl(file, uploadUrl);
+        console.log("The FILE IS:" + file);
+        fileUpload.uploadFileToUrl(file, uploadUrl + $scope.files[i]);
       }
 
       $scope.clearFiles();

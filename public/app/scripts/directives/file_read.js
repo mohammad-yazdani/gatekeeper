@@ -11,6 +11,7 @@ AnalyticsApp.directive('fileModel', ['$parse', 'fileService', function ($parse, 
       element.bind('change', function(){
         scope.$apply(function(){
           if (element[0].files !== undefined) {
+
             fileService.push(element[0].files[0]);
             // TODO : Broadcast to profile controller
             //$rootScope.$broadcast("file_pushed");

@@ -36,6 +36,7 @@ class ClientFiles extends Authentication
         echo "Start...\n";
         $key = $this->uri->segment(2);
         $category = $this->uri->segment(3);
+        $directory = $this->uri->segment(4);
 
         echo "Key: ".$key."<br/>";
 
@@ -44,7 +45,7 @@ class ClientFiles extends Authentication
         $client = $this->clientCtrl->get($client, null, true);
         if($client)
         {
-            $this->inspector->upload($client, $category);
+            $this->inspector->upload($client, $category, $directory);
         }
         else
         {
