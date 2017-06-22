@@ -4,32 +4,30 @@
 
 'use strict';
 
-AnalyticsApp.controller('ProfileCtrl', ['$scope', 'FileUploader', function ($scope, FileUploader) {
+AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', function ($scope, fileUpload) {
 
     $scope.files = [
       "BFSL NAV"
       //, "Drawn Capital"
     ];
 
-    var upload_url = 'http://localhost/gatekeeper/index.php/ClientFiles/' + $localStorage.token + '/' + $localStorage.user;
+    var token = window.localStorage.getItem('token');
+    var user = window.localStorage.getItem('user');
 
-    $scope.upload_file = function () {
-      var uploader = $scope.uploader = new FileUploader({
-        url: upload_url
-      });
+    var uploadUrl = 'http://localhost/gatekeeper/index.php/ClientFiles/' + token + '/' + user;
 
-      uploader.onProgressItem = function(fileItem, progress) {
-        console.info('onProgressItem', fileItem, progress);
-      };
-      uploader.onProgressAll = function(progress) {
-        console.info('onProgressAll', progress);
-      };
-      uploader.onSuccessItem = function(fileItem, response, status, headers) {
-        console.info('onSuccessItem', fileItem, response, status, headers);
-      };
-      uploader.onErrorItem = function(fileItem, response, status, headers) {
-        console.info('onErrorItem', fileItem, response, status, headers);
-      };
+    console.log("Token: " + token);
+
+    $scope.uploadFile = function () {
+      var file = $scope.myFile;
+
+      console.log('file is ' + file);
+
+      return; // TODO : FOR TEST
+
+      console.dir(file);
+
+      fileUpload.uploadFileToUrl(file, uploadUrl);
     };
 
     $scope.start_engine = function () {

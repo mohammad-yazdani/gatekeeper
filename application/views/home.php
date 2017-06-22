@@ -23,15 +23,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <div class="container">
-    <h2>Welcome to OGAM</h2>
-    <div class="row">
-        <div class="col-sm-6 col-md-6 col-lg-6">
-            <a href="<?php echo site_url('HomeController/Login'); ?>"><input type="button" class="btn btn-block btn-primary" value="Login"></a>
+    <h3 class="header">Welcome to OGAM</h3>
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <a href="<?php echo site_url('HomeController/Login'); ?>"><input type="button" class="btn btn-block btn-primary" value="Login"></a>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <a href="<?php echo site_url('HomeController/Admin'); ?>"><input type="button" class="btn btn-block btn-primary" value="Admin"></a>
+            </div>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-6">
-            <a href="<?php echo site_url('HomeController/Admin'); ?>"><input type="button" class="btn btn-block btn-primary" value="Admin"></a>
-        </div>
-    </div>
 </div>
+<style>
+    .row div {
+        margin-top: 10px;
+    }
+</style>
 </body>
 </html>

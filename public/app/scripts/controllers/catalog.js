@@ -12,8 +12,11 @@ angular
   console.log("Token: " + params['token']);
   console.log("User: " + params['user']);
 
-  $localStorage.token = params['token'];
-  $localStorage.user = params['user'];
+  //$localStorage.token = params['token'];
+  //$localStorage.user = params['user'];
+
+  window.localStorage.setItem('token', params['token']);
+  window.localStorage.setItem('user', params['user']);
 
   $scope.apps = [
     'Monthly Report'

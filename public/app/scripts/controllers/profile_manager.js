@@ -7,13 +7,18 @@
  * # AboutCtrl
  * Controller of the analyticsApp
  */
-AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location',  function($scope, $location) {
+AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location',  function($scope, $location
+  //, $localStorage
+) {
 
     $scope.apps = [
       "Black Forest Monthly"
       //"Sample1",
       //"Sample2"
     ];
+
+    console.log("Token: " + window.localStorage.getItem('token'));
+    console.log("User: " + window.localStorage.getItem('user'));
 
     // $scope.new_profile_name = [];
 

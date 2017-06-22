@@ -18,8 +18,7 @@ var AnalyticsApp = angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngStorage',
-    'angularFileUpload'
+    'ngStorage'
   ])
   .config(['$routeProvider', '$locationProvider',function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -55,4 +54,6 @@ var AnalyticsApp = angular
   .run(function ($localStorage) {
     $localStorage.token = "";
     $localStorage.user = "";
+
+    console.log($localStorage);
   });

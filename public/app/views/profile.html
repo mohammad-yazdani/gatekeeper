@@ -6,13 +6,14 @@
      <div class="list-group form-group profile-input-list">
        <div ng-repeat="file_name in files" class="list-group-item file_upload_row">
          <span class="custom-file-control">Choose {{file_name}}</span>
+         <input ng-model="myFile" style="display: none;" name="myFile">
          <label class="btn btn-default btn-file">
            Browse
-           <input type="file" style="display: none;" name="myFile" class="custom-file-input">
-
+           <input type="file" file-model="myFile" style="display: none;" name="myFile" class="custom-file-input">
+           <button ng-click="uploadFile()">Upload</button>
          </label>
        </div>
      </div>
-     <button class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="upload_file()">Publish Report</button>
+     <button class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="">Publish Report</button>
    </form>
  </div>
