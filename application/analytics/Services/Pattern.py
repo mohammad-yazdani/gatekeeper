@@ -22,6 +22,7 @@ class Pattern:
         parent = None
         # print("Profile: " + str(self.procedure_profile))  # TODO : FOR TEST
         count = 0
+        input_dir = self.procedure_profile.pop(0)
         self.coordinates = self.procedure_profile.pop(0)
         for token in self.procedure_profile:
             # print("Token: " + token)
@@ -52,7 +53,7 @@ class Pattern:
                 column = int(output[0])
                 # print("Col: " + str(column))
 
-                token = Data(parent, file, sheet, column)
+                token = Data(parent, input_dir + "\\" + file, sheet, column)
 
             # print("New Token: " + str(token))
             self.output.add(token)

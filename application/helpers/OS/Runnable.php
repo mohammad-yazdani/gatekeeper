@@ -75,7 +75,16 @@ abstract class Runnable
 
         $result = exec($command);
 
-        echo "Result: ".$result;
+
+        // TODO : Load download
+        $CI =& get_instance();
+        $CI->load->helper('download');
+
+        $data = file_get_contents($result);
+        force_download("report.xlsx", $data);
+        //force_download($result);
+
+        echo "Result: \n".$result;
 
         return $result;
     }

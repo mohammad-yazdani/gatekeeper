@@ -28,11 +28,6 @@ class AnalyticsController extends Authentication
 
     public function index_get()
     {
-        // TODO : PASS FOR NOW
-    }
-
-    public function index_post()
-    {
         $key = $this->uri->segment(2);
         $command = $this->uri->segment(3);
 
@@ -57,6 +52,11 @@ class AnalyticsController extends Authentication
         {
             http_response_code(403);
         }
+    }
+
+    public function index_post()
+    {
+        // TODO : PASS FOR NOW
     }
 
     public function index_put()

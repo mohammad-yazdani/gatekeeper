@@ -7,10 +7,12 @@
  * # AboutCtrl
  * Controller of the analyticsApp
  */
-AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location',  function($scope, $location
-  //, $localStorage
+AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScope', '$timeout',  function(
+  $scope,
+  $location,
+  $rootScope,
+  $timeout
 ) {
-
     $scope.apps = [
       "Black Forest Monthly",
       "Test"
@@ -26,7 +28,8 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location',  function(
       ],
       "Test" : [
         "Book1",
-        "Book2"
+        "Book2",
+        "Book3"
       ]
     };
 
@@ -48,8 +51,15 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location',  function(
 
     $scope.open_app = function (name) {
       console.log("Name: " + name);
-      console.log(params);
+      console.log("In profile manager: " + apps_info[name]);
+
       $location.path("/single_profile");
+
+      //console.log($rootScope.$broadcast('profile_init', { files : apps_info[name]}));
+      //console.log($rootScope.$broadcast('test'));
+      //console.log($rootScope.$broadcast("test"));
+      $rootScope.profile_files = apps_info[name];
+      $rootScope.profile = name;
     };
 
     $scope.delete_app = function (name) {

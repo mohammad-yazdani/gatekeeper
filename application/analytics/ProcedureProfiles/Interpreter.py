@@ -12,9 +12,12 @@ class Interpreter:
     def interpret_profile(self):
         row_start = -1
         col_start = -1
+        input_dir = ""
         exp_start = False
         for line in self.profile:
             # TODO : FOR TEST
+            if line.find("DIR") >= 0:
+                input_dir = str(line.split()[1])
             if line.find("START_ROW") >= 0:
                 row_start = int(line.split()[1])
             if line.find("START_COL") >= 0:
@@ -30,4 +33,5 @@ class Interpreter:
         # print("Col: " + str(col_start))
         coordinates = [row_start, col_start]
         self.output.insert(0, coordinates)
+        self.output.insert(0, input_dir)
         return self.output

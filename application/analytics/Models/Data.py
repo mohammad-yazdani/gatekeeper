@@ -23,8 +23,13 @@ class Data(DataNode):
             self.row = row
 
         xl = pd.ExcelFile(self.path)
+
         df1 = xl.parse(sheet)
+        print("TABLE PRINT")
+        print(df1)  # TODO : FOR TEST
+
         data = df1['Unnamed: ' + str(column)]
+        print("TEST")
         self.data = list()
         index = 0
         for cell in data:

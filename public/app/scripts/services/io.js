@@ -40,5 +40,23 @@ angular
         console.log(response.headers);
         console.log(response.content);
       });
+    };
+
+    this.downloadFromUrl = function (downloadUrl) {
+      $http.get(downloadUrl, {
+        transformRequest: angular.identity
+        , headers: {'Content-Type': undefined}
+      }).then(function successCallback(response) {
+        console.log("Download successful: ");
+        console.log(response.status);
+        console.log(response.headers);
+        console.log(response.content);
+
+      }, function errorCallback(response) {
+        console.log("Download failed: ");
+        console.log(response.status);
+        console.log(response.headers);
+        console.log(response.content);
+      });
     }
   }]);
