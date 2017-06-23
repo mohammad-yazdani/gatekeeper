@@ -4,12 +4,14 @@
 
 'use strict';
 
-AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', function ($scope, fileUpload, fileService) {
+AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '$rootScope', function ($scope, fileUpload, fileService, $rootScope) {
     $scope.garbage = "garbage";
     $scope.files = [];
-    $scope.init = function (files) {
-      $scope.files = files;
-    };
+
+  $scope.$on('profile_init', function (event, ) {
+
+  });
+
     /*
     $scope.files = [
       "BFSL_NAV"

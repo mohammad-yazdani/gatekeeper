@@ -18,6 +18,18 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location',  function(
       //"Sample2"
     ];
 
+    var apps_info = {
+      "Black Forest Monthly" : [
+        "NAV",
+        "Drawn_Capital",
+        "Template"
+      ],
+      "Test" : [
+        "Book1",
+        "Book2"
+      ]
+    };
+
     console.log("Token: " + window.localStorage.getItem('token'));
     console.log("User: " + window.localStorage.getItem('user'));
 
@@ -35,8 +47,8 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location',  function(
     console.log("Adding: " + $scope.apps[0]);
 
     $scope.open_app = function (name) {
-      console.log(name);
-      // TODO: Pass param
+      console.log("Name: " + name);
+      console.log(params);
       $location.path("/single_profile");
     };
 
