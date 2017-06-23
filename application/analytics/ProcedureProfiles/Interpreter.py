@@ -8,30 +8,37 @@ class Interpreter:
         # print("Interpreter opening: " + ROOT_DIR + self.dir + profile)
         self.profile = open(ROOT_DIR + self.dir + profile)
         self.output = list()
+        self.row_start = -1
+        self.col_start = -1
+        self.input_dir = ""
 
-    def interpret_profile(self):
-        row_start = -1
-        col_start = -1
-        input_dir = ""
+    def read_profile(self):
         exp_start = False
         for line in self.profile:
             # TODO : FOR TEST
             if line.find("DIR") >= 0:
-                input_dir = str(line.split()[1])
+                self.input_dir = str(line.split()[1])
             if line.find("START_ROW") >= 0:
-                row_start = int(line.split()[1])
+                self.row_start = int(line.split()[1])
             if line.find("START_COL") >= 0:
-                col_start = int(line.split()[1])
+                self.col_start = int(line.split()[1])
             if line.find("EXPRESSION_START") >= 0:
                 exp_start = True
                 continue
             for token in line.split():
                 if exp_start:
                     self.output.insert(0, token)
-        # print(str(self.output))  # TODO : FOR TEST
-        # print("Row: " + str(row_start))
-        # print("Col: " + str(col_start))
-        coordinates = [row_start, col_start]
+
+    @staticmethod
+    def static_read(profile: str):
+        profile = profile.replace(".", " ")
+        output = list()
+        for token in profile.split():
+            output.insert(0, token)
+        return output
+
+    def interpret_profile(self):
+        coordinates = [self.row_start, self.col_start]
         self.output.insert(0, coordinates)
-        self.output.insert(0, input_dir)
+        self.output.insert(0, self.input_dir)
         return self.output

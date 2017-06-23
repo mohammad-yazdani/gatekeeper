@@ -5,8 +5,3 @@ COL Consolidated_Invested_Amount
 COL Consolidated_Net_Asset_Value BFSL_NAV.Capital_Allocation_Ltd.Ending_NAV_Balance
 COL Consolidated_Distributions BFSL_NAV.Capital_Allocation_Ltd.Distribution
 COL Portfolio_Monthly_Return BFSL_NAV.Capital_Allocation_Ltd.%_change_in_NAV
-COL Portfolio_Return_Since_Inception
-COL Annualized_Return_Since_Inception
-COL Annualized_Std_Deviation
-COL T-Bill_Rate
-COL Annualized_Sharpe_Ratio

@@ -11,23 +11,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Client Portal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<!-- TODO : TEMP
     <div class="container">
         <h2>Client Portal</h2>
         <div class="row">
-            <!-- <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="col-sm-6 col-md-6 col-lg-6">
                 <a href="#"><input type="button" class="btn btn-block btn-primary" value="Download Files"></a>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <a href="<?php echo site_url('HomeController/UploadUtility'); ?>"><input
                             type="button" class="btn btn-block btn-info" value="Upload Files"></a>
-            </div>-->
+            </div>
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <button class="btn btn-primary" onclick="tokenHandler.go_to_angular();" ><input
                             type="button" class="btn btn-block btn-info" value="Apps"></button>
@@ -36,6 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <p></p>
         <a onclick="tokenHandler.erase();" href="<?php echo site_url('HomeController/Login'); ?>"><p>Sign out</p></a>
     </div>
+-->
 <script>
     console.log("Client portal script running...");
     var user = window.localStorage.getItem('user');
@@ -141,6 +142,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         tokenHandler.erase();
         window.location.href = "<?php echo site_url('HomeController/Login'); ?>";
     }
+
+    tokenHandler.go_to_angular();
 </script>
 </body>
 </html>
