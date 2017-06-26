@@ -9,13 +9,23 @@ class MyTestCase(unittest.TestCase):
         # book = xw.Book("BFSL_NAV.xlsx")
         # self.source = book
 
-        file = "BFSL_NAV.xlsx"
+        file = "BFSL_NAV04302017.xlsx"
         sheet = "Capital Allocation Ltd"
-        category = "Investor Name"
+        # category = "Investor Name"
+        category = "Ending NAV Balance"
         company = "The J. Paul Getty Trust"
 
-        search_tool = Search(file, sheet, category, company)
-        search_tool.find_row_in_col()
+        dest_file = "BF Monthly.xlsx"
+        dest_sheet = "Chart"
+        dest_col = 4
+        dest_row = 47
+
+        # cell = Search.find(file, sheet, category, company)
+        Search.find_empty_row(dest_file, dest_sheet)
+
+        # cell.draw()
+
+        # cell.write(file=dest_file, dest_column=dest_col, dest_row=dest_row, sheet=dest_sheet)
 
 if __name__ == '__main__':
     unittest.main()
