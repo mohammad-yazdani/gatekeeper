@@ -1,4 +1,6 @@
 import pandas as pd
+from openpyxl import load_workbook
+
 from Models.Cell import Cell
 
 
@@ -50,12 +52,36 @@ class Search:
 		return cell
 
 	@staticmethod
-	def find_empty_row(file, sheet):
-		xl = pd.ExcelFile(file)
-		df = xl.parse(sheet)
-		print(str(len(df['Unnamed: 0'])))
-		'''for col in df:
-			print(col)
-			for cell in df[col]:
-				print(cell)'''
-		return [0, 0]
+	def get_row(file, sheet, row_number):
+		wb = load_workbook(file)
+		ws = wb.active
+		rows = list()
+		for row_index in reversed(range(1, ws.max_row + 1)):
+			row = list()
+			for col_index in range(1, ws.max_column + 1):
+				row.insert(0, ws.cell(row=row_index, column=col_index).value)
+			rows.insert(0, row)
+		return rows[row_number - 1]
+
+	@staticmethod
+	def get_empty_row(file, sheet):
+		wb = load_workbook(file)
+		ws = wb.active
+		result = list()
+		# print(ws.max_row)
+		# print(Search.get_row(file=file, sheet=sheet, row_number=50))
+		count = 0
+		for row in reversed(range(1, ws.max_row + 1)):
+			empty = True
+			# print(Search.get_row(file=file, sheet=sheet, row_number=row))
+			the_row = Search.get_row(file=file, sheet=sheet, row_number=row)
+			for cell in the_row:
+				if cell:
+					empty = False
+			if empty:
+				# print(row)
+				result.insert(0, row)
+				count += 1
+				if count > 1:
+					return row
+		# print(result)

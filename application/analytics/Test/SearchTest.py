@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
         dest_row = 47
 
         # cell = Search.find(file, sheet, category, company)
-        Search.find_empty_row(dest_file, dest_sheet)
+        print(Search.get_empty_row(file=dest_file, sheet=dest_sheet))
 
         # cell.draw()
 
