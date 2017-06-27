@@ -1,0 +1,37 @@
+{
+  "update": {
+	"sources": {
+	  "Consolidated Invested Amount": {
+		"object": "ADNIC",
+		"file": "Drawn_Capital.xlsx",
+		"sheet": "MR",
+		"column": "Drawn"
+	  },
+	  "Consolidated Net Asset Value": {
+		"object": "Abu Dhabi National Insurance Company",
+		"file": "BFSL_NAV.xlsx",
+		"sheet": "Capital Allocation Ltd",
+		"column": "Ending NAV Balance"
+	  },
+	  "Consolidated Distribution": {
+		"object": "Abu Dhabi National Insurance Company",
+		"file": "BFSL_NAV.xlsx",
+		"sheet": "Capital Allocation Ltd",
+		"column": "Distribution"
+	  },
+	  "Portfolio Monthly Return": {
+		"object": "Abu Dhabi National Insurance Company",
+		"file": "BFSL_NAV.xlsx",
+		"sheet": "Capital Allocation Ltd",
+		"column": "% change in NAV"
+	  },
+	  "Portfolio Return Since Inspection": {
+
+	  }
+	},
+	"destination": {
+	  "file": "BF_Monthly.xlsx",
+	  "sheet": "Chart"
+	}
+  }
+}

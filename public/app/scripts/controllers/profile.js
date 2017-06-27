@@ -13,7 +13,8 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '
       $scope.files = args.files;
     }));*/
 
-    console.log("In profile: " + $rootScope.profile_files);
+    console.log("In profile: " + $rootScope.profile);
+    console.log("In profile files: " + $rootScope.profile_files);
     $scope.files = $rootScope.profile_files;
 
     $scope.holders = [];
@@ -32,7 +33,7 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '
     var user = window.localStorage.getItem('user');
 
     var uploadUrl = 'http://localhost/gatekeeper/index.php/ClientFiles/' + token + '/' + user + '/';
-    var downloadUrl = 'http://localhost/gatekeeper/index.php/AnalyticsController/' + token + '/' + user + '/';
+    var downloadUrl = 'http://localhost/gatekeeper/index.php/AnalyticsController/' + token + '/' + $rootScope.profile + '/';
 
     console.log("Token: " + token);
 
@@ -53,7 +54,7 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '
 
       for (var i = 0; i < files_count; i++) {
         var file = fileService[i];
-        console.log("The FILE IS:" + file);
+        console.log("The FILE IS:" + file.name);
         fileUpload.uploadFileToUrl(file, uploadUrl + $rootScope.profile);
       }
 
@@ -89,6 +90,7 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '
     };
 
     $scope.publish_report = function () {
+      console.log(downloadUrl);
       fileUpload.downloadFromUrl(downloadUrl);
     };
 

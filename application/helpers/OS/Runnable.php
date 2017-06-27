@@ -71,20 +71,21 @@ abstract class Runnable
 
         $command = $this->env." ".$command;
 
-        echo "Command: ".$command."\n";
-
+        # $result = exec($command);
         $result = exec($command);
 
+        echo "Results: ".$result."\n";
 
         // TODO : Load download
         $CI =& get_instance();
         $CI->load->helper('download');
 
         $data = file_get_contents($result);
-        force_download("report.xlsx", $data);
+        echo $data;
+        // force_download("report.xlsx", $data);
         //force_download($result);
 
-        echo "Result: \n".$result;
+        //echo "Result: \n".$result;
 
         return $result;
     }

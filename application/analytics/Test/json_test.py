@@ -1,37 +1,42 @@
 import unittest
-import json
-import pandas as pd
-from Services.Search import Search
-from ProcedureProfiles.Interpreter import Interpreter
+from ProcedureProfiles.JSON_Interpreter import JSONInterpreter
 
 
 class MyTestCase(unittest.TestCase):
-    def test_something(self):
-        data = open("json_test.json").read()
-        data = json.loads(data)
-        # print(data['dependencies'])
-        dependency_name = data['dependencies']
-        dependencies = list()
-        for file in dependency_name:
-            dependencies.insert(0, pd.ExcelFile(file))
-        # print(dependencies)
-        template = pd.ExcelFile(data['template'])
-        # print(template)
-        columns = data['columns']
-        # print(columns)
-        company = "The J. Paul Getty Trust"
-        cells = list()
+	def test_something(self):
 
-        for index in columns:
-            expression = Interpreter.static_read(columns[index])
-            # print(expression)
-            file = expression.pop() + ".xlsx"
-            sheet = expression.pop().replace("_", " ")
-            category = expression.pop().replace("_", " ")
-            result = Search.find_row_in_col(file, sheet, category, company)
-            cells.insert(0, result)
+		print(self)
 
-        print(cells)
+		json_interpreter = JSONInterpreter("BF_Monthly.json")
+		json_interpreter.get_update().write()
+
+		"""xl = pd.ExcelFile("BFSL_NAV.xlsx")
+		print(xl.sheet_names)
+
+		data = json.load(open("BF_Monthly.json"))
+		print(data)
+		print()
+
+		source = data['update']['sources']
+
+		output = data['update']['destination']
+
+		row_obj = Row(output['file'], output['sheet'])
+
+		for i in source:
+			dest_col = i
+			details = source[dest_col]
+			if len(details) <= 0:
+				continue
+			# print(details['sheet'])
+			data_value = Search.find(details['file'], details['sheet'], details['column'], details['object'])
+			if data_value[0] < 0:
+				data_value[0] = data_value[0] * (-1)
+			cell = Cell(data=data_value[0], file=output['file'], sheet=output['sheet'], column=dest_col)
+			row_obj.add(cell)
+		print(row_obj)
+		row_obj.write()
+		# print(data)"""
 
 if __name__ == '__main__':
-    unittest.main()
+	unittest.main()

@@ -1,13 +1,14 @@
 import pandas as pd
 from openpyxl import load_workbook
-
-from Models.Cell import Cell
+from Definitions import ROOT_DIR
 
 
 class Search:
 
 	@staticmethod
 	def find_col(file, sheet, col_p):
+		if not file.find(ROOT_DIR) >= 0:
+			file = ROOT_DIR + "..\\files\\clientFiles\\""" + file
 		# TODO : RETURN COL
 		xl = pd.ExcelFile(file)
 		df = xl.parse(sheet)
@@ -23,6 +24,8 @@ class Search:
 
 	@staticmethod
 	def find_row(file, sheet, row_p):
+		if not file.find(ROOT_DIR) >= 0:
+			file = ROOT_DIR + "..\\files\\clientFiles\\""" + file
 		xl = pd.ExcelFile(file)
 		df = xl.parse(sheet)
 		for col in df:
@@ -34,25 +37,27 @@ class Search:
 					for item in df[col]:
 						# print(str(count) + " " + str(item))
 						if str(item).find(row_p) >= 0:
-							return count
+							return count - 1
 						else:
 							count += 1
 					return -1
 
 	@staticmethod
 	def find(file, sheet, col_p, row_p):
+		if not file.find(ROOT_DIR) >= 0:
+			file = ROOT_DIR + "..\\files\\clientFiles\\""" + file
 		row = Search.find_row(file, sheet, row_p)
 		col = Search.find_col(file, sheet, col_p)
 		# print("Col: " + str(col) + " row: " + str(row))
 		xl = pd.ExcelFile(file)
 		df = xl.parse(sheet)
 		# print(df)
-		cell = Cell(data=df[col][row], file=file)
-		# cell.draw()
-		return cell
+		return [df[col][row], file]
 
 	@staticmethod
 	def get_row(file, sheet, row_number):
+		if not file.find(ROOT_DIR) >= 0:
+			file = ROOT_DIR + "..\\files\\clientFiles\\""" + file
 		wb = load_workbook(file)
 		ws = wb.active
 		rows = list()

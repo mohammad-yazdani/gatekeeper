@@ -80,7 +80,7 @@ class Inspector extends FileManager
             return false;
         }
 
-        $upload_dir = $this->dirPath.$directory;
+        $upload_dir = $this->dirPath;
 
         try
         {

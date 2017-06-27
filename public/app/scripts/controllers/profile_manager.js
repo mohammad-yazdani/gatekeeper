@@ -14,14 +14,14 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
   $timeout
 ) {
     $scope.apps = [
-      "Black Forest Monthly",
+      "Black_Forest_Monthly",
       "Test"
       //"Sample1",
       //"Sample2"
     ];
 
     var apps_info = {
-      "Black Forest Monthly" : [
+      "Black_Forest_Monthly" : [
         "NAV",
         "Drawn_Capital",
         "Template"
