@@ -51,10 +51,10 @@ var AnalyticsApp = angular
         redirectTo: '/'
       });
 
-    /*$locationProvider.html5Mode({
+    $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
-    });*/
+    });
   }])
   .run(function ($localStorage) {
     $localStorage.token = "";
