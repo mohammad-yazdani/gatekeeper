@@ -17,6 +17,30 @@ class Credential extends Model implements JsonSerializable
      * store it's appropriate data in form of
      * stringify JSON object.
      */
-	
+	private $username;
+	private $email;
+	private $salt;
+	private $auth_string;
+	private $passSaved;
+
+	public function __construct($username, $email, $password) {
+	    parent::__construct();
+	    $this->username = $username;
+	    $this->email = $email;
+
+    }
+
+	protected function authenticate($password) {
+	    if ($password == $this->salt) {
+	        return true;
+        } else {
+	        return false;
+        }
+    }
+
+    protected function setPassWord($newPassword) {
+	    $this->passSaved = true;
+	    $this->salt = $newPassword;
+    }
 		
 }

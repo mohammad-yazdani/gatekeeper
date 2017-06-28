@@ -8,20 +8,30 @@
 
 require_once 'DAO.php';
 
+/**
+ * Class DAOImpl
+ */
 abstract class DAOImpl implements DAO {
-		/**
+    /**
      * @var \Doctrine\ORM\EntityManager $em
      */
     protected $em;
 
+
+    /**
+     * @var string
+     */
+    protected $repository;
+
+
     /**
      * DAOImpl constructor.
+     * @param $em
+     * @param string $repository
      */
-    public function __construct()
+    public function __construct($em, string $repository)
     {
-        // Connect to Doctrine.
-				$CI =& get_instance();
-				$CI->load->library('doctrine');
-        $this->em = $CI->doctrine->em;
+        $this->em = $em;
+        $this->repository = $repository;
     }
 }

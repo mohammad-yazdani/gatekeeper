@@ -52,26 +52,22 @@ class Doctrine {
         $config->setProxyNamespace('Proxies');
 
         // Set up logger
-        $logger = new EchoSQLLogger;
-        $config->setSQLLogger($logger);
+        //$logger = new EchoSQLLogger;
+        //$config->setSQLLogger($logger);
 
         $config->setAutoGenerateProxyClasses( TRUE );
       
         // Database connection information
 
         $connectionOptions = array(
-          'dbname' =>   'gatekeeper',
-          'user' =>     'root',
-          //'password' => 'gatekeeper',
-          'host' =>     'localhost',   
-          'driver' => 'pdo_mysql'
+            'driver'   => 'pdo_mysql',
+            'host'     => '127.0.0.1',
+            'dbname'   => 'gatekeeper',
+            'user'     => 'gatekeeper',
+            'password' => 'gatekeeper'
         );
 
         // Create EntityManager
         $this->em = EntityManager::create($connectionOptions, $config);
-      
-        $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
-        $classes = $this->em->getMetadataFactory()->getAllMetadata();
-        $schemaTool->createSchema($classes);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "name": "gatekeeper",
+  "version": "1.0.0",
+  "description": "A user management and authentication API for multi-user systems, with numerous features. GateKeeper is written in __PHP 7.1__.",
+  "main": "index.js",
+  "dependencies": {
+    "jquery": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammad-yazdani/gatekeeper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohammad-yazdani/gatekeeper/issues"
+  },
+  "homepage": "https://github.com/mohammad-yazdani/gatekeeper#readme"
+}

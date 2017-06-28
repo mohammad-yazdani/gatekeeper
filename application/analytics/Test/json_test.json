@@ -1,0 +1,11 @@
+{
+  "dependencies": [
+	"BFSL_NAV.xlsx"
+  ],
+  "template": "BF_Monthly.xlsx",
+  "columns": {
+	"Consolidated_Net_Asset_Value": "BFSL_NAV.Capital_Allocation_Ltd.Ending_NAV_Balance",
+	"Consolidated_Distributions" : "BFSL_NAV.Capital_Allocation_Ltd.Distribution",
+	"Portfolio_Monthly_Return" : "BFSL_NAV.Capital_Allocation_Ltd.%_change_in_NAV"
+  }
+}

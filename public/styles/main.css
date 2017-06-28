@@ -1,0 +1,183 @@
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+body {
+  padding: 0;
+  background-color: #3c3c3c;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.app {
+  margin-top: 15px;
+}
+
+.container {
+  font-family: "Segoe UI";
+}
+
+.jumbotron {
+  background-color: #3c3c3c;
+  margin-top: -30px;
+}
+
+.profile_add {
+  margin-top: -15px;
+}
+
+.profile_add li {
+  margin-top: 3px;
+  height: 50px;
+  border: none;
+  background-color: #3c3c3c;
+}
+
+.profile_add button {
+  margin-left: 10px;
+  border-radius: 30px;
+  background-color: darkgrey;
+  color: white;
+}
+
+.card {
+  border: 10px white solid;
+}
+
+.profile_add input {
+  border-radius: 30px;
+  height: 60px;
+  font-size: 18px;
+  font-family: "Segoe UI";
+}
+
+.profile_container button {
+}
+
+.profile {
+  margin-top: 7px;
+  background-color: white;
+  border: 5px #3c3c3c solid;
+  border-radius: 12px;
+  height: 150px;
+  font-family: "Segoe UI";
+  font-weight: 300;
+  font-size: 22px;
+  color: #3e3e3e;
+  overflow: hidden;
+  padding-top: 15px;
+}
+
+.profile a {
+  background-color: darkgrey;
+  border-radius: 33px;
+  font-family: "Segoe UI";
+  font-weight: 300;
+  color: white;
+}
+
+.profile h4 {
+  margin-top: 10px;
+  font-size: 22px;
+  padding-bottom: 7px;
+  color: #3c3c3c;
+}
+
+.profile_header {
+  color: white;
+  font-weight: 300;
+}
+
+.profile-input-list label {
+  background-color: darkgrey;
+  float: right;
+  margin-top: -3px;
+  width: 20%;
+}
+
+.file_upload_row {
+  height: 50px;
+  font-size: 20px;
+  color: #777777;
+}
+
+.profile_submit {
+  background-color: darkgrey;
+  font-family: "Segoe UI";
+  font-weight: 300;
+  color: #3e3e3e;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+  font-family: "Segoe UI";
+  font-weight: 300;
+  font-size: 22px;
+  color: white;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0px;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}

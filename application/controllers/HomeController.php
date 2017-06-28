@@ -63,4 +63,42 @@ class HomeController extends CI_Controller
     {
 
     }
+
+    public function Login ()
+    {
+        $this->load->view('Login');
+    }
+
+    public function Admin ()
+    {
+        $this->load->view('Admin');
+    }
+
+    public function Register ()
+    {
+        $this->load->view('Register');
+    }
+
+    public function ClientPortal ()
+    {
+        $this->load->view('ClientPortal');
+    }
+
+    public function UploadUtility ()
+    {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        $this->load->view('Test/FileUploadTest');
+    }
+
+    public function Apps ()
+    {
+        //$this->load->view("AppMenu");
+        redirect("http://localhost:9000");
+        //$this->load->view("app/app/redirect");
+        //$this->load->view("app/app/index");
+        //$this->load->view("_shared/_layout");
+        //$this->load->view("_shared/_catalog");
+        //$this->load->view("_shared/index.html");
+    }
 }

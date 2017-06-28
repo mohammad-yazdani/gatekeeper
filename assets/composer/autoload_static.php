@@ -6,6 +6,40 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit203578f03c144c16cfca98159be07452
 {
+    public static $files = array (
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
+    );
+
+    public static $prefixLengthsPsr4 = array (
+        'p' => 
+        array (
+            'phpseclib\\' => 10,
+        ),
+        'L' => 
+        array (
+            'Lcobucci\\JWT\\' => 13,
+        ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'phpseclib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
+        'Lcobucci\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+    );
+
     public static $prefixesPsr0 = array (
         'o' => 
         array (
@@ -24,6 +58,8 @@ class ComposerStaticInit203578f03c144c16cfca98159be07452
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit203578f03c144c16cfca98159be07452::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit203578f03c144c16cfca98159be07452::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit203578f03c144c16cfca98159be07452::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit203578f03c144c16cfca98159be07452::$classMap;
 

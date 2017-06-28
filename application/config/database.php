@@ -76,10 +76,10 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'root1234',
+	'username' => 'gatekeeper',
+	'password' => 'gatekeeper',
 	'database' => 'gatekeeper',
-	'dbdriver' => 'mysqli',
+	'dbdriver' => 'pdo_mysql',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
@@ -94,3 +94,10 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+// Create dsn from the info above
+$db['default']['dsn'] = $db['default']['dbdriver'] .
+    '://' . $db['default']['username'] .
+    ':' . $db['default']['password'].
+    '@' . $db['default']['hostname'] .
+    '/' . $db['default']['database'];
