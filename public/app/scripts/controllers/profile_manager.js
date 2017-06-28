@@ -22,9 +22,9 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
 
     var apps_info = {
       "Black_Forest_Monthly" : [
-        "NAV",
+        "BFSL_NAV",
         "Drawn_Capital",
-        "Template"
+        "BF_Monthly"
       ],
       "Test" : [
         "Book1",

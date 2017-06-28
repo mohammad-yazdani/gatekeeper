@@ -10,13 +10,15 @@
          <label class="btn btn-default btn-file">
            Browse
            <input type="file" ng-model="garbage"
-                  file-model="myFile" style="display: none;" name="{{file_name}}" onchange="update_field(this);" class="custom-file-input">
+                  file-model="{{file_name}}" style="display: none;" name="{{file_name}}" onchange="update_field(this);"
+                  class="custom-file-input">
          </label>
        </div>
      </div>
      <button class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="uploadFile()">Submit Files</button>
      <br/>
-     <button id="publish_btn" class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="publish_report()">{{publish_ready}}</button>
+     <button id="publish_btn" class="btn btn-secondary btn-lg btn-block profile_submit"
+             ng-click="publish_report()">{{publish_ready}}</button>
    </form>
    <script>
      function update_field(elem) {

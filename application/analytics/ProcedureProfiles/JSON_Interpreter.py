@@ -1,5 +1,6 @@
 import json
 
+from Definitions import ROOT_DIR
 from Models.Cell import Cell
 from Models.Row import Row
 from Services.Search import Search
@@ -8,6 +9,9 @@ from Services.Search import Search
 class JSONInterpreter:
 
 	def __init__(self, file):
+		if str(file).find(ROOT_DIR) < 0:
+			file = ROOT_DIR + file
+			file.replace("/", "\\")
 		self.data = json.load(open(file))
 		try:
 			self.update = self.data['update']

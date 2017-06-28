@@ -6,7 +6,7 @@ from ProcedureProfiles.JSON_Interpreter import JSONInterpreter
 class DataEngine:
 
 	def __init__(self, data: str):
-		print("Starting Data Engine ...")
+		# print("Starting Data Engine ...")
 		self.output = list()
 		pattern = Pattern(data)
 		pattern.interpret()
@@ -19,7 +19,7 @@ class DataEngine:
 	def process(self):
 		# print("Data Engine: Processing Expression Tree ...")
 		self.output.insert(1, self.source.process())
-		print("Data Engine: Expression Tree Process Finished.")
+		# print("Data Engine: Expression Tree Process Finished.")
 
 	def print_output(self):
 		print(str(self.output))
@@ -28,5 +28,4 @@ class DataEngine:
 	def update_excel(json: str):
 		json_interpreter = JSONInterpreter(json)
 		path = json_interpreter.get_update()
-		path.write()
-		return path.file
+		return path.write()

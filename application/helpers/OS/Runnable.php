@@ -72,6 +72,13 @@ abstract class Runnable
         $command = $this->env." ".$command;
 
         # $result = exec($command);
+        // $result = exec($command);
+
+        //$command = APPPATH."analytics\\BF_Script.py";
+        // $command = "py ".$command;
+        echo "Command: ".$command."<br/>";
+
+        set_time_limit(60 * 5);
         $result = exec($command);
 
         echo "Results: ".$result."\n";
@@ -81,11 +88,11 @@ abstract class Runnable
         $CI->load->helper('download');
 
         $data = file_get_contents($result);
-        echo $data;
-        // force_download("report.xlsx", $data);
-        //force_download($result);
+        // echo $data;
+        force_download("report.xlsx", $data);
+        // force_download($result);
 
-        //echo "Result: \n".$result;
+        echo "Result: \n".$result;
 
         return $result;
     }

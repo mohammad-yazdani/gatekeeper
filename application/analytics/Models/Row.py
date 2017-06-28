@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from openpyxl import load_workbook
 
 from Definitions import ROOT_DIR
@@ -29,4 +31,8 @@ class Row:
 	def write(self):
 		for cell in self.cells:
 			cell.write(self.ws, dest_row=self.row)
-		self.wb.save(self.file)  # Write to disk
+		output_file = self.file.replace(".xlsx", "") + "_output.xlsx"
+		# print("Object file: " + self.file)
+		# print("Output file: " + output_file)
+		self.wb.save(output_file)  # Write to disk
+		return output_file

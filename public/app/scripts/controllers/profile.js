@@ -54,8 +54,8 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '
 
       for (var i = 0; i < files_count; i++) {
         var file = fileService[i];
-        console.log("The FILE IS:" + file.name);
-        fileUpload.uploadFileToUrl(file, uploadUrl + $rootScope.profile);
+        console.log("The FILE IS:" + file[1]);
+        fileUpload.uploadFileToUrl(file[0], uploadUrl + file[1]);
       }
 
       $scope.clearFiles();

@@ -12,7 +12,7 @@ class Cell:
         self.column = Search.find_col(file=file, sheet=sheet, col_p=column).replace("Unnamed: ", "")
 
     def write(self, ws: Worksheet, dest_row: int):
-        print(self.data)
+        # print(self.data)
         cell = ws.cell(row=int(dest_row), column=int(self.column) + 1, value=self.data)
         return ws
 
