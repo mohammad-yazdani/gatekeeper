@@ -8,4 +8,3 @@ echo "Results: ".$result."\n";
 // $data = file_get_contents($result);
 // echo $data;
 return $result;
-?>

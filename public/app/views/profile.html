@@ -5,17 +5,19 @@
    <form class="form-group">
      <div class="list-group form-group profile-input-list">
        <div ng-repeat="file_name in files" class="list-group-item file_upload_row">
+         <input type="checkbox" ng-model="files_tb[file_name]">
          <span id="{{file_name}}" class="custom-file-control">{{file_name}}</span>
          <input ng-model="myFile" style="display: none;" name="myFile">
-         <label class="btn btn-default btn-file">
+         <label class="btn btn-default btn-file" ng-disabled="!files_tb[file_name]">
            Browse
            <input type="file" ng-model="garbage"
                   file-model="{{file_name}}" style="display: none;" name="{{file_name}}" onchange="update_field(this);"
-                  class="custom-file-input">
+                  class="custom-file-input" ng-disabled="!files_tb[file_name]">
          </label>
        </div>
      </div>
-     <button class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="uploadFile()">Submit Files</button>
+     <button id="submit_btn" class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="uploadFile()">
+       {{submit_ready}}</button>
      <br/>
      <button id="publish_btn" class="btn btn-secondary btn-lg btn-block profile_submit"
              ng-click="publish_report()">{{publish_ready}}</button>

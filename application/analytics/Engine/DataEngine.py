@@ -26,6 +26,11 @@ class DataEngine:
 
 	@staticmethod
 	def update_excel(json: str):
+		# print("Connecting to knowledge base...",)
 		json_interpreter = JSONInterpreter(json)
+		# print("Constructing data...",)
 		path = json_interpreter.get_update()
-		return path.write()
+		# print("Writing to Excel ...",)
+		path = path.write()
+		# print("Data ready!",)
+		return path

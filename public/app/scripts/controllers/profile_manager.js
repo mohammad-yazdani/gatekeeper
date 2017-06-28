@@ -33,6 +33,19 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
       ]
     };
 
+    var apps_info_textbox = {
+      "Black_Forest_Monthly" : {
+        "BFSL_NAV": true,
+        "Drawn_Capital": false,
+        "BF_Monthly": true
+      },
+      "Test" : {
+        "Book1": true,
+        "Book2": true,
+        "Book3": true
+      }
+    };
+
     console.log("Token: " + window.localStorage.getItem('token'));
     console.log("User: " + window.localStorage.getItem('user'));
 
@@ -59,6 +72,7 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
       //console.log($rootScope.$broadcast('test'));
       //console.log($rootScope.$broadcast("test"));
       $rootScope.profile_files = apps_info[name];
+      $rootScope.profile_files_tb = apps_info_textbox[name];
       $rootScope.profile = name;
     };
 

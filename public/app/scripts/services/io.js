@@ -43,6 +43,7 @@ angular
     };
 
     this.downloadFromUrl = function (downloadUrl) {
-      window.open(downloadUrl);
+      window.location.assign(downloadUrl);
+      return true;
     }
   }]);

@@ -42,14 +42,19 @@ var AnalyticsApp = angular
         controller: 'ProfileCtrl',
         controllerAs: 'ProfileCtrl'
       })
+      .when('/loading', {
+        templateUrl: 'views/loading.html',
+        controller: 'ProfileCtrl',
+        controllerAs: 'ProfileCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
 
-    $locationProvider.html5Mode({
+    /*$locationProvider.html5Mode({
       enabled: true,
       requireBase: false
-    });
+    });*/
   }])
   .run(function ($localStorage) {
     $localStorage.token = "";

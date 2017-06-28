@@ -32,7 +32,7 @@ class AnalyticsController extends Authentication
         $command = $this->uri->segment(3);
 
         $client = $this->evaluate($key);
-        echo "For client: ".$client."<br/>";
+        // echo "For client: ".$client."<br/>";
         $client = $this->clientCtrl->get($client, null, true);
         if($client)
         {
