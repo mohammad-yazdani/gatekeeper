@@ -93,7 +93,7 @@ abstract class Runnable
         }
 
         $data = file_get_contents($result);
-        // echo $data;
+        echo $data;
         force_download("report.xlsx", $data);
         force_download($result);
 

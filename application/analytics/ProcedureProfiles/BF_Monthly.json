@@ -1,6 +1,7 @@
 {
   "update": {
 	"sources": {
+	  "Date": {},
 	  "Consolidated Invested Amount": {
 		"object": "ADNIC",
 		"file": "Drawn_Capital.xlsx",
@@ -25,12 +26,12 @@
 		"sheet": "Capital Allocation Ltd",
 		"column": "% change in NAV"
 	  },
-	  "Portfolio Return Since Inspection": {
-
-	  }
+	  "functions": [
+		"FillDown"
+	  ]
 	},
 	"destination": {
-	  "file": "BF_Monthly.xlsx",
+	  "file": "BF_Monthly.xlsm",
 	  "sheet": "Chart"
 	}
   }

@@ -14,7 +14,14 @@ AnalyticsApp.directive('fileModel', ['$parse', 'fileService', function ($parse, 
             console.log(element[0].files[0]);
             console.log(element[0].getAttribute("file-model"));
             // TODO : WARNING: Hardcoded file extension
-            var post_upload_name = element[0].getAttribute("file-model") + ".xlsx";
+            var extension = "";
+            if (element[0].files[0].name.indexOf("xlsx")) {
+              extension = ".xlsx";
+            }
+            else if (element[0].files[0].name.indexOf("xlsm")) {
+              extension = ".xlsm";
+            }
+            var post_upload_name = element[0].getAttribute("file-model") + extension;
             fileService.push([element[0].files[0], post_upload_name]);
             console.log("FileService so far: " + fileService);
 

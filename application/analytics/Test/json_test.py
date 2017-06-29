@@ -8,7 +8,7 @@ class MyTestCase(unittest.TestCase):
 		print(self)
 
 		json_interpreter = JSONInterpreter("BF_Monthly.json")
-		json_interpreter.get_update().write()
+		# json_interpreter.get_update().write()
 
 		"""xl = pd.ExcelFile("BFSL_NAV.xlsx")
 		print(xl.sheet_names)

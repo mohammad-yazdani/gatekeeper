@@ -17,21 +17,29 @@ class JSONInterpreter:
 			self.update = self.data['update']
 		except IndexError:
 			self.update = None
-			try:
-				self.expression = self.data['update']
-			except IndexError:
-				self.expression = None
+		try:
+			self.expression = self.data['update']
+		except IndexError:
+			self.expression = None
 
 	def get_update(self):
 		source = self.update['sources']
 		output = self.update['destination']
-		row_obj = Row(output['file'], output['sheet'])
+		functions = source['functions']
+		row_obj = Row(output['file'], output['sheet'], functions)
+		del source['functions']
 		for i in source:
 			dest_col = i
 			details = source[dest_col]
 			if len(details) <= 0:
 				continue
-			# print(details['sheet'])
+
+			"""print(details)
+			print("File: " + str(type(details['file'])))
+			print("Sheet: " + str(type(details['sheet'])))
+			print("Column: " + str(type(details['column'])))
+			print("Object: " + str(type(details['object'])))"""
+
 			data_value = Search.find(details['file'], details['sheet'], details['column'], details['object'])
 			data_value = data_value[0]
 			if data_value < 0:

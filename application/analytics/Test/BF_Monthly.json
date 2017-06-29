@@ -26,12 +26,13 @@
 		"sheet": "Capital Allocation Ltd",
 		"column": "% change in NAV"
 	  },
-	  "Portfolio Return Since Inspection": {
-
-	  }
+	  "functions": [
+		"FillDown",
+		"AddEmptyBelow"
+	  ]
 	},
 	"destination": {
-	  "file": "BF_Monthly.xlsx",
+	  "file": "BF_Monthly.xlsm",
 	  "sheet": "Chart"
 	}
   }

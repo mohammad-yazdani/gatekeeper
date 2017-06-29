@@ -29,8 +29,8 @@ class DataEngine:
 		# print("Connecting to knowledge base...",)
 		json_interpreter = JSONInterpreter(json)
 		# print("Constructing data...",)
-		path = json_interpreter.get_update()
-		# print("Writing to Excel ...",)
-		path = path.write()
-		# print("Data ready!",)
+		# path = json_interpreter.get_update()
+		print("Writing to Excel ...",)
+		# path = path.write()
+		print("Data ready!",)
 		return path

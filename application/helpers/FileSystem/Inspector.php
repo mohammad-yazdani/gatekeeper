@@ -93,7 +93,8 @@ class Inspector extends FileManager
 
         $config['upload_path'] = $upload_dir;
         $config['overwrite'] = TRUE;
-        $config['allowed_types'] = 'xlsx|txt';
+        // $config['allowed_types'] = 'xlsm|xlsx|txt';
+        $config["allowed_types"] ="*";
         $config['file_name'] = $directory;
 
 

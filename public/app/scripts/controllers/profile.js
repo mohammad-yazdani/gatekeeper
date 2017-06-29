@@ -48,11 +48,11 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '
 
     var files_count = 0;
 
-    $scope.$on('file_added', function (event, args) {
+    //$scope.$on('file_added', function (event, args) {
       console.log("File add broadcast.");
       $scope.submit_ready = "Submit";
       $scope.submit_button.removeAttr('disabled');
-    });
+    //});
 
     $scope.uploadFile = function () {
 
