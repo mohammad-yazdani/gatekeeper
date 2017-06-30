@@ -52,6 +52,7 @@ class Search:
 		xl = pd.ExcelFile(file)
 		df = xl.parse(sheet)
 		# print(df)
+		# print(df)
 		return [df[col][row], file]
 
 	@staticmethod

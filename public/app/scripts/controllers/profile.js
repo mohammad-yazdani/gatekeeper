@@ -7,6 +7,13 @@
 AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '$rootScope', '$location', '$window', function ($scope, fileUpload, fileService, $rootScope, $location, $window) {
     $scope.garbage = "garbage";
     $scope.files = [];
+    $scope.selected = {
+      'option' : ""
+    };
+
+    $scope.test_option = function () {
+      console.log($scope.selected.option);
+    };
 
     console.log("Profile Controller instantiated.");
 
@@ -19,6 +26,7 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '
     console.log("In profile files: " + $rootScope.profile_files);
     $scope.files = $rootScope.profile_files;
     $scope.files_tb = $rootScope.profile_files_tb;
+    $scope.option_dd = $rootScope.profile_options_dd;
 
     console.log($scope.files);
 
@@ -34,7 +42,8 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '
     var user = window.localStorage.getItem('user');
 
     var uploadUrl = 'http://192.168.68.145/gatekeeper/index.php/ClientFiles/' + token + '/' + user + '/';
-    var downloadUrl = 'http://192.168.68.145/gatekeeper/index.php/AnalyticsController/' + token + '/' + $rootScope.profile + '/';
+    var downloadUrl = 'http://192.168.68.145/gatekeeper/index.php/AnalyticsController/' + token
+      + '/' + $rootScope.profile + '/' + $scope.option;
 
     console.log("Token: " + token);
 

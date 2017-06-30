@@ -46,6 +46,13 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
       }
     };
 
+    var apps_info_options = {
+      "Black_Forest_Monthly" : {
+        "Abu Dhabi National Insurance Company": "ADNIC",
+        "Municipal Employees' Retirement System of Michigan": "MERS"
+      }
+    };
+
     console.log("Token: " + window.localStorage.getItem('token'));
     console.log("User: " + window.localStorage.getItem('user'));
 
@@ -73,6 +80,7 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
       //console.log($rootScope.$broadcast("test"));
       $rootScope.profile_files = apps_info[name];
       $rootScope.profile_files_tb = apps_info_textbox[name];
+      $rootScope.profile_options_dd = apps_info_options[name];
       $rootScope.profile = name;
     };
 

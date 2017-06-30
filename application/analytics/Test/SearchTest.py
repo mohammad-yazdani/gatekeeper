@@ -9,11 +9,13 @@ class MyTestCase(unittest.TestCase):
         # book = xw.Book("BFSL_NAV.xlsx")
         # self.source = book
 
-        file = "BFSL_NAV04302017.xlsx"
-        sheet = "Capital Allocation Ltd"
+        file = "BF_Monthly.xlsm"
+        sheet = "Chart"
         # category = "Investor Name"
-        category = "Ending NAV Balance"
-        company = "The J. Paul Getty Trust"
+        category = "Black Forest LTD"
+        # company = "Initial Capital Commitment"
+        company = "Undrawn Capital Commitment"
+        # company = "Unitholder"
 
         dest_file = "BF Monthly.xlsx"
         dest_sheet = "Chart"
@@ -21,7 +23,7 @@ class MyTestCase(unittest.TestCase):
         dest_row = 47
 
         # cell = Search.find(file, sheet, category, company)
-        print(Search.get_empty_row(file=dest_file, sheet=dest_sheet))
+        print(Search.find(file=file, sheet=sheet,col_p=category, row_p=company))
 
         # cell.draw()
 
