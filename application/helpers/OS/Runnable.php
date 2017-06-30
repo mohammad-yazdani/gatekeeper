@@ -62,6 +62,11 @@ abstract class Runnable
      */
     public function Run()
     {
+        echo "Running ".$this->script;
+
+        //flush(); ob_flush();
+        //sleep(3);
+
         //$command = $this->base_path.$this->script;
         $command = $this->base_path.$this->script;
 
@@ -93,7 +98,6 @@ abstract class Runnable
         }
 
         $data = file_get_contents($result);
-        echo $data;
         force_download("report.xlsx", $data);
         force_download($result);
 
