@@ -41,8 +41,8 @@ AnalyticsApp.controller('ProfileCtrl', ['$scope', 'fileUpload', 'fileService', '
     var token = window.localStorage.getItem('token');
     var user = window.localStorage.getItem('user');
 
-    var uploadUrl = 'http://192.168.68.145/gatekeeper/index.php/ClientFiles/' + token + '/' + user + '/';
-    var downloadUrl = 'http://192.168.68.145/gatekeeper/index.php/AnalyticsController/' + token
+    var uploadUrl = 'http://' + $rootScope.host_address + '/gatekeeper/index.php/ClientFiles/' + token + '/' + user + '/';
+    var downloadUrl = 'http://' + $rootScope.host_address + '/gatekeeper/index.php/AnalyticsController/' + token
       + '/' + $rootScope.profile + '/' + $scope.option;
 
     console.log("Token: " + token);

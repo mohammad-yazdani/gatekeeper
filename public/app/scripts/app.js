@@ -47,8 +47,25 @@ var AnalyticsApp = angular
         controller: 'ProfileCtrl',
         controllerAs: 'ProfileCtrl'
       })
+      .when('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl'
+      })
+
+      .when('sign_up', {
+        url: '/sign_up',
+        templateUrl: 'templates/signUp.html',
+        controller: 'SignUpCtrl'
+      })
+
+      .when('unable_to_login', {
+        url: '/cannot_login',
+        templateUrl: 'templates/unableToLogin.html',
+        controller: 'UnableToLoginCtrl'
+      })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
       });
 
     $locationProvider.html5Mode({
@@ -59,6 +76,9 @@ var AnalyticsApp = angular
   .run(function ($localStorage) {
     $localStorage.token = "";
     $localStorage.user = "";
+
+    $rootScope.host_address = "localhost";
+    $rootScope.host_address = "192.168.68.145";
 
     console.log($localStorage);
   });
