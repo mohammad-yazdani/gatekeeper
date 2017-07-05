@@ -36,7 +36,9 @@ class HomeController extends CI_Controller
 
     public function index ()
     {
-        $this->load->view('home');
+        // $this->load->view('home');
+        //redirect("http://192.168.68.145:9000");
+        redirect("http://localhost:9000");
     }
 
     public function inProgress ()
@@ -81,7 +83,8 @@ class HomeController extends CI_Controller
 
     public function ClientPortal ()
     {
-        $this->load->view('ClientPortal');
+        // $this->load->view('ClientPortal');
+        redirect("http://192.168.68.145:9000");
     }
 
     public function UploadUtility ()

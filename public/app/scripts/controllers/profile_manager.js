@@ -7,11 +7,13 @@
  * # AboutCtrl
  * Controller of the analyticsApp
  */
-AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScope', '$timeout',  function(
+AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScope', '$timeout', '$localStorage',
+  function(
   $scope,
   $location,
   $rootScope,
-  $timeout
+  $timeout,
+  $localStorage
 ) {
     $scope.apps = [
       "Black_Forest_Monthly",
@@ -52,9 +54,6 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
         "Municipal Employees' Retirement System of Michigan": "MERS"
       }
     };
-
-    console.log("Token: " + window.localStorage.getItem('token'));
-    console.log("User: " + window.localStorage.getItem('user'));
 
     // $scope.new_profile_name = [];
 

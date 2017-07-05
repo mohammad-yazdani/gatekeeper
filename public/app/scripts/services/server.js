@@ -4,24 +4,58 @@
 
 'use strict';
 
-AnalyticsApp.service('Server', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+AnalyticsApp.service('Server', ['$rootScope', '$timeout', '$http', '$localStorage',
+  function ($rootScope, $timeout, $http, $localStorage) {
 
-  function loginWithCredentials(username, password) {
-  }
+  this.baseAddress = "http://" + $rootScope.host_address + "/gatekeeper/index.php/";
+  this.authAddress = "ClientAuth";
 
-  function loginWithToken(token) {
+    this.login = function (username, password) {
+    var params = "/null/" + username + "/" + password;
 
-  }
+    return $http.get(this.baseAddress + this.authAddress + params, null)
+      .then(function (response) {
+        // console.log(response);
+        // console.log(response.data);
+        // console.log(response.status);
+        if (response.status !== 202) {
+          console.log("Login error!");
+          console.log(response);
+        }
+        return response.data;
+      }, function (response) {
+        console.log(response);
+      });
+  };
 
-  function signUp(username, password, email) {
-  }
+  this.autoLogin = function (token) {
+    var params = "/" + token + "/null/null";
 
-  function forgotPassword(username) {
-    return null;
-  }
+    return $http.get(this.baseAddress + this.authAddress + params, null)
+      .then(function (response) {
+        // console.log(response);
+        // console.log(response.data);
+        // console.log(response.status);
+        console.log("GET Response: " + response.data);
+        if (response.status !== 202) {
+          console.log("Login error!");
+        }
+        return response.data;
+      }, function (response) {
+        console.log(response);
+      });
+  };
 
-  function forgotUsername(email) {
-    return null;
-  }
+  this.signUp = function (username, password, email) {
+
+  };
+
+  this.forgotPassword = function (username) {
+
+  };
+
+  this.forgotUsername = function (email) {
+
+  };
 
 }]);

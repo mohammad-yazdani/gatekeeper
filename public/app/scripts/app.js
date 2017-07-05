@@ -27,7 +27,7 @@ var AnalyticsApp = angular
         controller: 'MainCtrl',
         controllerAs: 'old_main'
       })
-      .when('/', {
+      .when('/catalog', {
         templateUrl: 'views/catalog.html',
         controller: 'CatalogCtrl',
         controllerAs: 'CatalogCtrl'
@@ -47,38 +47,38 @@ var AnalyticsApp = angular
         controller: 'ProfileCtrl',
         controllerAs: 'ProfileCtrl'
       })
-      .when('login', {
+      .when('/', {
         url: '/login',
-        templateUrl: 'templates/login.html',
+        templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
 
       .when('sign_up', {
         url: '/sign_up',
-        templateUrl: 'templates/signUp.html',
+        templateUrl: 'views/signup.html',
         controller: 'SignUpCtrl'
       })
 
       .when('unable_to_login', {
         url: '/cannot_login',
-        templateUrl: 'templates/unableToLogin.html',
+        templateUrl: 'views/forgot_password.html',
         controller: 'UnableToLoginCtrl'
       })
       .otherwise({
         redirectTo: '/login'
       });
 
-    $locationProvider.html5Mode({
+    /*$locationProvider.html5Mode({
       enabled: true,
       requireBase: false
-    });
+    });*/
   }])
-  .run(function ($localStorage) {
-    $localStorage.token = "";
-    $localStorage.user = "";
-
+  .run(function ($localStorage, $rootScope) {
+    //$localStorage.token = "";
+    console.log("Present token: " + $localStorage.token);
+    $rootScope.lastCallBack = "";
     $rootScope.host_address = "localhost";
-    $rootScope.host_address = "192.168.68.145";
+    // $rootScope.host_address = "192.168.68.145";
 
-    console.log($localStorage);
+    // console.log($localStorage);
   });
