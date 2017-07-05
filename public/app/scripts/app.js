@@ -53,7 +53,7 @@ var AnalyticsApp = angular
         controller: 'LoginCtrl'
       })
 
-      .when('sign_up', {
+      .when('/sign_up', {
         url: '/sign_up',
         templateUrl: 'views/signup.html',
         controller: 'SignUpCtrl'
@@ -64,6 +64,7 @@ var AnalyticsApp = angular
         templateUrl: 'views/forgot_password.html',
         controller: 'UnableToLoginCtrl'
       })
+
       .otherwise({
         redirectTo: '/login'
       });
@@ -73,12 +74,22 @@ var AnalyticsApp = angular
       requireBase: false
     });*/
   }])
-  .run(function ($localStorage, $rootScope) {
+  .run(function ($localStorage, $rootScope, $location) {
     //$localStorage.token = "";
     console.log("Present token: " + $localStorage.token);
     $rootScope.lastCallBack = "";
     $rootScope.host_address = "localhost";
     // $rootScope.host_address = "192.168.68.145";
+
+    $rootScope.logOut = function () {
+      $localStorage.token = "";
+      $localStorage.user = "";
+      $location.path("/");
+    };
+
+    $rootScope.home = function () {
+      $location.path("/catalog");
+    };
 
     // console.log($localStorage);
   });

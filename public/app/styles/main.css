@@ -24,6 +24,7 @@ body {
 
 .container {
   font-family: "Segoe UI";
+  font-weight: 100;
 }
 
 .jumbotron {
@@ -179,6 +180,31 @@ body {
   margin:-2px 10px 0 0;
 
   cursor:pointer;
+}
+
+.login-container {
+  color: white;
+}
+
+.login-container h2, label {
+  font-weight: 100;
+}
+
+.login-container button {
+  background-color: #5e5e5e;
+  color: white;
+  border-color: darkgrey;
+}
+
+.sign-up-container button {
+  background-color: #5e5e5e;
+  color: white;
+  border-color: darkgrey;
+}
+
+.sign-up-container h2, label {
+  font-weight: 100;
+  color: white;
 }
 
 /* TODO : ADD CUSTOM CSS ABOVE */

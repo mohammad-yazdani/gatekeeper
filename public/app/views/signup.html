@@ -1,10 +1,168 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="container sign-up-container">
+  <h2>Sign Up</h2>
+  <div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-6 col-lg-6">
+        <label for="email">Email Address:</label>
+        <input class="form-control" id="email" name="email" ng-model="email"
+               placeholder="Enter email address" required>
+      </div>
+      <div class="form-group col-sm-6 col-md-6 col-lg-6">
+        <label for="email_confirm">Confirm Email Address:</label>
+        <input class="form-control" id="email_confirm" name="email_confirm" ng-model="email_confirm"
+               placeholder="Re-enter email address" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12 col-md-12 col-lg-12">
+        <label for="username">Username:</label>
+        <input class="form-control" id="username" name="username" ng-model="username"
+               type="text" placeholder="Enter username" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-6 col-lg-6">
+        <label for="password">Password:</label>
+        <input class="form-control" id="password" name="password" ng-model="password"
+               type="password" placeholder="Enter password" required>
+      </div>
+      <div class="form-group col-sm-6 col-md-6 col-lg-6">
+        <label for="password_confirm">Confirm Password:</label>
+        <input class="form-control" id="password_confirm" name="password_confirm" ng-model="password_confirm"
+               type="password" placeholder="Re-enter password" required>
+      </div>
+    </div>
+    <p style="color: red" id="error" ng-bind="error"></p>
+    <div class="btn-group">
+      <button class="btn btn-default" ng-click="signUp()">Register</button>
+      <button class="btn btn-default" ng-click="goToLogin()">Back to Login</button>
+    </div>
+  </div>
+</div>
+<script>
+  /**
+   * Created by Mohammad Yazdani on 2017-05-18.
+   */
+  function Server(address) {
+    this.baseAddress = "http://192.168.68.145/gatekeeper/index.php/";
+    this.address = this.baseAddress + address;
+    this.get = function (param) {
+      let args = "";
+      for (let i = 0; i < param.length; i++) {
+        args += ("/" + param[i]);
+      }
+      var result = 0;
+      $.ajax({
+        type: "GET",
+        url: this.address + args,
+        async: false,
+        success:function(data, args, code){
+          console.log("Callback response: " + data);
+          result = data;
+          httpStatus = code.status;
+        }
+      });
+      return result;
+    };
 
-</body>
-</html>
+    this.post = function (param) {
+      console.log(param.length);
+      let args = "";
+      for (let i = 0; i < param.length; i++) {
+        args += ("/" + param[i]);
+      }
+      var result = 0;
+      $.ajax({
+        type: "POST",
+        url: this.address + args,
+        async: false,
+        success:function(data, args, code){
+          console.log("Callback response: " + data.indexOf("flush done"));
+          result = data;
+          httpStatus = code.status;
+        }
+      });
+      return result;
+    };
+  }
+
+  function Register() {
+    this.address = "ClientAuth";
+
+    this.username = document.getElementById("username").value;
+    this.email = document.getElementById("email").value;
+    this.email_repeat = document.getElementById("email_confirm").value;
+    this.password = document.getElementById("password").value;
+    this.password_repeat = document.getElementById("password_confirm").value;
+    this.error = document.getElementById("error");
+
+    this.server = new Server(this.address);
+
+    this.signUp = function () {
+      let request;
+
+      if (this.validateUsername() === 0) {
+        this.error.innerHTML = "This username is taken!";
+        return;
+      }
+
+      if (!this.confirmEmail()) {
+        this.error.innerHTML = "Emails don't match!";
+        return;
+      }
+
+      if (!this.confirmPassword()) {
+        this.error.innerHTML = "Passwords don't match!";
+        return;
+      }
+
+      if (!this.nonEmptyField()) {
+        this.error.innerHTML = "Fields should not be empty!";
+        return;
+      }
+
+      this.error.innerHTML = "";
+      request = [null, this.username, this.email, this.password, null];
+      let result = this.server.post(request);
+      return result;
+    };
+
+    this.confirmPassword = function () {
+      return (this.password === this.password_repeat);
+    };
+
+    this.confirmEmail = function () {
+      return (this.email === this.email_repeat);
+    };
+
+    this.nonEmptyField = function () {
+      return (this.email.length !== 0 && this.password.length !== 0);
+    };
+
+    this.validateUsername = function () {
+      console.log("validating");
+      let request = ["check", this.username];
+      let result = parseInt(this.server.get(request));
+      return result;
+    };
+
+    this.upDateToken = function (token) {
+      return this.server.get([token, null, null]);
+    };
+
+    /*console.log("Registering...");
+    let result = this.signUp();
+    console.log("Registering finished!");
+    if (!result) console.log("Register failed!");
+    else {
+      console.log("Server response: " + result);
+      // TODO : Store JWT
+      console.log("Saving: " + "token=" + result + "; " + (new Date(Date.now() + 18000000)) + "; path=/;");
+      document.cookie = "token=" + result + "; path=/;";
+      console.log("The cookie: " + document.cookie);
+      console.log("Back to server: " + this.upDateToken(result));
+      console.log("Status: " + httpStatus);
+      if (parseInt(httpStatus, 10) === 202) window.location.href = "<?php echo site_url('HomeController/ClientPortal'); ?>";
+    }*/
+  }
+</script>

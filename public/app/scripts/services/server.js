@@ -50,6 +50,13 @@ AnalyticsApp.service('Server', ['$rootScope', '$timeout', '$http', '$localStorag
 
   };
 
+  this.checkUsername = function (username) {
+
+  };
+  this.checkEmail = function (email) {
+
+  };
+
   this.forgotPassword = function (username) {
 
   };

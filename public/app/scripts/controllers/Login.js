@@ -14,7 +14,7 @@ AnalyticsApp.controller('LoginCtrl', ['$scope', 'fileUpload', 'fileService', '$r
     $scope.error = null;
 
     $scope.doLogin = function () {
-      if ($localStorage.token.length > 1) {
+      if ($localStorage.token.length > 1 && !$scope.password) {
         $scope.autoLogin();
       } else {
         $scope.login($scope.username, $scope.password);
@@ -39,16 +39,32 @@ AnalyticsApp.controller('LoginCtrl', ['$scope', 'fileUpload', 'fileService', '$r
       // TODO : Get username from input
       // TODO : Get password from input
       console.log("Login begin..");
-        // TODO : Call cred login
-        var result = Server.login($scope.username, $scope.password)
-          .then(function (data) {
-            if (data.length > 1) {
-              $localStorage.token = data;
-              console.log("Transfer");
-              $localStorage.user = $scope.username;
-              $location.path("/catalog");
+
+      if (!$scope.username || $scope.username.length <= 0) {
+        $scope.error = "Username field empty!";
+        return;
+      }
+
+      if (!$scope.password || $scope.password.length <= 0) {
+        $scope.error = "Password field empty!";
+        return;
+      }
+
+      // TODO : Call cred login
+      var result = Server.login($scope.username, $scope.password)
+        .then(function (data) {
+          if (data.length > 1) {
+            $localStorage.token = data;
+            console.log("Transfer");
+            $localStorage.user = $scope.username;
+            $location.path("/catalog");
           }
         });
+    };
+
+    $scope.goToSignUp = function () {
+      console.log("Sign up");
+      $location.path("/sign_up");
     };
 
     // if (!$scope.autoLogin()) console.log("Token login didn't work, use cred login!");

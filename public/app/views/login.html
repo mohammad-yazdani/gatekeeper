@@ -1,6 +1,6 @@
 
-<div class="container">
-  <h2>Client Login</h2>
+<div class="container login-container">
+  <h2>Login</h2>
   <div class="form-group">
     <label for="username">Username:</label>
     <input type="text" class="form-control" id="username" ng-model="username" placeholder="Enter username" name="user">
@@ -9,12 +9,15 @@
     <label for="password">Password:</label>
     <input type="password" class="form-control" id="password" ng-model="password" placeholder="Enter password" name="pwd">
   </div>
-  <div class="checkbox">
+  <!--<div class="checkbox">
     <label><input type="checkbox" name="remember"> Remember me</label>
-  </div>
+  </div>-->
   <p style="color: red" id="error" ng-bind="error"></p>
-  <input type="button" class="btn btn-primary" value="Login" ng-click="doLogin()">
-  <p></p>
-  <a href="#"><p>Forgot your password?</p></a>
+  <br/>
+  <div class="btn-group">
+    <button class="btn btn-default" ng-click="doLogin()">Login</button>
+    <button class="btn btn-default" ng-click="goToSignUp()">Sign Up</button>
+    <button class="btn btn-default" ng-click="">Can't log in?</button>
+  </div>
 </div>
 

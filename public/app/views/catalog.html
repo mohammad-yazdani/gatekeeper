@@ -1,10 +1,12 @@
-<br/>
-<div class="header">Applications</div>
-<div class="jumbotron catalog_base">
-  <div class="row">
-    <div class="col-sm-4" ng-repeat="app_name in apps">
-      <div class="btn btn-default application-button" ng-click="open_application(app_name)">
-        {{app_name}}
+<div ng-include="'views/navbar.html'"></div>
+<div class="container">
+  <div class="header">Applications</div>
+  <div class="jumbotron catalog_base">
+    <div class="row">
+      <div class="col-sm-4" ng-repeat="app_name in apps">
+        <div class="btn btn-default application-button" ng-click="open_application(app_name)">
+          {{app_name}}
+        </div>
       </div>
     </div>
   </div>
