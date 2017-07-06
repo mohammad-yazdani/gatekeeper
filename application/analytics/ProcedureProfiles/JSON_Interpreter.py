@@ -3,6 +3,7 @@ import json
 from Definitions import ROOT_DIR
 from Models.Cell import Cell
 from Models.Row import Row
+from Pattern import Pattern
 from Services.Search import Search
 
 
@@ -26,6 +27,15 @@ class JSONInterpreter:
 		source = self.update['sources']
 		output = self.update['destination']
 		functions = source['functions']
+
+		math_ops = source['math']
+		math_col = list(math_ops.keys())[0]
+		math_ops = math_ops[math_col]
+		# print(math_ops)
+		# TODO : Generate expression tree
+		math_result = Pattern.gen_tree(math_ops)
+		# print(math_result)
+
 		row_obj = Row(output['file'], output['sheet'], functions)
 		del source['functions']
 		for i in source:

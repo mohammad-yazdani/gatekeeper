@@ -28,6 +28,9 @@
 	  },
 	  "functions": [
 		"FillDown"
+	  ],
+	  "hardcoded": [
+		"T-Bill Rate"
 	  ]
 	},
 	"destination": {
