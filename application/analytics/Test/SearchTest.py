@@ -9,6 +9,15 @@ class MyTestCase(unittest.TestCase):
         # book = xw.Book("BFSL_NAV.xlsx")
         # self.source = book
 
+        """
+        
+        "object": "Abu Dhabi National Insurance Company",
+        "file": "BFSL_NAV.xlsx",
+        "sheet": "Capital Allocation Ltd",
+        "column": "Ending NAV Balance"
+        
+        """""""""
+
         file = "BF_Monthly.xlsm"
         sheet = "Chart"
         # category = "Investor Name"

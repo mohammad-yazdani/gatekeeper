@@ -1,7 +1,9 @@
 {
   "update": {
 	"sources": {
-	  "Date": {},
+	  "Date": {
+		"object": "DateTime"
+	  },
 	  "Consolidated Net Asset Value": {
 		"object": "Abu Dhabi National Insurance Company",
 		"file": "BFSL_NAV.xlsx",

@@ -14,18 +14,13 @@ class ExcelInstance:
 			file = ROOT_DIR + "..\\files\\clientFiles\\""" + file
 		self.instance.Workbooks.Open(Filename=file)
 
-		filename, file_extension = os.path.splitext(self.file)
-		milli = int(round(time.time() * 1000))
-		signature = " output" + str(milli)
-		self.output = self.file.replace(file_extension, signature + file_extension)
-
 		self.catalog = {
 			"FillDown": self.fill_down,
 			"AddEmptyBelow": self.add_empty_below
 		}
 
-	def __del__(self):
-		self.application.ActiveWorkbook.SaveAs(self.output)
+	def save_and_quit(self):
+		self.application.ActiveWorkbook.SaveAs(self.file)
 		self.application.Quit()
 
 	def fill_down(self, row: int):
@@ -33,6 +28,9 @@ class ExcelInstance:
 
 	def add_empty_below(self, row: int):
 		self.application.Run("InsertRowBelow", str(row + 1))
+
+	def find_cell(self, row: int, col: int):
+		self.application.Run("GetValue", row, col)
 
 	def find_method(self, method: str):
 		return self.catalog[method]

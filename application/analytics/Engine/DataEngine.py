@@ -1,3 +1,5 @@
+import os
+
 from Models import DataTree
 from Services.Pattern import Pattern
 from ProcedureProfiles.JSON_Interpreter import JSONInterpreter
@@ -25,12 +27,17 @@ class DataEngine:
 		print(str(self.output))
 
 	@staticmethod
-	def update_excel(json: str):
+	def update_excel(json: str, hardcoded_json: str):
 		# print("Connecting to knowledge base...",)
-		json_interpreter = JSONInterpreter(json)
+		# TODO : Handle hardcoded data
+		json_interpreter = JSONInterpreter(json, hardcoded_json)
 		# print("Constructing data...",)
-		path = json_interpreter.get_update()
-		print("Writing to Excel ...",)
-		path = path.write()
-		print("Data ready!",)
-		return path
+		dest_row = 48
+		# print("Writing to Excel ...", )
+		path = json_interpreter.row_obj
+		path.row = dest_row
+		output_file = path.write_functions()
+		json_interpreter.get_update()
+		path.write()
+		# print("Data ready!",)
+		return output_file

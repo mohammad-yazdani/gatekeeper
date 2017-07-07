@@ -10,8 +10,8 @@ class Minus(BinaryOperator):
 	def evaluate(self):
 		op1_data = self.right.evaluate()
 		op2_data = self.left.evaluate()
-		print("right: " + str(op1_data))
-		print("left: " + str(op2_data))
+		# print("right: " + str(op1_data))
+		# print("left: " + str(op2_data))
 
 		"""length = len(self.right.evaluate())
 
@@ -21,7 +21,7 @@ class Minus(BinaryOperator):
 		ctrl = 0
 		for i in range(length):
 			output.insert(ctrl, op1_data[i] - op2_data[i])
-			ctrl += 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+			ctrl += 1                            
 
 		# print(str(output))  # TODO : FOR TEST
 

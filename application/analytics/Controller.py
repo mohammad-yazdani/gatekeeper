@@ -38,8 +38,8 @@ class Controller:
 			# print("\n")  # TODO : FOR TEST
 
 	@staticmethod
-	def update(json: str):
-		return DataEngine.update_excel(json)
+	def update(json: str, options: str):
+		return DataEngine.update_excel(json, options)
 
 	def export(self):
 		export = Export(self.output, sys.argv[len(sys.argv) - 1], self.coordinates)

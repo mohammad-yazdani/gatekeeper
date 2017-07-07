@@ -20,7 +20,7 @@ class DataTree:
             self.current = item
             return True
 
-        print("OPS " + str(item) + " appended to " + str(self.current))
+        # print("OPS " + str(item) + " appended to " + str(self.current))
         current_add = self.current.append(item)
 
         # print("Root add: " + str(current_add))  # TODO : FOR TEST

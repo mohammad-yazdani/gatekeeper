@@ -2,13 +2,13 @@ from openpyxl import Workbook
 from openpyxl import load_workbook
 import json
 
-from Cell import Cell
+from Models.Cell import Cell
 from Models.DataTree import DataTree
 from Models.Data import Data
 from Functions.FunctionCatalog import FunctionCatalog
 from Functions.Catalog import Catalog
 from ProcedureProfiles.Interpreter import Interpreter
-from Search import Search
+from Services.Search import Search
 
 
 class Pattern:
@@ -80,7 +80,7 @@ class Pattern:
 				is_function = Pattern.finder.get(node)
 				if is_function:
 					token = Catalog.catalog[node](parent)
-					print("Function " + str(token))
+					# print("Function " + str(token))
 					data_tree.add(token)
 				"""if not root:
 					root = True
@@ -88,17 +88,19 @@ class Pattern:
 					print("Added " + str(token) + " as root")"""
 				parent = token
 				continue
-			print("Adding " + str(node) + " to tree")
+			# print("Adding " + str(node) + " to tree")
 			data_value = Search.find(node['file'], node['sheet'], node['column'], node['object'])
 			data_value = data_value[0]
-			token = Cell(parent, data=data_value, file=node['file'], sheet=node['sheet'], column=node['column'])
-			print("Adding token " + str(token) + " to tree")
+			token = Cell(parent, data=data_value, file=node['file'], sheet=node['sheet'],
+			             column=node['column'], style=None)
+			# print("Adding token " + str(token) + " to tree")
 			data_tree.add(token)
-			print("Node added " + str(node))
-			print("ROOT " + str(data_tree.root))
+			# print("Node added " + str(node))
+			# print("ROOT " + str(data_tree.root))
 
-		data_tree.draw()
-		print(str(data_tree.process()))
+		# data_tree.draw()
+		# print(str(data_tree.process()))
+		return data_tree.process()
 
 	@staticmethod
 	def test_new(path="void.xls"):
