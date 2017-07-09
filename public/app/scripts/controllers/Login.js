@@ -14,7 +14,7 @@ AnalyticsApp.controller('LoginCtrl', ['$scope', 'fileUpload', 'fileService', '$r
     $scope.error = null;
 
     $scope.doLogin = function () {
-      if ($localStorage.token.length > 1 && !$scope.password) {
+      if ($localStorage.token && $localStorage.token.length > 1 && !$scope.password) {
         $scope.autoLogin();
       } else {
         $scope.login($scope.username, $scope.password);

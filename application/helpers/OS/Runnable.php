@@ -51,10 +51,12 @@ abstract class Runnable
 
     /**
      * @param string $script
+     * @param null $args
      */
-    public function setScript(string $script)
+    public function setScript(string $script, $args = NULL)
     {
         $this->script = $script;
+        $this->args = $args;
     }
 
     /**
@@ -94,7 +96,7 @@ abstract class Runnable
         $CI->load->helper('download');
 
         if (!strpos($result, APPPATH)) {
-             echo $result;
+             return $result;
         }
 
         $data = file_get_contents($result);
