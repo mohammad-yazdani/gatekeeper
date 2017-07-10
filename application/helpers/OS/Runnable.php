@@ -40,21 +40,28 @@ abstract class Runnable
      * @param string $base
      * @param array $args
      */
-    function __construct(string $env, string $name, string $base, array $args)
+    function __construct(string $env, string $name, string $base, array $args = NULL)
     {
 
         $this->script = $name;
         $this->base_path = $base;
         $this->args = $args;
+        if ($this->args == NULL)
+        {
+            $this->args = [];
+        }
         $this->env = $env;
     }
 
     /**
      * @param string $script
+     * @param $args
      */
-    public function setScript(string $script)
+    public function setScript(string $script, $args)
     {
         $this->script = $script;
+        array_push($this->args, $args);
+        // print_r($this->args);
     }
 
     /**
@@ -62,20 +69,13 @@ abstract class Runnable
      */
     public function Run()
     {
-        echo "Running ".$this->script;
-
         //flush(); ob_flush();
         //sleep(3);
 
         //$command = $this->base_path.$this->script;
         $command = $this->base_path.$this->script;
 
-        foreach ($this->args as $arg )
-        {
-            $command = $command." ".$arg;
-        }
-
-        $command = $this->env." ".$command;
+        // echo "<br/><br/>".$command."<br/>";
 
         //$command = APPPATH."analytics\\BF_Script.py";
         // $command = "py ".$command;
@@ -85,7 +85,18 @@ abstract class Runnable
 
         $CI =& get_instance();
 
-        $result = exec($command);
+        // print_r($this->args);
+
+        foreach ($this->args as $arg)
+        {
+            $command .= (" ".$arg);
+        }
+
+        // $result = exec($command);
+
+        echo "Running: ".$command."<br/>";
+
+        $result = shell_exec($command);
 
         // echo "Results: ".$result."\n";
 
@@ -93,16 +104,21 @@ abstract class Runnable
 
         $CI->load->helper('download');
 
-        if (!strpos($result, APPPATH)) {
-             echo $result;
-        }
+        $separator = "\r\n";
+        $line = strtok($result, $separator);
 
-        $data = file_get_contents($result);
-        force_download("report.xlsx", $data);
+        # do something with $line
+        $line = strtok( $separator );
+        echo "<br/>Line: ".$line."<br/>";
+
+        //echo "<br/>LAST LINE: ".$last_line."<br/>";
+
+        $data = file_get_contents($line);
+        force_download("report.".pathinfo($line)['extension'], $data);
         force_download($result);
 
-        //echo "Result: \n".$result;
+        //echo "Result: \n".$data;
 
-        return $result;
+        return $line;
     }
 }

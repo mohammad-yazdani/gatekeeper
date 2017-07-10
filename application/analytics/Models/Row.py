@@ -16,8 +16,8 @@ class Row:
 			dest_file = ROOT_DIR + "..\\files\\clientFiles\\""" + dest_file
 
 		filename, file_extension = os.path.splitext(dest_file)
-		milli = int(round(time.time() * 1000))
-		signature = " output" + str(milli)
+		# milli = int(round(time.time() * 1000))
+		signature = " output"
 		output_file = dest_file.replace(file_extension, signature + file_extension)
 
 		shutil.copy(dest_file, output_file)

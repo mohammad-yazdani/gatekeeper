@@ -34,6 +34,9 @@ class JSONInterpreter:
 			self.functions = self.source['functions']
 			self.hardcoded = self.source['hardcoded']
 			self.row_obj = Row(self.output['file'], self.output['sheet'], self.functions)
+			self.word_export = self.output['word_export']
+			self.subject = str(self.hardcoded_input['subject']).replace("_", " ")
+			# print(self.subject)
 
 		except IndexError:
 			self.update = None
@@ -46,6 +49,7 @@ class JSONInterpreter:
 
 		for hardcoded_index in self.hardcoded:
 			value = self.hardcoded_input[hardcoded_index]
+			# print(str(value),)
 			hardcoded_cell = Cell(parent=None, data=value, file=self.output['file'],
 			                      sheet=self.output['sheet'],
 			                      column=hardcoded_index, style=None)
@@ -59,6 +63,7 @@ class JSONInterpreter:
 			# print(math_ops)
 			# TODO : Generate expression tree
 			math_data = Pattern.gen_tree(math_data)
+			# print(str(math_data),)
 			math_cell = Cell(parent=None, data=math_data, file=self.output['file'],
 			                 sheet=self.output['sheet'],
 			                 column=math_col, style=None)
@@ -93,7 +98,10 @@ class JSONInterpreter:
 				style = "DD-MMM-YYYY"
 			else:
 				data_value = Search.find(details['file'], details['sheet'],
-				                         details['column'], details['object'])
+				                         details['column'], self.subject)
+				# print(str(data_value),)
+				if not data_value:
+					continue
 				data_value = data_value[0]
 				if data_value < 0:
 					data_value = -1 * data_value

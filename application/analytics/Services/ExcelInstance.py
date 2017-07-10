@@ -9,6 +9,7 @@ class ExcelInstance:
 	def __init__(self, file: str):
 		self.file = file
 		self.instance = win32com.client.Dispatch('Excel.Application')
+
 		self.application = self.instance.Application
 		if not file.find(ROOT_DIR) >= 0:
 			file = ROOT_DIR + "..\\files\\clientFiles\\""" + file

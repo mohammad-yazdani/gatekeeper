@@ -3,6 +3,7 @@ import os
 from Models import DataTree
 from Services.Pattern import Pattern
 from ProcedureProfiles.JSON_Interpreter import JSONInterpreter
+from Services.WordInstance import WordInstance
 
 
 class DataEngine:
@@ -39,5 +40,9 @@ class DataEngine:
 		output_file = path.write_functions()
 		json_interpreter.get_update()
 		path.write()
+		# print("Exporting output ...", )
+		word_instance = WordInstance(json_interpreter.word_export)
+		output_file = word_instance.bf_monthly_export_word()
+
 		# print("Data ready!",)
 		return output_file

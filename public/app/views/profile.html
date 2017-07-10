@@ -7,16 +7,14 @@
      <div class="dropdown">
        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         Options
+         {{selected_option}}
        </button>
        <div class="dropdown-menu">
-         <label ng-repeat="option in option_dd">
-           <input class="dropdown-item btn" ng-click="test_option()"
-                       ng-model="selected.option">
-           {{option}}
-         </label>
+           <button ng-repeat="option in option_dd" id="{{option}}"
+                   class="dropdown-item btn btn-link" ng-click="toggle_option(option)">{{option}}</button>
        </div>
      </div>
+     <br/>
      <div class="list-group form-group profile-input-list">
        <div ng-repeat="file_name in files" class="list-group-item file_upload_row">
          <input type="checkbox" ng-model="files_tb[file_name]">
@@ -30,6 +28,16 @@
          </label>
        </div>
      </div>
+
+     <div class="list-group form-group profile-input-list">
+       <div class="form-group row">
+         <div ng-repeat="input_name in inputs" class="col-sm-4">
+           <!--<label for="{{input_name}}">{{input_name}}:</label>-->
+           <input type="text" class="form-control" id="{{input_name}}" placeholder="{{input_name}}">
+         </div>
+       </div>
+     </div>
+
      <button id="submit_btn" class="btn btn-secondary btn-lg btn-block profile_submit" ng-click="uploadFile()">
        {{submit_ready}}</button>
      <br/>

@@ -1,7 +1,6 @@
 {
   "update": {
 	"sources": {
-	  "Date": {},
 	  "Consolidated Invested Amount": {
 		"object": "ADNIC",
 		"file": "Drawn_Capital.xlsx",
@@ -26,16 +25,35 @@
 		"sheet": "Capital Allocation Ltd",
 		"column": "% change in NAV"
 	  },
+	  "math": {
+		"Consolidated Invested Amount": [
+		  "-",
+		  {
+			"object": "Initial Capital Commitment",
+			"file": "BF_Monthly.xlsm",
+			"sheet": "Chart",
+			"column": "Black Forest LTD"
+		  },
+		  {
+			"object": "Undrawn Capital Commitment",
+			"file": "BF_Monthly.xlsm",
+			"sheet": "Chart",
+			"column": "Black Forest LTD"
+		  }
+		]
+	  },
 	  "functions": [
 		"FillDown"
 	  ],
 	  "hardcoded": [
-		"T-Bill Rate"
+		"T-Bill Rate",
+		"Date"
 	  ]
 	},
 	"destination": {
 	  "file": "BF_Monthly.xlsm",
-	  "sheet": "Chart"
+	  "sheet": "Chart",
+	  "word_export": "BF_Template.docm"
 	}
   }
 }

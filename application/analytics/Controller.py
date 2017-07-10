@@ -12,7 +12,7 @@ class Controller:
 		self.procedures = procedures
 		# print("Procedures: " + str(self.procedures))
 		self.destination = destination
-		print("Destination: " + self.destination)
+		# print("Destination: " + self.destination)
 		self.output = list()
 		self.coordinates = list()
 

@@ -15,17 +15,25 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
   $timeout,
   $localStorage
 ) {
+
+    $localStorage.profile_files = "";
+    $localStorage.profile_files_tb = "";
+    $localStorage.profile_options_dd = "";
+    $localStorage.profile = "";
+
     $scope.apps = [
-      "Black_Forest_Monthly",
+      "Black Forest Monthly",
       "Test"
       //"Sample1",
       //"Sample2"
     ];
 
-    var apps_info = {
-      "Black_Forest_Monthly" : [
+    var apps_files_info = {
+      "Black Forest Monthly" : [
         "BFSL_NAV",
         "Drawn_Capital",
+        "Charts",
+        "Assets and Ownership",
         "BF_Monthly"
       ],
       "Test" : [
@@ -35,10 +43,19 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
       ]
     };
 
+    var apps_input_info = {
+      "Black Forest Monthly" : [
+        "T-Bill Rate",
+        "Date"
+      ]
+    };
+
     var apps_info_textbox = {
-      "Black_Forest_Monthly" : {
+      "Black Forest Monthly" : {
         "BFSL_NAV": true,
         "Drawn_Capital": false,
+        "Charts": false,
+        "Assets and Ownership": true,
         "BF_Monthly": true
       },
       "Test" : {
@@ -49,10 +66,10 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
     };
 
     var apps_info_options = {
-      "Black_Forest_Monthly" : {
-        "Abu Dhabi National Insurance Company": "ADNIC",
-        "Municipal Employees' Retirement System of Michigan": "MERS"
-      }
+      "Black Forest Monthly" : [
+        "Abu Dhabi National Insurance Company",
+        "Municipal Employees' Retirement System of Michigan"
+      ]
     };
 
     // $scope.new_profile_name = [];
@@ -70,17 +87,21 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
 
     $scope.open_app = function (name) {
       console.log("Name: " + name);
-      console.log("In profile manager: " + apps_info[name]);
+      console.log("In profile manager: " + apps_files_info[name]);
 
       $location.path("/single_profile");
 
       //console.log($rootScope.$broadcast('profile_init', { files : apps_info[name]}));
       //console.log($rootScope.$broadcast('test'));
       //console.log($rootScope.$broadcast("test"));
-      $rootScope.profile_files = apps_info[name];
-      $rootScope.profile_files_tb = apps_info_textbox[name];
-      $rootScope.profile_options_dd = apps_info_options[name];
-      $rootScope.profile = name;
+      console.log(apps_files_info);
+      console.log(apps_info_options);
+      console.log(apps_info_textbox);
+      $localStorage.profile_files = apps_files_info[name];
+      $localStorage.profile_input = apps_input_info[name];
+      $localStorage.profile_files_tb = apps_info_textbox[name];
+      $localStorage.profile_options_dd = apps_info_options[name];
+      $localStorage.profile = name;
     };
 
     $scope.delete_app = function (name) {

@@ -51,6 +51,12 @@ class Search:
 	def find(file, sheet, col_p, row_p):
 		if not file.find(ROOT_DIR) >= 0:
 			file = ROOT_DIR + "..\\files\\clientFiles\\""" + file
+
+		try:
+			open(file)
+		except IOError:
+			return False
+
 		row = Search.find_row(file, sheet, row_p)
 		col = Search.find_col(file, sheet, col_p)
 		# print("Col: " + str(col) + " row: " + str(row))

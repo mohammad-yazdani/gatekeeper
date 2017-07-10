@@ -1,9 +1,6 @@
 {
   "update": {
 	"sources": {
-	  "Date": {
-		"object": "DateTime"
-	  },
 	  "Consolidated Net Asset Value": {
 		"object": "Abu Dhabi National Insurance Company",
 		"file": "BFSL_NAV.xlsx",
@@ -43,7 +40,8 @@
 		]
 	  },
 	  "hardcoded": [
-		"T-Bill Rate"
+		"T-Bill Rate",
+		"Date"
 	  ]
 	},
 	"destination": {
