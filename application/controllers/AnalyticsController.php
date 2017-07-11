@@ -9,7 +9,10 @@
 
 require_once 'Authentication.php';
 require_once APPPATH.'helpers/os/Analytics/MonthlyReports.php';
+require_once APPPATH.'helpers/DAO/ProfileDAOImpl.php';
 
+use \models\Profile;
+use \DAO\ProfileDAOImpl;
 use \OS\Analytics\MonthlyReports as MonthlyReports;
 
 class AnalyticsController extends Authentication
@@ -24,6 +27,10 @@ class AnalyticsController extends Authentication
         parent::__construct();
         $this->os = new MonthlyReports();
         $this->clientCtrl = new ClientController();
+        $CI =& get_instance();
+        $CI->load->library('doctrine');
+        $em = $CI->doctrine->em;
+        $this->dao = new ProfileDAOImpl($em);
     }
 
     public function index_get()
@@ -44,9 +51,6 @@ class AnalyticsController extends Authentication
                 $dict_value = $this->uri->segment($index + 1);
 
                 $dict_key = str_replace("_", " ", $dict_key);
-                // echo "<br/>";
-                // echo $dict_key;
-                // echo "<br/>";
 
                 if ($dict_key && $dict_value)
                 {
@@ -60,13 +64,7 @@ class AnalyticsController extends Authentication
             }
 
             $options_json = json_encode($options_json);
-
-            /*echo "Options: ";
-            echo $options_json;
-            echo "<br/>";*/
-
-            $option_file_name = APPPATH."analytics\\options_".(round(microtime(true) * 1000)).".json";
-
+            $option_file_name = APPPATH."analytics\\temp.json";
             $option_file = fopen($option_file_name, "w") or die("Unable to open file!");
             fwrite($option_file, $options_json);
             fclose($option_file);
@@ -112,7 +110,60 @@ class AnalyticsController extends Authentication
 
     public function index_post()
     {
-        // TODO : PASS FOR NOW
+        $key = $this->uri->segment(2);
+        $name = $this->uri->segment(3);
+        $type = $this->uri->segment(4);
+
+        $client = null;
+
+        try
+        {
+            $client = $this->evaluate($key);
+            $client = $this->clientCtrl->get($client, null, true);
+
+            if($client)
+            {
+                try
+                {
+                    $data = file_get_contents('php://input');
+                    $data = json_decode($data);
+                    $data = json_encode($data);
+
+                    $profile = new Profile($name, $data, $type);
+
+                    $this->dao->save($profile);
+
+                    print_r($profile);
+
+                    http_response_code(201);
+                }
+                catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e)
+                {
+                    echo "Profile already exists!";
+                    http_response_code(400);
+                    // die($e->getMessage());
+                }
+                catch (Exception $e)
+                {
+                    http_response_code(501);
+                    die($e->getMessage());
+                }
+            }
+            else
+            {
+                http_response_code(403);
+            }
+        }
+        catch (UnexpectedValueException $e)
+        {
+            http_response_code(401);
+            die(Authentication::$unauthorized_401);
+        }
+        catch (Exception $e)
+        {
+            http_response_code(400);
+            die($e->getMessage());
+        }
     }
 
     public function index_put()

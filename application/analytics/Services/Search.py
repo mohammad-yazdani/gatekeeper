@@ -57,12 +57,16 @@ class Search:
 		except IOError:
 			return False
 
+		print(str(row_p))
+		print(str(sheet))
+		print(str(file))
 		row = Search.find_row(file, sheet, row_p)
 		col = Search.find_col(file, sheet, col_p)
 		# print("Col: " + str(col) + " row: " + str(row))
 		xl = pd.ExcelFile(file)
 		df = xl.parse(sheet)
 		# print(df)
+
 		cell = [df[col][row], file]
 		if cell == 'nan':
 			excel_instance = ExcelInstance(file)

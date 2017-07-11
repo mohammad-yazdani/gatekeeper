@@ -18,6 +18,7 @@
     <SUITE FILE_PATH="coverage/analytics$Unittests_in_file_test_py.coverage" NAME="Unittests in file_test.py Coverage Results" MODIFIED="1498768634978" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Test" />
     <SUITE FILE_PATH="coverage/analytics$cmd_main.coverage" NAME="cmd_main Coverage Results" MODIFIED="1498228882069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/analytics$SearchTest.coverage" NAME="SearchTest Coverage Results" MODIFIED="1498234598748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Test" />
+    <SUITE FILE_PATH="coverage/analytics$Unittests_in_csv_test_py.coverage" NAME="Unittests in csv_test.py Coverage Results" MODIFIED="1499783418464" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Test" />
     <SUITE FILE_PATH="coverage/analytics$Unittests_in_json_test_py.coverage" NAME="Unittests in json_test.py Coverage Results" MODIFIED="1498588960307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Test" />
     <SUITE FILE_PATH="coverage/analytics$Unittests_in_WordTest_py.coverage" NAME="Unittests in WordTest.py Coverage Results" MODIFIED="1499708616322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Test" />
   </component>
@@ -28,7 +29,7 @@
       <file leaf-file-name="DataEngine.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Engine/DataEngine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
+            <state relative-caret-position="493">
               <caret line="34" column="21" lean-forward="false" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
@@ -60,31 +61,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="temp.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/temp.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ExcelInstance.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Services/ExcelInstance.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
-              <caret line="1" column="22" lean-forward="true" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
+              <caret line="1" column="22" lean-forward="false" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JSON_Interpreter.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="JSON_Interpreter.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ProcedureProfiles/JSON_Interpreter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="523">
-              <caret line="94" column="0" lean-forward="true" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+            <state relative-caret-position="702">
+              <caret line="104" column="39" lean-forward="false" selection-start-line="104" selection-start-column="39" selection-end-line="104" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Search.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Services/Search.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="515">
+              <caret line="77" column="55" lean-forward="false" selection-start-line="77" selection-start-column="55" selection-end-line="77" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BF_Monthly.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ProcedureProfiles/BF_Monthly.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="42" lean-forward="false" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -93,7 +104,7 @@
       <file leaf-file-name="WordInstance.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Services/WordInstance.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
+            <state relative-caret-position="408">
               <caret line="25" column="46" lean-forward="false" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
@@ -105,13 +116,10 @@
       <file leaf-file-name="Row.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Models/Row.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
+            <state relative-caret-position="204">
               <caret line="19" column="29" lean-forward="false" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <marker date="1499710066476" expanded="true" signature="240:889" ph="..." />
-                <marker date="1499710066476" expanded="true" signature="272:283" ph="..." />
-                <marker date="1499710066476" expanded="true" signature="911:916" ph="..." />
               </folding>
             </state>
           </provider>
@@ -123,8 +131,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JSON" />
-        <option value="Python Unit Test" />
         <option value="Python Script" />
+        <option value="Python Unit Test" />
       </list>
     </option>
   </component>
@@ -175,7 +183,6 @@
         <option value="$PROJECT_DIR$/Services/Pattern.py" />
         <option value="$PROJECT_DIR$/hardcoded_test.json" />
         <option value="$PROJECT_DIR$/ProcedureProfiles/BF_Monthly_011.json" />
-        <option value="$PROJECT_DIR$/Services/Search.py" />
         <option value="$PROJECT_DIR$/ProcedureProfiles/BF_Monthly_111.json" />
         <option value="$PROJECT_DIR$/temp.json" />
         <option value="$PROJECT_DIR$/Controller.py" />
@@ -188,6 +195,8 @@
         <option value="$PROJECT_DIR$/Services/WordInstance.py" />
         <option value="$PROJECT_DIR$/Services/ExcelInstance.py" />
         <option value="$PROJECT_DIR$/ProcedureProfiles/JSON_Interpreter.py" />
+        <option value="$PROJECT_DIR$/Services/Search.py" />
+        <option value="$PROJECT_DIR$/Test/csv_test.py" />
       </list>
     </option>
   </component>
@@ -198,12 +207,12 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1927" />
+    <option name="x" value="-967" />
     <option name="width" value="974" />
     <option name="height" value="1177" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -216,7 +225,24 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="analytics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="analytics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
@@ -225,13 +251,13 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\gatekeeper\application\analytics\Test" />
+      <recent name="C:\xampp\htdocs\gatekeeper\application\analytics\Executables" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\gatekeeper\application\analytics\Test" />
       <recent name="C:\xampp\htdocs\gatekeeper\application\analytics" />
-      <recent name="C:\xampp\htdocs\gatekeeper\application\analytics\Executables" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\gatekeeper\application\analytics\Test" />
       <recent name="C:\xampp\htdocs\gatekeeper\application\analytics\Executables" />
     </key>
   </component>
@@ -247,7 +273,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.BF_Script">
+  <component name="RunManager" selected="Python tests.Unittests in csv_test.py">
     <configuration default="false" name="Unittests in file_test.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -261,22 +287,6 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/Test/file_test.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Unittests in json_test.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Test" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="analytics" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/Test/json_test.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
@@ -325,6 +335,22 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/Test/WordTest.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Unittests in csv_test.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Test" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="analytics" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Test/csv_test.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
@@ -498,18 +524,18 @@
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Python.BF_Script" />
       <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in file_test.py" />
-      <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in json_test.py" />
-      <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in excel_instance.py" />
-      <item index="4" class="java.lang.String" itemvalue="Python tests.Unittests in SearchTest.py" />
-      <item index="5" class="java.lang.String" itemvalue="Python tests.Unittests in WordTest.py" />
+      <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in excel_instance.py" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in SearchTest.py" />
+      <item index="4" class="java.lang.String" itemvalue="Python tests.Unittests in WordTest.py" />
+      <item index="5" class="java.lang.String" itemvalue="Python tests.Unittests in csv_test.py" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python tests.Unittests in WordTest.py" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in SearchTest.py" />
-        <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in file_test.py" />
-        <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in excel_instance.py" />
-        <item index="4" class="java.lang.String" itemvalue="Python tests.Unittests in json_test.py" />
+        <item index="0" class="java.lang.String" itemvalue="Python tests.Unittests in csv_test.py" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in WordTest.py" />
+        <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in SearchTest.py" />
+        <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in file_test.py" />
+        <item index="4" class="java.lang.String" itemvalue="Python tests.Unittests in excel_instance.py" />
       </list>
     </recent_temporary>
   </component>
@@ -527,12 +553,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_WordTest_py - 2017.07.10 at 13h 28m 57s.xml">
-      <configuration name="Unittests in WordTest.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_WordTest_py - 2017.07.10 at 13h 31m 53s.xml">
-      <configuration name="Unittests in WordTest.py" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_in_WordTest_py - 2017.07.10 at 13h 32m 11s.xml">
       <configuration name="Unittests in WordTest.py" configurationId="tests" />
     </history-entry>
@@ -557,18 +577,23 @@
     <history-entry file="Unittests_in_WordTest_py - 2017.07.10 at 13h 43m 46s.xml">
       <configuration name="Unittests in WordTest.py" configurationId="tests" />
     </history-entry>
+    <history-entry file="Unittests_in_csv_test_py - 2017.07.11 at 10h 29m 23s.xml">
+      <configuration name="Unittests in csv_test.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_csv_test_py - 2017.07.11 at 10h 30m 18s.xml">
+      <configuration name="Unittests in csv_test.py" configurationId="tests" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1927" y="0" width="974" height="1177" extended-state="0" />
-    <editor active="true" />
+    <frame x="-967" y="0" width="974" height="1177" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32776618" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41753653" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29147142" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="4" y="45" width="1916" height="1027" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26054358" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="4" y="45" width="1916" height="1027" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40900382" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -617,9 +642,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ProcedureProfiles/UpdateProcedures/UpdateInterpreter.py" />
-    <entry file="file://$PROJECT_DIR$/ProcedureProfiles/UpdateProcedures/BFM_TEST" />
-    <entry file="file://$PROJECT_DIR$/ProcedureProfiles/UpdateProcedures/json_test.json" />
     <entry file="file://$PROJECT_DIR$/ProcedureProfiles/UpdateProcedures/Black_Forest_Monthly" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/pandas/core/frame.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -816,16 +838,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/Search.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="57" column="24" lean-forward="false" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#19#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ProcedureProfiles/BF_Monthly_011.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -852,17 +864,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="8" lean-forward="true" selection-start-line="10" selection-start-column="8" selection-end-line="11" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#15#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ProcedureProfiles/BF_Monthly.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="778">
-          <caret line="51" column="6" lean-forward="true" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -894,28 +895,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#33#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Models/Row.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
+        <state relative-caret-position="204">
           <caret line="19" column="29" lean-forward="false" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1499710066476" expanded="true" signature="240:889" ph="..." />
-            <marker date="1499710066476" expanded="true" signature="272:283" ph="..." />
-            <marker date="1499710066476" expanded="true" signature="911:916" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Engine/DataEngine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
+        <state relative-caret-position="493">
           <caret line="34" column="21" lean-forward="false" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -928,7 +923,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/WordInstance.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
+        <state relative-caret-position="408">
           <caret line="25" column="46" lean-forward="false" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
@@ -939,15 +934,57 @@
     <entry file="file://$PROJECT_DIR$/Services/ExcelInstance.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
-          <caret line="1" column="22" lean-forward="true" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
+          <caret line="1" column="22" lean-forward="false" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ProcedureProfiles/JSON_Interpreter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="94" column="0" lean-forward="true" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+        <state relative-caret-position="702">
+          <caret line="104" column="39" lean-forward="false" selection-start-line="104" selection-start-column="39" selection-end-line="104" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Test/sample_csv.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Definitions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Test/csv_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="24" lean-forward="true" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#15#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Services/Search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="77" column="55" lean-forward="false" selection-start-line="77" selection-start-column="55" selection-end-line="77" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProcedureProfiles/BF_Monthly.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="42" lean-forward="false" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
           <folding />
         </state>
       </provider>

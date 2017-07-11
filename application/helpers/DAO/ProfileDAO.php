@@ -9,7 +9,15 @@
 namespace DAO;
 
 
-interface ProfileDAO
-{
+use models\Profile;
 
+interface ProfileDAO extends \DAO
+{
+    public function save(Profile $profile);
+
+    public function get($name);
+
+    public function delete(Profile $profile);
+
+    public function check(string $name);
 }

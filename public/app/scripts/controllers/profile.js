@@ -12,6 +12,7 @@ AnalyticsApp.controller('ProfileCtrl',
     $scope.selected = {
       'option' : ""
     };
+    $scope.error = "";
 
     $scope.test_option = function () {
       console.log($scope.selected.option);
@@ -121,6 +122,13 @@ AnalyticsApp.controller('ProfileCtrl',
         var option_value = document.getElementById(option).value;
         dict[option] = option_value;
         dict_string += "/" + option.replace(" ", "_") + "/" + option_value.toString();
+      }
+
+      if ($scope.selected_option === 'Options') {
+        $scope.error = "Please select an option";
+        return;
+      } else {
+        $scope.error = "";
       }
 
       dict["subject"] = $scope.selected_option.replace(/ /g, "_");

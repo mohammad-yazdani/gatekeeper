@@ -42,6 +42,11 @@ var AnalyticsApp = angular
         controller: 'ProfileCtrl',
         controllerAs: 'ProfileCtrl'
       })
+      .when('/config_profile', {
+        templateUrl: 'views/profile_config.html',
+        controller: 'ProfileConfig',
+        controllerAs: 'ProfileConfig'
+      })
       .when('/loading', {
         templateUrl: 'views/loading.html',
         controller: 'ProfileCtrl',

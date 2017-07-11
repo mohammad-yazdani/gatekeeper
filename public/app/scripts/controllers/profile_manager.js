@@ -68,7 +68,7 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
     var apps_info_options = {
       "Black Forest Monthly" : [
         "Abu Dhabi National Insurance Company",
-        "Municipal Employees' Retirement System of Michigan"
+        "Municipal Employees Retirement System of Michigan"
       ]
     };
 
