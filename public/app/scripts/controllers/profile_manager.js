@@ -119,5 +119,6 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
         alert("Profile " + name + " already exists!")
       }
       else $scope.apps.push(name);
+      $location.path("/config_profile");
     };
   }]);

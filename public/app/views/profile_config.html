@@ -1,40 +1,37 @@
-<!--<div id="myModal" class="modal fade" role="dialog">-->
-<div class="jumbotron">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Configure {{profile_name}}</h4>
-        <!-- TODO : Drop down for configs -->
-        <br/>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <div class="input-group" ng-repeat="column in columns">
-            <div class="input-group-btn">
-              <div class="dropdown">
-                <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" id="dropdownMenu2"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Type
-                </button>
-                <div class="dropdown-menu">
-                  <button ng-repeat="type in column_types" id="{{type}}"
-                          class="dropdown-item btn btn-link">{{type}}</button>
-                </div>
-              </div>
-            </div>
-            <input type="text" class="form-control" aria-label="Text input with dropdown button"
-                   placeholder="{{column}}">
-            <button class="btn btn-danger btn-xs" ng-click="removeColumn(column)">Remove</button>
-          </div>
-          <br/>
-          <button class="btn btn-block" ng-click="addColumn()">Add</button>
+<div ng-include="'views/navbar.html'"></div>
+<br/>
+<header class="header">Configure {{profile_name}}</header>
+  <!--<div class="modal-body">-->
+  <div class="container">
+    <div style="margin-left: 7%;" class="container" ng-repeat="(section, column) in columns">
+      <div class="container-fluid">
+        <div class="navbar-header h4" style="color: white;">{{section}}
+          <button class="btn btn-default navbar-btn" type="button" ng-click="addColumn(section)">Add</button>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
-      </div>
+      <form class="form-inline" ng-repeat="(row_name, row_arr) in column track by $index"
+            style="
+              margin: 5px;
+
+              ">
+        <div class="btn-group">
+          <button style="color: white;" class="btn btn-danger" ng-click="removeColumn(row_name, section)">Remove</button>
+          <button class="btn btn-default" ng-repeat="column_option in column_types"
+                  ng-click="modifyColumn(section, row_name, 'type', column_option)">{{column_option}}</button>
+          <br/>
+          <br/>
+          <div class="row" style="margin-left: 10px;">
+            <h5 style="color: white;" class="col-sm-4">{{row_arr['type']}}</h5>
+            <input type="text" class="form-control col-sm-2" placeholder="Enter column name"
+                   ng-model="columns[section][row_name]['name']" style="margin-left: 10px;">
+          </div>
+          <div ng-include="'views/input-types/' + row_arr['type'] + '.html'"></div>
+        </div>
+      </form>
     </div>
   </div>
+  <br/>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="test()">Test</button>
 </div>
