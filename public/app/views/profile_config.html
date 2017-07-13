@@ -12,20 +12,20 @@
       <form class="form-inline" ng-repeat="(row_name, row_arr) in column track by $index"
             style="
               margin: 5px;
-
+              background-color: #3c3c3c;
               ">
-        <div class="btn-group">
+        <div class="btn-group" style="background-color: #3c3c3c;">
           <button style="color: white;" class="btn btn-danger" ng-click="removeColumn(row_name, section)">Remove</button>
           <button class="btn btn-default" ng-repeat="column_option in column_types"
                   ng-click="modifyColumn(section, row_name, 'type', column_option)">{{column_option}}</button>
           <br/>
           <br/>
-          <div class="row" style="margin-left: 10px;">
+          <div class="row" style="margin-left: 10px; background-color: #3c3c3c;">
             <h5 style="color: white;" class="col-sm-4">{{row_arr['type']}}</h5>
             <input type="text" class="form-control col-sm-2" placeholder="Enter column name"
                    ng-model="columns[section][row_name]['name']" style="margin-left: 10px;">
           </div>
-          <div ng-include="'views/input-types/' + row_arr['type'] + '.html'"></div>
+          <div style="background-color: #3c3c3c;" ng-include="'views/input-types/' + row_arr['type'] + '.html'"></div>
         </div>
       </form>
     </div>

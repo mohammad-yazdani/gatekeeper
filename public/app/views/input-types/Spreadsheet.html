@@ -1,12 +1,26 @@
-<div class="card w-75" style="background-color: white;">
+<div class="card w-75">
   <div class="card-block">
-    <!--<div class="row" style="margin-left: -35px;">-->
-    <div class="row" style="margin-left: 1%;"> <!-- TODO : More work -->
-      <input class="form-control col input" type="text" placeholder="File" ng-model="row_arr['file']">
-      <input class="form-control col input" type="text" placeholder="Sheet" ng-model="row_arr['sheet']">
-      <div class="divider" style="height: 5px;"></div>
-      <input class="form-control col input" type="text" placeholder="Column" ng-model="row_arr['column']">
-      <input class="form-control col input" type="text" placeholder="Object" ng-model="row_arr['object']">
+    <div class="row"> <!-- TODO : More work -->
+      <input class="form-control col-sm-4 input" type="text" placeholder="File" ng-model="row_arr['file']">
+      <input class="form-control col-sm-4 input" type="text" placeholder="Sheet" ng-model="row_arr['sheet']">
+      <input class="form-control col-sm-4 input" type="text" placeholder="Column" ng-model="row_arr['column']">
+      <input class="form-control col-sm-4 input" type="text" placeholder="Object" ng-model="row_arr['object']">
     </div>
   </div>
 </div>
+<style>
+  .row {
+    margin-left: 1%;
+    background-color: #3c3c3c;
+  }
+  .row input {
+    margin: 3px;
+  }
+  .card-block {
+    background-color: #3c3c3c;
+  }
+  .card {
+    border: 1px #3c3c3c solid;
+    background-color: #3c3c3c;
+  }
+</style>
