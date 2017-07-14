@@ -27,7 +27,7 @@ class Row:
 		self.cells = list()
 
 		# TODO : Speed
-		self.row = row
+		self.row = Search.get_empty_row(self.file, sheet)
 
 		# print("Waste...", )
 		self.functions = functions
@@ -41,6 +41,7 @@ class Row:
 
 	def write(self):
 
+		print("Writing to file: " + self.file)
 		wb = load_workbook(filename=self.file, read_only=False, keep_vba=True)
 		ws = wb.active
 

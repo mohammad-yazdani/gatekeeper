@@ -10,13 +10,14 @@ class Cell(DataNode):
 	def __init__(self, parent: DataNode, data: str, file: str, sheet: str, column: str, style):
 		super(Cell, self).__init__(parent)
 		self.data = data
-		self.file = ROOT_DIR + "..\\files\\clientFiles\\""" + file + ".xlsx"
+		self.file = file
 		# TODO : Destination column
 		self.column = Search.find_col(file=file, sheet=sheet, col_p=column)\
 			.replace("Unnamed: ", "")
 		self.style = style
 
 	def write(self, ws: Worksheet, dest_row: int):
+		# print("Dest row: " + str(dest_row))
 		cell = ws.cell(row=int(dest_row), column=int(self.column) + 1, value=self.data)
 		if self.style:
 			cell.number_format = self.style
@@ -36,3 +37,5 @@ class Cell(DataNode):
 
 	def draw(self):
 		print(str(self.data))
+		print(str(self.file))
+		print(str(self.column))

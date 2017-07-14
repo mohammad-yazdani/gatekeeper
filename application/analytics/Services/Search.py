@@ -57,9 +57,12 @@ class Search:
 		except IOError:
 			return False
 
-		print(str(row_p))
-		print(str(sheet))
-		print(str(file))
+		'''print("File: " + file)
+		print("Sheet: " + sheet)
+		print("Col: " + col_p,)
+		print("Row: " + row_p, )
+		print('\n')'''
+
 		row = Search.find_row(file, sheet, row_p)
 		col = Search.find_col(file, sheet, col_p)
 		# print("Col: " + str(col) + " row: " + str(row))
@@ -90,31 +93,17 @@ class Search:
 	def get_empty_row(file, sheet):
 		wb = load_workbook(file)
 		ws = wb.active
-		result = list()
-		# print(ws.max_row)
-		# print(Search.get_row(file=file, sheet=sheet, row_number=50))
-		count = 0
+
+		# print(str(ws.max_row))
+		# print(str(ws[1]))
+		is_empty = -1
 		for row in reversed(range(1, ws.max_row + 1)):
-			empty = True
-			# print(Search.get_row(file=file, sheet=sheet, row_number=row))
-			# the_row = Search.get_row(file=file, sheet=sheet, row_number=row, ws=ws)
-
-			rows = list()
-			row_number = row
-			for row_index in reversed(range(1, ws.max_row + 1)):
-				row_list = list()
-				for col_index in range(1, ws.max_column + 1):
-					row_list.insert(0, ws.cell(row=row_index, column=col_index).value)
-				rows.insert(0, row_list)
-			the_row = rows[row_number - 1]
-
-			for cell in the_row:
-				if cell:
-					empty = False
-			if empty:
-				# print(row)
-				result.insert(0, row)
-				count += 1
-				if count > 1:
-					return row
-		# print(result)
+			# print("\nRow: " + str(row),)
+			for item in ws[row]:
+				# print(str(item.value),)
+				if str(item.value).find("Total") >= 0:
+					# print("TOTAL")
+					is_empty = row - 1
+					break
+		# print(str(is_empty))
+		return is_empty

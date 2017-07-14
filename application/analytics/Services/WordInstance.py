@@ -1,3 +1,6 @@
+import os
+import shutil
+
 import win32com.client as win32
 from Definitions import ROOT_DIR
 
@@ -5,13 +8,24 @@ from Definitions import ROOT_DIR
 class WordInstance:
 
 	def __init__(self, file: str):
-		self.file = file
-		self.instance = win32.Dispatch('Word.Application')
-		self.application = self.instance.Application
 		self.base = ROOT_DIR + "..\\files\\clientFiles\\"""
 
 		if not file.find(ROOT_DIR) >= 0:
 			file = self.base + file
+
+		filename, file_extension = os.path.splitext(file)
+		# milli = int(round(time.time() * 1000))
+		signature = " output"
+		output_file = file.replace(file_extension, signature + file_extension)
+		try:
+			os.remove(output_file)
+		except FileNotFoundError:
+			pass
+		shutil.copy(file, output_file)
+		self.file = output_file
+
+		self.instance = win32.Dispatch('Word.Application')
+		self.application = self.instance.Application
 
 		self.instance.Documents.Open(file)
 
@@ -27,4 +41,11 @@ class WordInstance:
 
 		self.application.Run("ExtractData", template, asset_ownership, charts, bfsl_nav)
 		self.save_and_quit()
-		return self.base + self.file
+		return self.file
+
+	@staticmethod
+	def total_quit():
+		pass
+		# instance = win32.Dispatch('Word.Application')
+		# application = instance.Application
+		# application.Quit()

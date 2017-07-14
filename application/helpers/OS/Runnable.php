@@ -98,7 +98,7 @@ abstract class Runnable
 
         $result = shell_exec($command);
 
-        // echo "Results: ".$result."\n";
+        # echo "Results: ".$result."\n";
 
         // TODO : Load download
 
@@ -108,14 +108,23 @@ abstract class Runnable
         $line = strtok($result, $separator);
 
         # do something with $line
-        $line = strtok( $separator );
-        echo "<br/>Line: ".$line."<br/>";
+        $last_line = "";
+        while ($line !== $last_line)
+        {
+            $last_line = $line;
+            # echo "CURRENT ".$last_line."<br/>";
+            $line = strtok( $separator );
+            if ($line == "") break;
+        }
+        echo "<br/>Line: ".$last_line."<br/>";
+        $line = $last_line;
 
-        //echo "<br/>LAST LINE: ".$last_line."<br/>";
 
-        //$data = file_get_contents($line);
-        //force_download("report.".pathinfo($line)['extension'], $data);
-        //force_download($result);
+        # echo "<br/>LAST LINE: ".$last_line."<br/>";
+
+        $data = file_get_contents($line);
+        force_download("report.".pathinfo($line)['extension'], $data);
+        force_download($result);
 
         //echo "Result: \n".$data;
 

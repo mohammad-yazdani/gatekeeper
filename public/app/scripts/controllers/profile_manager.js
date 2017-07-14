@@ -67,8 +67,15 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
 
     var apps_info_options = {
       "Black Forest Monthly" : [
+        "Municipal Employees' Retirement System of Michigan",
         "Abu Dhabi National Insurance Company",
-        "Municipal Employees Retirement System of Michigan"
+        "The J. Paul Getty Trust",
+        "Standard Chartered Bank Korea Limited as Trustee for Kiwoom OGAM Private Investment Trust",
+        "Max Planck Forderstiftung",
+        "Trustees of Syndicate 2623 (A F Beazley and Others)",
+        "NMERB",
+        "Berkley Insurance Company",
+        "Freestone Senior Loan Fund LP"
       ]
     };
 

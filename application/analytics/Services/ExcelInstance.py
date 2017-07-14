@@ -1,5 +1,5 @@
 import os
-import win32com.client
+import win32com.client as win32
 from Definitions import ROOT_DIR
 import time
 
@@ -8,7 +8,7 @@ class ExcelInstance:
 
 	def __init__(self, file: str):
 		self.file = file
-		self.instance = win32com.client.Dispatch('Excel.Application')
+		self.instance = win32.Dispatch('Excel.Application')
 
 		self.application = self.instance.Application
 		if not file.find(ROOT_DIR) >= 0:
@@ -19,6 +19,7 @@ class ExcelInstance:
 			"FillDown": self.fill_down,
 			"AddEmptyBelow": self.add_empty_below
 		}
+		self.application.Run("ChangeAlertSetting", False)
 
 	def save_and_quit(self):
 		self.application.ActiveWorkbook.SaveAs(self.file)
