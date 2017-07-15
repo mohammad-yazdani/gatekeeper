@@ -4,7 +4,12 @@
 
 'use strict';
 
-AnalyticsApp.service('fileService', function () {
+AnalyticsApp.service('fileService', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
   var files = [];
+  files.push = function () {
+    $rootScope.$broadcast('file_added');
+    console.log("Broadcast addition");
+    return Array.prototype.push.apply(this,arguments);
+  };
   return files;
-});
+}]);

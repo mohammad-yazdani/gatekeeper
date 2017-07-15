@@ -25,13 +25,35 @@
 		"sheet": "Capital Allocation Ltd",
 		"column": "% change in NAV"
 	  },
-	  "Portfolio Return Since Inspection": {
-
-	  }
+	  "math": {
+		"Consolidated Invested Amount": [
+		  "-",
+		  {
+			"object": "Initial Capital Commitment",
+			"file": "BF_Monthly.xlsm",
+			"sheet": "Chart",
+			"column": "Black Forest LTD"
+		  },
+		  {
+			"object": "Undrawn Capital Commitment",
+			"file": "BF_Monthly.xlsm",
+			"sheet": "Chart",
+			"column": "Black Forest LTD"
+		  }
+		]
+	  },
+	  "functions": [
+		"FillDown"
+	  ],
+	  "hardcoded": [
+		"T-Bill Rate",
+		"Date"
+	  ]
 	},
 	"destination": {
-	  "file": "BF_Monthly.xlsx",
-	  "sheet": "Chart"
+	  "file": "BF_Monthly.xlsm",
+	  "sheet": "Chart",
+	  "word_export": "BF_Template.docm"
 	}
   }
 }

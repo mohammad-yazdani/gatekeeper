@@ -7,23 +7,33 @@
  * # AboutCtrl
  * Controller of the analyticsApp
  */
-AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScope', '$timeout',  function(
+AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScope', '$timeout', '$localStorage',
+  function(
   $scope,
   $location,
   $rootScope,
-  $timeout
+  $timeout,
+  $localStorage
 ) {
+
+    $localStorage.profile_files = "";
+    $localStorage.profile_files_tb = "";
+    $localStorage.profile_options_dd = "";
+    $localStorage.profile = "";
+
     $scope.apps = [
-      "Black_Forest_Monthly",
+      "Black Forest Monthly",
       "Test"
       //"Sample1",
       //"Sample2"
     ];
 
-    var apps_info = {
-      "Black_Forest_Monthly" : [
+    var apps_files_info = {
+      "Black Forest Monthly" : [
         "BFSL_NAV",
         "Drawn_Capital",
+        "Charts",
+        "Assets and Ownership",
         "BF_Monthly"
       ],
       "Test" : [
@@ -33,8 +43,41 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
       ]
     };
 
-    console.log("Token: " + window.localStorage.getItem('token'));
-    console.log("User: " + window.localStorage.getItem('user'));
+    var apps_input_info = {
+      "Black Forest Monthly" : [
+        "T-Bill Rate",
+        "Date"
+      ]
+    };
+
+    var apps_info_textbox = {
+      "Black Forest Monthly" : {
+        "BFSL_NAV": true,
+        "Drawn_Capital": false,
+        "Charts": false,
+        "Assets and Ownership": true,
+        "BF_Monthly": true
+      },
+      "Test" : {
+        "Book1": true,
+        "Book2": true,
+        "Book3": true
+      }
+    };
+
+    var apps_info_options = {
+      "Black Forest Monthly" : [
+        "Municipal Employees' Retirement System of Michigan",
+        "Abu Dhabi National Insurance Company",
+        "The J. Paul Getty Trust",
+        "Standard Chartered Bank Korea Limited as Trustee for Kiwoom OGAM Private Investment Trust",
+        "Max Planck Forderstiftung",
+        "Trustees of Syndicate 2623 (A F Beazley and Others)",
+        "NMERB",
+        "Berkley Insurance Company",
+        "Freestone Senior Loan Fund LP"
+      ]
+    };
 
     // $scope.new_profile_name = [];
 
@@ -51,15 +94,21 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
 
     $scope.open_app = function (name) {
       console.log("Name: " + name);
-      console.log("In profile manager: " + apps_info[name]);
+      console.log("In profile manager: " + apps_files_info[name]);
 
       $location.path("/single_profile");
 
       //console.log($rootScope.$broadcast('profile_init', { files : apps_info[name]}));
       //console.log($rootScope.$broadcast('test'));
       //console.log($rootScope.$broadcast("test"));
-      $rootScope.profile_files = apps_info[name];
-      $rootScope.profile = name;
+      console.log(apps_files_info);
+      console.log(apps_info_options);
+      console.log(apps_info_textbox);
+      $localStorage.profile_files = apps_files_info[name];
+      $localStorage.profile_input = apps_input_info[name];
+      $localStorage.profile_files_tb = apps_info_textbox[name];
+      $localStorage.profile_options_dd = apps_info_options[name];
+      $localStorage.profile = name;
     };
 
     $scope.delete_app = function (name) {
@@ -77,5 +126,6 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
         alert("Profile " + name + " already exists!")
       }
       else $scope.apps.push(name);
+      $location.path("/config_profile");
     };
   }]);

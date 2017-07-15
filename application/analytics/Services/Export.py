@@ -8,9 +8,9 @@ class Export:
 
 	def __init__(self, output: list, destination: str, coordinates: list):
 		self.output_dir = ROOT_DIR + "Output\\"
+		"""
 		export_dir = self.output_dir + destination + datetime.datetime.now()\
 			.strftime("%I:%M%p on %B %d, %Y").replace(" ", "_").replace(":", "_") + "\\"
-		print(export_dir)
 		if not os.path.exists(export_dir):
 			os.mkdir(export_dir)
 		self.destination = export_dir + "result" + ".xlsx"
@@ -47,3 +47,5 @@ class Export:
 
 		print(self.destination)
 		self.wb.save(filename=self.destination)
+		# end """
+
