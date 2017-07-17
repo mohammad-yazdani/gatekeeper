@@ -122,9 +122,9 @@ abstract class Runnable
 
         # echo "<br/>LAST LINE: ".$last_line."<br/>";
 
-        $data = file_get_contents($line);
-        force_download("report.".pathinfo($line)['extension'], $data);
-        force_download($result);
+        # $data = file_get_contents($line);
+        # force_download("report.".pathinfo($line)['extension'], $data);
+        # force_download($result);
 
         //echo "Result: \n".$data;
 

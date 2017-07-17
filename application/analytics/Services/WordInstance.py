@@ -25,6 +25,7 @@ class WordInstance:
 		self.file = output_file
 
 		self.instance = win32.Dispatch('Word.Application')
+		self.instance.DisplayAlerts = False
 		self.application = self.instance.Application
 
 		self.instance.Documents.Open(file)

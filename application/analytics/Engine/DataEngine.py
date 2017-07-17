@@ -36,18 +36,22 @@ class DataEngine:
 		# TODO : Handle hardcoded data
 
 		hardcoded_json = json.load(open(hardcoded_json))
-
+		return
 		json_interpreter = JSONInterpreter(json_profile, hardcoded_json)
 		print("Constructing data...",)
 		print("Writing to Excel ...", )
-		path = json_interpreter.row_obj
-		output_file = path.write_functions()
-		json_interpreter.get_update()
-		path.write()
-		print("Exporting output ...", )
-		word_instance = WordInstance(json_interpreter.word_export)
-		output_file = word_instance.bf_monthly_export_word()
+		try:
+			path = json_interpreter.row_obj
+			output_file = path.write_functions()
+			json_interpreter.get_update()
+			path.write()
+			print("Exporting output ...", )
+			word_instance = WordInstance(json_interpreter.word_export)
+			output_file = word_instance.bf_monthly_export_word()
 
-		# print("Data ready!",)
+			# print("Data ready!",)
 
-		return output_file
+			return output_file
+		except Exception as e:
+			print(e)
+

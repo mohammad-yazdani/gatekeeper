@@ -84,9 +84,12 @@ class AnalyticsController extends Authentication
         {
             try
             {
+                shell_exec("echo hey");
+
                 if ($options_json != false && $option_file_name != false)
                 {
                     $this->os->setScript($command, $option_file_name);
+                    // $this->os->setScript($command, $options_json);
                 }
                 else
                 {

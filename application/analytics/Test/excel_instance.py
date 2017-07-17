@@ -9,12 +9,10 @@ class MyTestCase(unittest.TestCase):
 		# xl = win32com.client.Dispatch("Excel.Application")
 		# xl.Application.Visible = True
 		# xl.Workbooks.Open(Filename="C:\\xampp\htdocs\gatekeeper\\application\\analytics\Test\BF Monthly.xlsm")
-		file_name = "C:\\xampp\htdocs\gatekeeper\\application\\analytics\Test\BF Monthly output.xlsm"
-		row = 48
+		file_name = "C:\\xampp\htdocs\gatekeeper\\application\\analytics\Test\\BF_Monthly output.xlsm"
 
 		xl = ExcelInstance(file_name)
-
-		# xl.fill_down(row)
+		xl.fill_down(50)
 		xl.save_and_quit()
 
 		# xl.Application.Run('Dim prev_row As Integer Dim rg As String prev_row = 48 - 1 rg = "G" & prev_row & ":" & "Q" & row Worksheets("Chart").Range(rg).FillDown')
