@@ -14,16 +14,13 @@ class ExcelInstance:
 		self.file = file
 
 		self.macros_path = ROOT_DIR + "Functions\\Macros\\"""
-
-		print("\n" + self.macros_path + "\n")
-
 		self.instance = win32.Dispatch('Excel.Application')
 		self.instance.DisplayAlerts = False
+		self.instance.Visible = False
 
 		self.application = self.instance.Application
+		# self.application = self.instance
 		self.workbook = self.instance.Workbooks.Open(Filename=self.file)
-		self.instance.Visible = False
-		self.display_alert(False)
 
 		self.catalog = {
 			"FillDown": self.fill_down,
@@ -44,7 +41,6 @@ class ExcelInstance:
 						>= 0)
 			if no_macro:
 				macro = "FillDown"
-				print("Macro: " + macro)
 				macro_path = self.macros_path + macro + ".vb"
 				excel_module = self.workbook.VBProject.VBComponents.Add(1)
 				excel_module.CodeModule.AddFromString(str(open(macro_path).read()))

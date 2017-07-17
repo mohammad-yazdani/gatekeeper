@@ -1,3 +1,5 @@
+import datetime
+import time
 import os
 import shutil
 
@@ -14,8 +16,9 @@ class WordInstance:
 			file = self.base + file
 
 		filename, file_extension = os.path.splitext(file)
-		# milli = int(round(time.time() * 1000))
-		signature = " output"
+		time_postfix = int(round(time.time() * 1000))
+		# time_postfix = datetime.datetime.now()
+		signature = " output_" + str(time_postfix)
 		output_file = file.replace(file_extension, signature + file_extension)
 		try:
 			os.remove(output_file)
@@ -23,6 +26,8 @@ class WordInstance:
 			pass
 		shutil.copy(file, output_file)
 		self.file = output_file
+
+		self.file = file
 
 		self.instance = win32.Dispatch('Word.Application')
 		self.instance.DisplayAlerts = False

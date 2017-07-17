@@ -32,6 +32,9 @@ class JSONInterpreter:
 			self.source = self.update['sources']
 			self.output = self.update['destination']
 			self.subject = str(self.hardcoded_input['subject']).replace("_", " ")
+			for full_corp_name in self.company_dict:
+				if str(self.subject).find(str(full_corp_name)) >= 0:
+					self.subject = full_corp_name
 			specific_file = str(self.company_dict[self.subject][1]).replace('/', '') + "_" + self.output['file']
 			try:
 				os.remove(self.output['file'])

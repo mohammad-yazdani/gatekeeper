@@ -55,8 +55,8 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
         "BFSL_NAV": true,
         "Drawn_Capital": false,
         "Charts": false,
-        "Assets and Ownership": true,
-        "BF_Monthly": true
+        "Assets and Ownership": false,
+        "BF_Monthly": false
       },
       "Test" : {
         "Book1": true,

@@ -13,9 +13,13 @@ log = open(path, 'ab')
 
 file = "ProcedureProfiles\\BF_Monthly.json"
 ctrl = Controller.update(file, sys.argv[1])
+ctrl = str(ctrl)
 print(ctrl)
 
-log.write(bytes(ctrl, 'utf8'))
+# if open(sys.argv[1]):
+	# os.remove(sys.argv[1])
+
+log.write(bytes(ctrl, 'utf-8'))
 log.close()
 
 if os.path.exists(ROOT_DIR + "..\\files\\clientFiles\\Drawn_Capital.xlsx"):

@@ -37,8 +37,8 @@ class HomeController extends CI_Controller
     public function index ()
     {
         // $this->load->view('home');
-        //redirect("http://192.168.68.145:9000");
-        redirect("http://localhost:9000");
+        redirect("http://192.168.68.145:9000");
+        //redirect("http://`host:9000");
     }
 
     public function inProgress ()

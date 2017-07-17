@@ -89,6 +89,7 @@ class AnalyticsController extends Authentication
                 if ($options_json != false && $option_file_name != false)
                 {
                     $this->os->setScript($command, $option_file_name);
+                    // unlink($option_file_name);
                     // $this->os->setScript($command, $options_json);
                 }
                 else
@@ -96,18 +97,30 @@ class AnalyticsController extends Authentication
                     $this->os->setScript($command, NULL);
                 }
                 $result = $this->os->Run();
-                echo $result;
-                http_response_code(202);
+                if (!$result)
+                {
+                    http_response_code(Authentication::HTTP_UNPROCESSABLE_ENTITY);
+                        return;
+                }
+                else
+                {
+                    http_response_code(202);
+                }
             }
             catch (Exception $e)
             {
-                http_response_code(204);
+                http_response_code(Authentication::HTTP_NO_CONTENT);
                 echo $e->getMessage();
             }
         }
         else
         {
-            http_response_code(403);
+            http_response_code(Authentication::HTTP_FORBIDDEN);
+        }
+
+        if (file_exists($option_file_name))
+        {
+            //unlink($option_file_name);
         }
     }
 

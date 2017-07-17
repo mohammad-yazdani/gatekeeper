@@ -61,7 +61,6 @@ abstract class Runnable
     {
         $this->script = $script;
         array_push($this->args, $args);
-        // print_r($this->args);
     }
 
     /**
@@ -95,10 +94,10 @@ abstract class Runnable
         // $result = exec($command);
 
         echo "Running: ".$command."<br/>";
-
+        
         $result = shell_exec($command);
 
-        # echo "Results: ".$result."\n";
+        echo "Results: ".$result."\n";
 
         // TODO : Load download
 
@@ -116,18 +115,25 @@ abstract class Runnable
             $line = strtok( $separator );
             if ($line == "") break;
         }
-        echo "<br/>Line: ".$last_line."<br/>";
+        echo "<br/>Last line: ".$last_line."<br/>";
         $line = $last_line;
 
 
         # echo "<br/>LAST LINE: ".$last_line."<br/>";
 
-        # $data = file_get_contents($line);
-        # force_download("report.".pathinfo($line)['extension'], $data);
-        # force_download($result);
+        if (file_exists($line))
+        {
+            $data = file_get_contents($line);
+            // echo $data;
+            force_download("report.".pathinfo($line)['extension'], $data);
+            force_download($result);
 
-        //echo "Result: \n".$data;
-
-        return $line;
+            //echo "Result: \n".$data;
+            return $line;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
