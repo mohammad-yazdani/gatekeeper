@@ -13,6 +13,7 @@ require_once APPPATH."helpers/DAO/ClientDAOImpl.php";
 require_once APPPATH."helpers\Token\DeviceTokenManager.php";
 
 use \DAO\AuthDAOImpl;
+use \models\Client;
 
 // TODO : DOCUMENTATION
 
@@ -85,6 +86,11 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
             return false;
         }
     }
+
+     protected function validate_client($key): Client
+     {
+         return $this->clientCtrl->get($this->evaluate($key), null, true);
+     }
 
     abstract public function index_get ();
 

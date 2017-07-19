@@ -26,7 +26,6 @@ class AnalyticsController extends Authentication
     {
         parent::__construct();
         $this->os = new MonthlyReports();
-        $this->clientCtrl = new ClientController();
         $CI =& get_instance();
         $CI->load->library('doctrine');
         $em = $CI->doctrine->em;
@@ -35,53 +34,40 @@ class AnalyticsController extends Authentication
 
     public function index_get()
     {
-        $key = $this->uri->segment(2);
-        $command = $this->uri->segment(3);
-
-        $options_json = [];
-
-        $option_file_name = false;
-
-        if ($this->uri->segment(4) == "dict_start")
-        {
-            $index = 5;
-            while (!($this->uri->segment($index) == "dict_end"))
-            {
-                $dict_key = $this->uri->segment($index);
-                $dict_value = $this->uri->segment($index + 1);
-
-                $dict_key = str_replace("_", " ", $dict_key);
-
-                if ($dict_key && $dict_value)
-                {
-                    $options_json[$dict_key] = $dict_value;
-                }
-                else
-                {
-                    break;
-                }
-                $index += 2;
-            }
-
-            $options_json = json_encode($options_json);
-            $option_file_name = APPPATH."analytics\\temp.json";
-            $option_file = fopen($option_file_name, "w") or die("Unable to open file!");
-            fwrite($option_file, $options_json);
-            fclose($option_file);
-        }
-        else
-        {
-            $options_json = false;
-        }
-
-        // TODO : WARNING: REMOVE AFTER TEST $client = $this->evaluate($key);
-
-        $client = true; // TODO : WARNING: REMOVE AFTER TEST
-
-        // echo "For client: ".$client."<br/>";
-        // TODO : WARNING: REMOVE AFTER TEST $client = $this->clientCtrl->get($client, null, true);
         if($client)
         {
+            if ($this->uri->segment(4) == "dict_start")
+            {
+                $index = 5;
+                while (!($this->uri->segment($index) == "dict_end"))
+                {
+                    $dict_key = $this->uri->segment($index);
+                    $dict_value = $this->uri->segment($index + 1);
+
+                    $dict_key = str_replace("_", " ", $dict_key);
+
+                    if ($dict_key && $dict_value)
+                    {
+                        $options_json[$dict_key] = $dict_value;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    $index += 2;
+                }
+
+                $options_json = json_encode($options_json);
+                $option_file_name = APPPATH."analytics\\temp.json";
+                $option_file = fopen($option_file_name, "w") or die("Unable to open file!");
+                fwrite($option_file, $options_json);
+                fclose($option_file);
+            }
+            else
+            {
+                $options_json = false;
+            }
+
             try
             {
                 shell_exec("echo hey");
