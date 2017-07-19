@@ -1,7 +1,7 @@
 import json
 import os
 
-from datetime import date
+from datetime import date, datetime
 
 from Definitions import ROOT_DIR
 from Models.Cell import Cell
@@ -9,6 +9,7 @@ from Models.Row import Row
 from Services.Pattern import Pattern
 from Services.Search import Search
 from shutil import copyfile
+from openpyxl.styles import NamedStyle
 
 
 class JSONInterpreter:
@@ -64,10 +65,20 @@ class JSONInterpreter:
 
 		for hardcoded_index in self.hardcoded:
 			value = self.hardcoded_input[hardcoded_index]
-			value = str(value).replace("percent", "%")
+			style = 'Number'
+
+			if str(hardcoded_index).find('%') >= 0:
+				style = "Percent"
+				# print(style)
+
+			if str(hardcoded_index).find('Date') >= 0:
+				value = " " + datetime.strptime(value, '%d-%m-%Y').strftime('%d-%b-%Y')
+				style = None
+				# print(style)
+
 			hardcoded_cell = Cell(parent=None, data=value, file=self.output['file'],
 			                      sheet=self.output['sheet'],
-			                      column=hardcoded_index, style=None)
+			                      column=hardcoded_index, style=style)
 			self.row_obj.add(hardcoded_cell)
 
 		math_ops = self.source['math']

@@ -104,6 +104,9 @@ class AnalyticsController extends Authentication
                 }
                 else
                 {
+                    $data = file_get_contents($result);
+                    force_download("report.".pathinfo($result)['extension'], $data);
+                    force_download($result);
                     http_response_code(202);
                 }
             }

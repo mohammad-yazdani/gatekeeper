@@ -15,7 +15,7 @@ class WordInstance:
 		if not file.find(ROOT_DIR) >= 0:
 			file = self.base + file
 
-		filename, file_extension = os.path.splitext(file)
+		'''filename, file_extension = os.path.splitext(file)
 		time_postfix = int(round(time.time() * 1000))
 		# time_postfix = datetime.datetime.now()
 		signature = " output_" + str(time_postfix)
@@ -25,7 +25,7 @@ class WordInstance:
 		except FileNotFoundError:
 			pass
 		shutil.copy(file, output_file)
-		self.file = output_file
+		self.file = output_file'''
 
 		self.file = file
 
@@ -36,6 +36,7 @@ class WordInstance:
 		self.instance.Documents.Open(file)
 
 	def save_and_quit(self):
+		self.application.ActiveDocument.Save()
 		self.application.Quit()
 
 	def bf_monthly_export_word(self):

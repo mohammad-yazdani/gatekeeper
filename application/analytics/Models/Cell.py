@@ -1,3 +1,5 @@
+from openpyxl import Workbook
+from openpyxl.styles import NamedStyle
 from openpyxl.worksheet import Worksheet
 
 from Models.DataNode import DataNode
@@ -16,11 +18,27 @@ class Cell(DataNode):
 			.replace("Unnamed: ", "")
 		self.style = style
 
-	def write(self, ws: Worksheet, dest_row: int):
+	def write(self, wb: Workbook, ws: Worksheet, dest_row: int):
 		# print("Dest row: " + str(dest_row))
 		cell = ws.cell(row=int(dest_row), column=int(self.column) + 1, value=self.data)
+
+		# test_cell = ws['A1']
+		# print("TEST " + str(test_cell))
+
 		if self.style:
-			cell.number_format = self.style
+			style_name = "Normal"
+
+			if str(self.style).find("Date"):
+				# style_name = 'datetime'
+				style_name = 'Date'
+				self.style = NamedStyle(name=style_name, number_format='DD/MM/YYYY HH:MM:MM')
+
+			try:
+				wb.add_named_style(self.style)
+			except ValueError:
+				print("Style already registered.")
+			# cell.style = self.style
+
 		return ws
 
 	def evaluate(self):

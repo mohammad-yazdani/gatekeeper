@@ -123,7 +123,7 @@ AnalyticsApp.controller('ProfileCtrl',
         if (option.indexOf("T-Bill") >= 0) {
           option_value += "percent";
         }
-        
+
         dict[option] = option_value;
         dict_string += "/" + option.replace(" ", "_") + "/" + option_value.toString();
       }

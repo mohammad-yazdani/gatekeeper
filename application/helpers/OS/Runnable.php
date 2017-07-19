@@ -94,7 +94,7 @@ abstract class Runnable
         // $result = exec($command);
 
         echo "Running: ".$command."<br/>";
-        
+        //return null;
         $result = shell_exec($command);
 
         echo "Results: ".$result."\n";
@@ -121,19 +121,6 @@ abstract class Runnable
 
         # echo "<br/>LAST LINE: ".$last_line."<br/>";
 
-        if (file_exists($line))
-        {
-            $data = file_get_contents($line);
-            // echo $data;
-            force_download("report.".pathinfo($line)['extension'], $data);
-            force_download($result);
-
-            //echo "Result: \n".$data;
-            return $line;
-        }
-        else
-        {
-            return false;
-        }
+        return $line;
     }
 }

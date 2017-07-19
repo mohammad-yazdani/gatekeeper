@@ -46,7 +46,7 @@ class Row:
 		ws = wb.active
 
 		for cell in self.cells:
-			cell.write(ws, dest_row=self.row)
+			cell.write(wb, ws, dest_row=self.row)
 
 		# print("Object file: " + self.file)
 		# print("Output file: " + output_file)

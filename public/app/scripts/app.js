@@ -80,7 +80,9 @@ var AnalyticsApp = angular
     });*/
   }])
   .run(function ($localStorage, $rootScope, $location) {
-    //$localStorage.token = "";
+    if (!$localStorage.token) {
+      $location.token = "";
+    }
     console.log("Present token: " + $localStorage.token);
     $rootScope.lastCallBack = "";
     // $rootScope.host_address = "localhost";
