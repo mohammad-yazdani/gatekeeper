@@ -72,7 +72,7 @@ class JSONInterpreter:
 				# print(style)
 
 			if str(hardcoded_index).find('Date') >= 0:
-				value = " " + datetime.strptime(value, '%d-%m-%Y').strftime('%d-%b-%Y')
+				value = datetime.strptime(value, '%d-%m-%Y').strftime('%#m/%d/%Y')
 				style = None
 				# print(style)
 

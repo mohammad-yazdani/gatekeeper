@@ -29,14 +29,10 @@ class Cell(DataNode):
 			style_name = "Normal"
 
 			if str(self.style).find("Date"):
-				# style_name = 'datetime'
-				style_name = 'Date'
-				self.style = NamedStyle(name=style_name, number_format='DD/MM/YYYY HH:MM:MM')
+				self.style = "dd-mmm-yyyy"
 
-			try:
-				wb.add_named_style(self.style)
-			except ValueError:
-				print("Style already registered.")
+			if str(self.style).find("%"):
+				self.style = "0.0000%"
 			# cell.style = self.style
 
 		return ws

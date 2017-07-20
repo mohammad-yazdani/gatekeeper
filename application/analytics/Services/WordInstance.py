@@ -42,7 +42,7 @@ class WordInstance:
 	def bf_monthly_export_word(self):
 
 		template = self.base + "BF_Monthly output.xlsm"
-		asset_ownership = self.base + "Asset Ownership & Deal Exposure.xlsx"
+		asset_ownership = self.base + "AssetsandOwnership.xlsx"
 		charts = self.base + "BF_presentation charts.xlsx"
 		bfsl_nav = self.base + "BFSL_NAV.xlsx"
 

@@ -22,7 +22,7 @@ class Row:
 
 		shutil.copy(dest_file, output_file)
 		self.file = output_file
-
+		self.sheet = sheet
 		# print("Row dest file: " + self.file,)
 		self.cells = list()
 
@@ -47,6 +47,16 @@ class Row:
 
 		for cell in self.cells:
 			cell.write(wb, ws, dest_row=self.row)
+
+		total_row = self.row + 1
+		new_row = self.row
+
+		for col in range(1, ws.max_column + 1):
+			value = ws.cell(row=total_row, column=col).value
+			value = str(value).replace(str(new_row - 1), str(new_row))
+			if str(value).find("None") >= 0:
+				value = ""
+			ws.cell(row=total_row, column=col, value=value)
 
 		# print("Object file: " + self.file)
 		# print("Output file: " + output_file)

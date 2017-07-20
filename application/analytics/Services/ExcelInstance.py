@@ -24,7 +24,9 @@ class ExcelInstance:
 
 		self.catalog = {
 			"FillDown": self.fill_down,
-			"ToggleAlert": self.display_alert
+			"ToggleAlert": self.display_alert,
+			"Update": self.update,
+			"UpdateFormula": self.update_formula
 		}
 
 	def save_and_quit(self):
@@ -80,5 +82,44 @@ class ExcelInstance:
 				self.save_and_quit()
 				return False
 
+	def update(self):
+		try:
+			self.application.Run("Update")
+		except Exception as e:
+			no_macro = (str(e).
+			            find("The macro may not be available in this workbook or "
+			                 "all macros may be disabled.")
+			            >= 0)
+			if no_macro:
+				macro = "Update"
+				macro_path = self.macros_path + macro + ".vb"
+				excel_module = self.workbook.VBProject.VBComponents.Add(1)
+				excel_module.CodeModule.AddFromString(str(open(macro_path).read()))
+
+				self.update()
+			else:
+				self.save_and_quit()
+				return False
+
+	def update_formula(self):
+		try:
+			self.application.Run("UpdateFormula")
+		except Exception as e:
+			no_macro = (str(e).
+			            find("The macro may not be available in this workbook or "
+			                 "all macros may be disabled.")
+			            >= 0)
+			if no_macro:
+				macro = "UpdateFormula"
+				macro_path = self.macros_path + macro + ".vb"
+				excel_module = self.workbook.VBProject.VBComponents.Add(1)
+				excel_module.CodeModule.AddFromString(str(open(macro_path).read()))
+
+				self.update_formula()
+			else:
+				self.save_and_quit()
+				return False
+
 	def add_to_catalog(self, name: str):
-		self.macros.insert(0, name)
+		# TODO : Fix later
+		self.catalog[name] = None
