@@ -57,6 +57,11 @@ var AnalyticsApp = angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
+      .when('/test', {
+        url: '/test',
+        templateUrl: 'views/test/login-test.html',
+        controller: 'LoginTestCtrl'
+      })
 
       .when('/sign_up', {
         url: '/sign_up',

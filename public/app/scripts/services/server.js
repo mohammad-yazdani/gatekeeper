@@ -8,7 +8,8 @@ AnalyticsApp.service('Server', ['$rootScope', '$timeout', '$http', '$localStorag
   function ($rootScope, $timeout, $http, $localStorage) {
 
   this.baseAddress = "http://" + $rootScope.host_address + "/gatekeeper/index.php/";
-  this.authAddress = "ClientAuth";
+  //this.authAddress = "ClientAuth";
+  this.authAddress = "AnalyticsAuth";
 
     this.login = function (username, password) {
     var params = "/null/" + username + "/" + password;
@@ -29,9 +30,32 @@ AnalyticsApp.service('Server', ['$rootScope', '$timeout', '$http', '$localStorag
   };
 
   this.autoLogin = function (token) {
-    var params = "/" + token + "/null/null";
+    //var params = "/" + token + "/null/null";
+    var params = "";
 
-    return $http.get(this.baseAddress + this.authAddress + params, null)
+    $http({
+      method: 'POST',
+      url: this.baseAddress + this.authAddress + params,
+      headers: {
+        //'Authorization': 'Bearer ' + token
+        //or
+        'Authorization': 'Basic ' + token
+      }
+    }).then(function successCallback(response) {
+      $log.log("OK")
+    }, function errorCallback(response) {
+      if(response.status = 401){ // If you have set 401
+        $log.log("ohohoh")
+      }
+    });
+    return;
+    return $http.get(this.baseAddress + this.authAddress + params,
+      {
+       headers: {
+        "Authorization": 'Bearer ' + token
+       }
+      }
+    )
       .then(function (response) {
         // console.log(response);
         // console.log(response.data);

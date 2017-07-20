@@ -46,9 +46,10 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
         $dao = new \DAO\AuthDAOImpl($em);
         $this->clientDAO = new \DAO\ClientDAOImpl($em);
         $this->dao = $dao;
-        //$this->dao = n
         $this->controller = null;
         $this->load->helper('url');
+
+        // TODO : Get and evaluate JWT
     }
 
     protected function evaluate ($key = NULL, $username = NULL, $password = NULL)

@@ -7,7 +7,7 @@
  * Time: 3:59 PM
  */
 
-// TODO : CLEAN CODE
+    // TODO : CODE CLEANED
 
 require_once 'Authentication.php';
 require_once APPPATH.'helpers/os/Analytics/MonthlyReports.php';
@@ -29,11 +29,6 @@ class AnalyticsController extends Controller
     private $os;
 
     /**
-     * @var
-     */
-    private $clientCtrl;
-
-    /**
      * AnalyticsController constructor.
      */
     public function __construct()
@@ -47,10 +42,10 @@ class AnalyticsController extends Controller
 
     /**
      * @param null $json_input
-     * @param null $config
+     * @param null $action
      * Sample input = { 'command', 'subject', other fields}
      */
-    public function get($json_input = NULL, $config = NULL)
+    public function get($json_input = NULL, $action = NULL)
     {
         try
         {
@@ -62,7 +57,7 @@ class AnalyticsController extends Controller
 
             if ($options_json != false && $option_file_name != false)
             {
-                $this->os->setScript($json_input['command'], $option_file_name);
+                $this->os->setScript($action, $option_file_name);
                 $result = $this->os->Run();
                 if (!$result)
                 {
@@ -94,7 +89,7 @@ class AnalyticsController extends Controller
     /**
      * @param null $input
      * @param null $config
-     * Sample input = { 'info': { key, name, type }, 'data': { Input data }}
+     * Sample input = { 'info': { key, name, type }, 'data': { Input data }}*
      */
     public function post($input = NULL, $config = NULL)
     {
@@ -103,45 +98,21 @@ class AnalyticsController extends Controller
         $client = null;
         try
         {
-            $client = $this->evaluate($input['key']);
-            $client = $this->clientCtrl->get($client, null, true);
-            if($client)
-            {
-                try
-                {
-                    $data = json_decode($data);
-                    $data = json_encode($data);
-
-                    $profile = new Profile($input['name'], $data, $input['type']);
-                    $this->dao->save($profile);
-                    http_response_code(201);
-                }
-                catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e)
-                {
-                    http_response_code(400);
-                    die("Profile already exists!");
-                }
-                catch (Exception $e)
-                {
-                    http_response_code(501);
-                    die($e->getMessage());
-                }
-            }
-            else
-            {
-                http_response_code(403);
-                die(Authentication::$forbidden_403);
-            }
+            $data = json_decode($data);
+            $data = json_encode($data);
+            $profile = new Profile($input['name'], $data, $input['type']);
+            $this->dao->save($profile);
+            http_response_code(201);
         }
-        catch (UnexpectedValueException $e)
+        catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e)
         {
-            http_response_code(401);
-            die(Authentication::$unauthorized_401);
+            http_response_code(Authentication::HTTP_BAD_REQUEST);
+            die("Profile already exists!");
         }
         catch (Exception $e)
         {
-            http_response_code(400);
-            die(Authentication::$badRequest_400);
+            http_response_code(Authentication::HTTP_INTERNAL_SERVER_ERROR);
+            die($e->getMessage());
         }
     }
 
@@ -165,19 +136,20 @@ class AnalyticsController extends Controller
 
     /**
      * @param null $json_input
-     * @param null $config
+     * @param null $action
      */
-    public function REST_GET($json_input = NULL, $config = NULL)
+    public function REST_GET($json_input = NULL, $action = NULL)
     {
-        $this->get($json_input, $config);
+        $this->get($json_input, $action);
     }
 
     /**
      * @param string $json
+     * @param null $config
      */
-    public function REST_POST(string $json)
+    public function REST_POST(string $json, $config = NULL)
     {
-        $this->post($json, NUll);
+        $this->post($json, $config);
     }
 
     /**
