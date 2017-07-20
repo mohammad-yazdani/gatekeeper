@@ -27,12 +27,11 @@ class AnalyticsAuth extends Authentication
         {
             try
             {
-
+                $options_json = json_decode($this->input->post('json'));
             }
-            $options_json = json_decode($this->input->post('json'));
-            foreach ($options_json as $index)
+            catch (Exception $e)
             {
-                $options_json[$index] = str_replace("_", " ", $options_json[$index]);
+                echo $e->getMessage();
             }
         }
     }

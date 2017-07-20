@@ -7,6 +7,8 @@
  * Time: 3:59 PM
  */
 
+// TODO : CLEAN CODE
+
 require_once 'Authentication.php';
 require_once APPPATH.'helpers/os/Analytics/MonthlyReports.php';
 require_once APPPATH.'helpers/DAO/ProfileDAOImpl.php';
@@ -15,16 +17,27 @@ use \models\Profile;
 use \DAO\ProfileDAOImpl;
 use \OS\Analytics\MonthlyReports as MonthlyReports;
 
-class AnalyticsController extends Authentication
+/**
+ * Class AnalyticsController
+ */
+class AnalyticsController extends Controller
 {
 
+    /**
+     * @var MonthlyReports
+     */
     private $os;
 
+    /**
+     * @var
+     */
     private $clientCtrl;
 
+    /**
+     * AnalyticsController constructor.
+     */
     public function __construct()
     {
-        parent::__construct();
         $this->os = new MonthlyReports();
         $CI =& get_instance();
         $CI->load->library('doctrine');
@@ -32,121 +45,81 @@ class AnalyticsController extends Authentication
         $this->dao = new ProfileDAOImpl($em);
     }
 
-    public function index_get()
+    /**
+     * @param null $json_input
+     * @param null $config
+     * Sample input = { 'command', 'subject', other fields}
+     */
+    public function get($json_input = NULL, $config = NULL)
     {
-        if($client)
+        try
         {
-            if ($this->uri->segment(4) == "dict_start")
+            $options_json = json_encode($json_input);
+            $option_file_name = APPPATH."analytics\\temp.json";
+            $option_file = fopen($option_file_name, "w") or die("Unable to open file!");
+            fwrite($option_file, $options_json);
+            fclose($option_file);
+
+            if ($options_json != false && $option_file_name != false)
             {
-                $index = 5;
-                while (!($this->uri->segment($index) == "dict_end"))
-                {
-                    $dict_key = $this->uri->segment($index);
-                    $dict_value = $this->uri->segment($index + 1);
-
-                    $dict_key = str_replace("_", " ", $dict_key);
-
-                    if ($dict_key && $dict_value)
-                    {
-                        $options_json[$dict_key] = $dict_value;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                    $index += 2;
-                }
-
-                $options_json = json_encode($options_json);
-                $option_file_name = APPPATH."analytics\\temp.json";
-                $option_file = fopen($option_file_name, "w") or die("Unable to open file!");
-                fwrite($option_file, $options_json);
-                fclose($option_file);
-            }
-            else
-            {
-                $options_json = false;
-            }
-
-            try
-            {
-                shell_exec("echo hey");
-
-                if ($options_json != false && $option_file_name != false)
-                {
-                    $this->os->setScript($command, $option_file_name);
-                    // unlink($option_file_name);
-                    // $this->os->setScript($command, $options_json);
-                }
-                else
-                {
-                    $this->os->setScript($command, NULL);
-                }
+                $this->os->setScript($json_input['command'], $option_file_name);
                 $result = $this->os->Run();
                 if (!$result)
                 {
                     http_response_code(Authentication::HTTP_UNPROCESSABLE_ENTITY);
-                        return;
+                    return;
                 }
                 else
                 {
                     $data = file_get_contents($result);
-                    force_download("report.".pathinfo($result)['extension'], $data);
+                    force_download($json_input["subject"].".".pathinfo($result)['extension'], $data);
                     force_download($result);
-                    http_response_code(202);
+                    http_response_code(Authentication::HTTP_ACCEPTED);
                 }
             }
-            catch (Exception $e)
+            else
             {
-                http_response_code(Authentication::HTTP_NO_CONTENT);
-                echo $e->getMessage();
+                http_response_code(Authentication::HTTP_BAD_REQUEST);
+                die(Authentication::$badRequest_400);
             }
         }
-        else
+        catch (Exception $e)
         {
-            http_response_code(Authentication::HTTP_FORBIDDEN);
-        }
-
-        if (file_exists($option_file_name))
-        {
-            //unlink($option_file_name);
+            echo $e->getMessage();
+            http_response_code(Authentication::HTTP_NO_CONTENT);
         }
     }
 
-    public function index_post()
+
+    /**
+     * @param null $input
+     * @param null $config
+     * Sample input = { 'info': { key, name, type }, 'data': { Input data }}
+     */
+    public function post($input = NULL, $config = NULL)
     {
-        $key = $this->uri->segment(2);
-        $name = $this->uri->segment(3);
-        $type = $this->uri->segment(4);
-
+        $input = json_decode($input)['info'];
+        $data = json_decode($input)['data'];
         $client = null;
-
         try
         {
-            $client = $this->evaluate($key);
+            $client = $this->evaluate($input['key']);
             $client = $this->clientCtrl->get($client, null, true);
-
             if($client)
             {
                 try
                 {
-                    $data = file_get_contents('php://input');
                     $data = json_decode($data);
                     $data = json_encode($data);
 
-                    $profile = new Profile($name, $data, $type);
-
+                    $profile = new Profile($input['name'], $data, $input['type']);
                     $this->dao->save($profile);
-
-                    print_r($profile);
-
                     http_response_code(201);
                 }
                 catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e)
                 {
-                    echo "Profile already exists!";
                     http_response_code(400);
-                    // die($e->getMessage());
+                    die("Profile already exists!");
                 }
                 catch (Exception $e)
                 {
@@ -157,6 +130,7 @@ class AnalyticsController extends Authentication
             else
             {
                 http_response_code(403);
+                die(Authentication::$forbidden_403);
             }
         }
         catch (UnexpectedValueException $e)
@@ -167,18 +141,60 @@ class AnalyticsController extends Authentication
         catch (Exception $e)
         {
             http_response_code(400);
-            die($e->getMessage());
+            die(Authentication::$badRequest_400);
         }
     }
 
-    public function index_put()
+    /**
+     * @param null $key
+     * @param null $xss_clean
+     */
+    public function put($key = NULL, $xss_clean = NULL)
     {
-        // TODO: Implement index_put() method.
+        // TODO: Implement put() method.
     }
 
-    public function index_delete()
+    /**
+     * @param null $key
+     * @param null $xss_clean
+     */
+    public function delete($key = NULL, $xss_clean = NULL)
     {
-        // TODO: Implement index_delete() method.
+        // TODO: Implement delete() method.
     }
+
+    /**
+     * @param null $json_input
+     * @param null $config
+     */
+    public function REST_GET($json_input = NULL, $config = NULL)
+    {
+        $this->get($json_input, $config);
+    }
+
+    /**
+     * @param string $json
+     */
+    public function REST_POST(string $json)
+    {
+        $this->post($json, NUll);
+    }
+
+    /**
+     * @param string $json
+     */
+    public function REST_PUT(string $json)
+    {
+        // TODO: Implement REST_PUT() method.
+    }
+
+    /**
+     * @param string $json
+     */
+    public function REST_DELETE(string $json)
+    {
+        // TODO: Implement REST_DELETE() method.
+    }
+
 
 }
