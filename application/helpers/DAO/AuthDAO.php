@@ -24,4 +24,6 @@ interface AuthDAO
     public function encrypt(string $password, int $id);
 
     public function decrypt(int $id, string $password);
+
+    public function get_key($client, $device);
 }

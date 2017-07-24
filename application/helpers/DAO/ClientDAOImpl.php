@@ -61,10 +61,10 @@ class ClientDAOImpl extends DAOImpl implements ClientDAO
     public function get($id)
     {
       	// TODO: Implement get() method.
-      	$client = null;  
+      	$client = null;
         try
         {
-            $client = $this->em->find($this->repository, $id);
+            return $this->em->find($this->repository, $id);
         }
         catch (Exception $e)
       	{

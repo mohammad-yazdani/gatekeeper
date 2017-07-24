@@ -27,14 +27,19 @@ class Device extends \Model
     /** @ORM\Column(type="boolean") */
     private $isPassSaved;
 
+    /** @ORM\Column(type="string") */
+    private $agent;
+
     /**
      * Constructor
      * @param string $clientId
+     * @param string $agent
      */
-    public function __construct(string $clientId)
+    public function __construct(string $clientId, string $agent = "N/A")
     {
         parent::__construct();
         $this->clientId = $clientId;
+        $this->agent = $agent;
         $this->setPassIsSaved(false);
         $this->setJSON(json_encode($this->jsonSerialize()));
     }
@@ -70,6 +75,7 @@ class Device extends \Model
     {
         return [
             'uid' => $this->uid,
+            'agent' => $this->agent,
             'client' => $this->clientId,
             'passSaved' => ($this->isPassSaved)? 'true' : 'false'
         ];

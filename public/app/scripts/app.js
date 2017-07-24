@@ -90,8 +90,8 @@ var AnalyticsApp = angular
     }
     console.log("Present token: " + $localStorage.token);
     $rootScope.lastCallBack = "";
-    // $rootScope.host_address = "localhost";
-    $rootScope.host_address = "192.168.68.145";
+    $rootScope.host_address = "localhost";
+    //$rootScope.host_address = "192.168.68.145";
 
     $rootScope.logOut = function () {
       $localStorage.token = "";

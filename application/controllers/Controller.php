@@ -9,56 +9,41 @@
 
 require_once APPPATH.'/libraries/REST_Controller.php';
 
+/**
+ * Class Controller
+ */
 abstract class Controller
 {
+    /**
+     * @var
+     */
     protected $dao;
 
-    public function index_get($id)
-    {
-        echo "In index_get()";
-        try
-        {
-            $this->REST_GET($id);
-        } catch(exception $e) {
-            echo 'Exception Caught: ', $e->getMessage();
-        }
-    }
+    /**
+     * @param string $name
+     * @param null $config
+     * @return mixed
+     */
+    abstract public function get(string $name, $config = NULL);
 
-    public function index_post($json)
-    {
-        try
-        {
-            $this->REST_POST($json);
-        } catch(exception $e) {
-            echo 'Exception Caught: ', $e->getMessage();
-        }
-    }
-    public function index_put($json)
-    {
-        try
-        {
-            $this->REST_PUT($json);
-        } catch(exception $e) {
-            echo 'Exception Caught: ', $e->getMessage();
-        }
-    }
-    public function index_delete($json)
-    {
-        try
-        {
-            $this->REST_DELETE($json);
-        } catch(exception $e) {
-            echo 'Exception Caught: ', $e->getMessage();
-        }
-    }
+    /**
+     * @param $data
+     * @param null $config
+     * @return mixed
+     */
+    abstract public function post($data, $config = NULL);
 
-    abstract public function get($key = NULL, $xss_clean = NULL);
-    abstract public function post($key = NULL, $xss_clean = NULL);
-    abstract public function put($key = NULL, $xss_clean = NULL);
-    abstract public function delete($key = NULL, $xss_clean = NULL);
+    /**
+     * @param $data
+     * @param null $config
+     * @return mixed
+     */
+    abstract public function put($data, $config = NULL);
 
-    abstract public function REST_GET ($id, $token = NULL);
-    abstract public function REST_POST (string $json);
-    abstract public function REST_PUT (string $json);
-    abstract public function REST_DELETE (string $json);
+    /**
+     * @param $data
+     * @param null $config
+     * @return mixed
+     */
+    abstract public function delete($data, $config = NULL);
 }

@@ -7,7 +7,7 @@
  * Time: 3:59 PM
  */
 
-    // TODO : CODE CLEANED
+// TODO : CODE CLEANED
 
 require_once 'Authentication.php';
 require_once APPPATH.'helpers/os/Analytics/MonthlyReports.php';
@@ -19,6 +19,7 @@ use \OS\Analytics\MonthlyReports as MonthlyReports;
 
 /**
  * Class AnalyticsController
+ * @property ProfileDAOImpl dao
  */
 class AnalyticsController extends Controller
 {
@@ -167,6 +168,4 @@ class AnalyticsController extends Controller
     {
         // TODO: Implement REST_DELETE() method.
     }
-
-
 }

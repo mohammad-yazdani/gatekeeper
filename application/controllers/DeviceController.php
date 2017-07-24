@@ -7,12 +7,15 @@
  * Time: 3:05 PM
  */
 
-namespace models;
+namespace controllers;
+
 require_once APPPATH.'helpers/DAO/ClientDAOImpl.php';
 require_once APPPATH.'helpers/DAO/DeviceDAOImpl.php';
 require_once APPPATH.'libraries/REST_Controller.php';
 require_once 'Controller.php';
 
+use \DAO\DeviceDAOImpl;
+use models\Device;
 
 
 class DeviceController extends \Controller
@@ -24,10 +27,10 @@ class DeviceController extends \Controller
         $CI =& get_instance();
         $CI->load->library('doctrine');
         $em = $CI->doctrine->em;
-        $this->deviceDAO = new \DAO\DeviceDAOImpl($em);
+        $this->deviceDAO = new DeviceDAOImpl($em);
     }
 
-    public function get($key=NULL, $xss_clean = NULL) : Device
+    public function get(string $key, $xss_clean = NULL) : Device
     {
         $id = (int) $key;
         return $this->deviceDAO->get($id);

@@ -37,7 +37,7 @@ class UserController extends \Controller
      * @param NULL $xss_clean Whether to apply XSS filtering
      * @return array|string|NULL Value from the GET request; otherwise, NULL
      */
-    public function get($key = NULL, $xss_clean = NULL)
+    public function get(string $key, $xss_clean = NULL)
     {
         $id = (int) $key;
         $user = $this->dao->get($id);

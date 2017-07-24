@@ -11,34 +11,97 @@ require_once APPPATH."helpers/DAO/AuthDAOImpl.php";
 require_once APPPATH."helpers/DAO/DAOImpl.php";
 require_once APPPATH."helpers/DAO/ClientDAOImpl.php";
 require_once APPPATH."helpers\Token\DeviceTokenManager.php";
+require_once APPPATH."helpers\Exceptions\HTTP\HTTP_USER_NOT_FOUND.php";
 
 use \DAO\AuthDAOImpl;
 use \models\Client;
+use controllers\DeviceController;
+use \models\Device;
 
-// TODO : DOCUMENTATION
-
+/**
+ * Class Authentication
+ */
 abstract class Authentication extends \Restserver\Libraries\REST_Controller
 {
+    /**
+     * @var null
+     */
     protected $controller;
-
+    /**
+     * @var AuthDAOImpl
+     */
     protected $dao;
-
+    /**
+     * @var \DAO\ClientDAOImpl
+     */
     protected $clientDAO;
+    /**
+     * @var ClientController
+     */
+    private $clientCtrl;
 
-    static public $badRequest_400 = "<h1>Bad request! (400)</h1>";
-    static public $unauthorized_401 = "<h1>Unauthorized access! (401)</h1>";
-    static public $forbidden_403 = "<h1>Access forbidden! (403)</h1>";
-    static public $expired_403 = "<h1>Expired authentication! (403)</h1>";
-    static public $notFound_404 = "<h1>Resource not found! (404)</h1>";
-    static public $notAllowed_405 = "<h1>Method not allowed! (405)</h1>";
-    static public $notAcceptable_406 = "<h1>Request not acceptable! (406)</h1>";
-    static public $timeout_408 = "<h1>Request timeout! (408)</h1>";
-    static public $conflict_409 = "<h1>Conflict! (409)</h1>";
+    /**
+     * @var DeviceController
+     */
+    private $deviceCtrl;
+
+    /**
+     * @var string
+     */
+    static public $badRequest_400 = "bad_request";
+    /**
+     * @var string
+     */
+    static public $unauthorized_401 = "unauthorized_access";
+    /**
+     * @var string
+     */
+    static public $userNotFound_401 = "username_not_found";
+    /**
+     * @var string
+     */
+    static public $invalidToken_401 = "invalid_token";
+    /**
+     * @var string
+     */
+    static public $wrongPassword_401 = "wrong_password";
+    /**
+     * @var string
+     */
+    static public $forbidden_403 = "access_forbidden";
+    /**
+     * @var string
+     */
+    static public $expired_403 = "expired_authentication";
+    /**
+     * @var string
+     */
+    static public $notFound_404 = "resource_not_found";
+    /**
+     * @var string
+     */
+    static public $notAllowed_405 = "method_not_allowed";
+    /**
+     * @var string
+     */
+    static public $notAcceptable_406 = "request_not_acceptable";
+    /**
+     * @var string
+     */
+    static public $timeout_408 = "request_timeout";
+    /**
+     * @var string
+     */
+    static public $conflict_409 = "conflict";
+    /**
+     * @var string
+     */
+    static public $operation_failed_501 = "operation_failed";
 
     /**
      * Authentication constructor.
      */
-    public function __construct()
+    public function __construct ()
     {
         parent::__construct();
         $this->load->library('doctrine');
@@ -47,57 +110,124 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
         $this->clientDAO = new \DAO\ClientDAOImpl($em);
         $this->dao = $dao;
         $this->controller = null;
+        $this->clientCtrl = new ClientController();
+        $this->deviceCtrl = new DeviceController();
         $this->load->helper('url');
-
-        // TODO : Get and evaluate JWT
     }
 
-    protected function evaluate ($key = NULL, $username = NULL, $password = NULL)
+    /**
+     * @param $token
+     * @return null|bool
+     * @throws \Exceptions\HTTP\HTTP_INVALID_TOKEN
+     */
+    private function evaluate_token ($token)
     {
-        if ($key)
+        $tokenResult = \Token\DeviceTokenManager::validate($token);
+        if (strlen($tokenResult) > 0)
         {
-            // TODO : If not validated report corrupt key: Forbidden!
-            $tokenResult = \Token\DeviceTokenManager::validate($key);
-            if(!$tokenResult)
-            {
-                return false;
-            }
-            else
-            {
-                return $tokenResult;
-            }
+            return $token;
         }
-        elseif ($username && $password)
+        throw new \Exceptions\HTTP\HTTP_INVALID_TOKEN();
+    }
+
+    /**
+     * @param $username
+     * @param $password
+     * @param null|string $device
+     * @return string
+     * @throws \Exceptions\HTTP\HTTP_USER_NOT_FOUND
+     * @throws \Exceptions\HTTP\HTTP_WRONG_PASSWORD
+     */
+    private function evaluate_credential ($username, $password, $device = "")
+    {
+        $client = $this->clientDAO->get($username);
+        if ($client == null)
         {
-            $client = $this->clientDAO->get($username);
-            if ($client == null)
-            {
-                echo "Username not found!\n";
-                return false;
-            }
-            if(!$this->dao->decrypt($client->getAuthId(), $password))
-            {
-                echo "Wrong password ";
-                return false;
-            }
-            else return true;
+            throw new \Exceptions\HTTP\HTTP_USER_NOT_FOUND();
         }
-        else
+        if(!$this->dao->decrypt($client->getAuthId(), $password))
         {
+            throw new \Exceptions\HTTP\HTTP_WRONG_PASSWORD();
+        }
+
+        if (!$device)
+        {
+            $agent = $this->input->request_headers()['User-Agent'];
+            $device = new Device($client->getUsername(), $agent);
+        }
+        else $device = $this->deviceCtrl->get($device);
+        return $this->dao->get_key($client, $device);
+    }
+
+    /**
+     * @return null|object|bool
+     */
+    protected function authorize()
+    {
+        try
+        {
+            $headers = $this->input->request_headers();
+            if (!isset($headers['token'])) throw new Exception();
+            $token = $headers['token'];
+            return $this->evaluate_token($token);
+        }
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
             return false;
         }
     }
 
-     protected function validate_client($key): Client
-     {
-         return $this->clientCtrl->get($this->evaluate($key), null, true);
-     }
+    /**
+     * @return Client|null|bool|object
+     */
+    protected function register_credentials()
+    {
+        try
+        {
+            $headers = $this->input->request_headers();
+            if(!isset($headers['username']) || !isset($headers['password'])) throw new Exception();
+            $username = $headers['username'];
+            $password = $headers['password'];
+            die($this->evaluate_credential($username, $password));
+        }
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 
+    protected function update_token($token)
+    {
+        return \Token\DeviceTokenManager::update($token);
+    }
+
+    /**
+     *
+     */
+    public function index()
+    {
+        die("Access Denied");
+    }
+
+    /**
+     * @return mixed
+     */
     abstract public function index_get ();
 
+    /**
+     * @return mixed
+     */
     abstract public function index_post ();
 
+    /**
+     * @return mixed
+     */
     abstract public function index_put ();
 
+    /**
+     * @return mixed
+     */
     abstract public function index_delete ();
 }

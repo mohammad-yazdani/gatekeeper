@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Date: 5/4/2017
  * Time: 11:31 PM
  */
+
 require_once APPPATH.'helpers/DAO/ClientDAOImpl.php';
 require_once APPPATH.'helpers/DAO/DeviceDAOImpl.php';
 require_once APPPATH.'helpers/FileSystem/RSA_FileManager.php';
@@ -13,25 +14,37 @@ require_once APPPATH.'libraries/REST_Controller.php';
 require_once 'Controller.php';
 require_once 'UserController.php';
 require_once APPPATH.'helpers\JWT\JWT.php';
+require_once APPPATH.'helpers\Exceptions\HTTP\HTTP_NOT_ACCEPTABLE.php';
 
 
 use models\Client;
-use models\DeviceController;
+use controllers\DeviceController;
 use models\Token;
 use models\Device;
 use \models\User;
 use \Firebase\JWT\JWT;
 use \FileSystem\RSA_FileManager;
+use Exceptions\HTTP;
 
-// TODO : Handle existing stuff like existing username and email.
-// TODO : DOCUMENTATION
+// TODO : CLEAN CODE
 
+/**
+ * @property \DAO\ClientDAOImpl dao
+ */
 class ClientController extends \Controller
 {
+    /**
+     * @var \DAO\DeviceDAOImpl
+     */
     private $deviceDAO;
-
+    /**
+     * @var \DAO\UserDAOImpl
+     */
     private $userDAO;
 
+    /**
+     * ClientController constructor.
+     */
     function __construct ()
     {
         $CI =& get_instance();
@@ -39,84 +52,79 @@ class ClientController extends \Controller
         $em = $CI->doctrine->em;
         $the_dao = new \DAO\ClientDAOImpl($em);
         $this->dao = $the_dao;
-        // TODO : CHANGE
         $this->deviceDAO = new \DAO\DeviceDAOImpl($em);
         $this->userDAO = new \DAO\UserDAOImpl($em);
     }
-	
-    public function get ($key=NULL, $token = NULL, $check = false)
+
+    /**
+     * @param string $name
+     * @param null $config
+     * @return null|object
+     * @throws HTTP\HTTP_USER_NOT_FOUND
+     */
+    public function get (string $name, $config = NULL)
     {
-        $jwt= null;
-        if ($check)
+        $client = $this->dao->get($name);
+        if (!$client) throw new HTTP\HTTP_USER_NOT_FOUND();
+        http_response_code(Authentication::HTTP_ACCEPTED);
+        die($client->getJSON());
+    }
+
+    /**
+     * @param string $name
+     * @param null $config
+     * @return null|object
+     * @throws HTTP\HTTP_USER_NOT_FOUND
+     */
+    public function get_object (string $name, $config = NULL)
+    {
+        $client = $this->dao->get($name);
+        if (!$client) throw new HTTP\HTTP_USER_NOT_FOUND();
+        http_response_code(Authentication::HTTP_ACCEPTED);
+        return $client;
+    }
+
+    /**
+     * If name exists, it's 302 other wise 200
+     * @param string $name
+     * @throws HTTP\HTTP_NOT_ACCEPTABLE
+     */
+    public function unauthorized_get($name)
+    {
+        if (!$name) throw new HTTP\HTTP_NOT_ACCEPTABLE();
+        $username = $this->dao->checkForUsername($name);
+        $email = $this->dao->checkForEmail($name);
+        if (!$username && !$email)
         {
-            $username = $this->dao->checkForUsername($key);
-            $email = $this->dao->checkForEmail($key);
-
-            if (!$username && !$email) return null;
-            else
-            {
-                $result = null;
-                if ($username) $result = $this->dao->get($key);
-                else $result = $this->dao->get($key);
-
-                return $result;
-            }
+            http_response_code(Authentication::HTTP_OK);
+            die("");
         }
-        else
+        if ($username)
         {
-            $id = $key;
-            if ($token != NULL)
-            {
-                // TODO : Update the token
-                // TODO : Echo token
-                $key_res = new RSA_FileManager();
-                // TODO : THE DECODE PART
-                $decoded = (array) JWT::decode($token, $key_res->getKey(), array('RS256'));
-                $aud = $decoded['aud'];
-                $uid = $decoded['deviceInfo']->uid;
-                $deviceCtrl = new DeviceController();
-                $device = $deviceCtrl->get($uid);
-
-                $token = (new Token($device, $aud))->jsonSerialize();
-                $key_res = new RSA_FileManager();
-                $jwt = JWT::encode($token, $key_res->getKey(true), 'RS256');
-
-                echo $jwt;
-
-                if ($key == 'null') $key = null;
-                if ($key == NULL)
-                {
-                    $id = $aud;
-                }
-            }
-
-            $client = $this->dao->get($id);
-
-            // TODO : If token is NULL make a new device and send a token
-            if ($token == NULL)
-            {
-               $newDevice = null;
-               $newDevice = new Device($client->getUsername());
-               if (!$this->deviceDAO->save($newDevice)) return null;
-               $jwt = \Token\DeviceTokenManager::generate($newDevice, $client);
-                echo $jwt;
-            }
-
-            return $client;
+            http_response_code(Authentication::HTTP_FOUND);
+            echo "username";
+        }
+        echo "\n";
+        if ($email)
+        {
+            http_response_code(Authentication::HTTP_FOUND);
+            die("email");
         }
     }
-	
-    public function post ($key = null, $xss_clean = NULL)
-    {
-        $json = json_decode($key);
 
+    /**
+     * @param $json
+     * @param null $config
+     * @return void
+     * @throws HTTP\HTTP_OPERATION_FAILED
+     */
+    public function post ($json, $config = NULL)
+    {
         $username = $json->username;
         $email = $json->email;
         $data = $json->data;
         $uid = $json->uid;
         $authId = $json->authId;
-
-        // TODO : REQUEST USER
 
         $user = new User($data);
         $userId = $this->userDAO->save($user);
@@ -131,17 +139,14 @@ class ClientController extends \Controller
                 $authId
             );
         }
-        else return false;
+        else
+        {
+            throw new HTTP\HTTP_OPERATION_FAILED();
+        }
 
-        // TODO : Client is saved, now we have to save their device.
-        // TODO : FOR TEST echo "<br/>before saving client<br/>";
         $jwt = null;
-
         $saveResult = $this->dao->save($client);
-        if(
-            $saveResult
-            //true
-        )
+        if ($saveResult)
         {
             $device = null;
             if ($uid != null)
@@ -151,68 +156,61 @@ class ClientController extends \Controller
             if ($device == null)
             {
                 $device = new Device($client->getUsername());
-                if (!$this->deviceDAO->save($device)) return false;
-
+                if (!$this->deviceDAO->save($device))
+                {
+                    http_response_code(Authentication::HTTP_NOT_IMPLEMENTED);
+                    die(Authentication::$operation_failed_501);
+                }
                 $jwt = \Token\DeviceTokenManager::generate($device, $client);
-                //$jwt = tok::generateKey($device, $client);
-
-                //echo "JWT: \n".$jwt."\n";
             }
 
-            if($this->dao->save($client)) return $jwt;
-            else return false;
+            if($this->dao->save($client)) die($jwt);
+            else
+            {
+                throw new HTTP\HTTP_OPERATION_FAILED();
+            }
         }
-        return false;
+        throw new HTTP\HTTP_OPERATION_FAILED();
     }
 
-    public function delete($key = NULL, $xss_clean = NULL)
+    /**
+     * @param $json
+     * @param null $config
+     * @return void
+     * @throws HTTP\HTTP_NOT_FOUND
+     * @throws HTTP\HTTP_OPERATION_FAILED
+     */
+    public function delete($json, $config = NULL)
     {
-        $json = json_decode($key);
         $clientId = null;
         if ($json->username) $clientId = $json->username;
         elseif ($json->email) $clientId = $json->email;
-        else return false;
-        // TODO : DELETE DEVICES
-        // TODO : DEBUG
-        // TODO : HANDLE EXCEPTIONS
+        else
+        {
+            throw new HTTP\HTTP_NOT_FOUND();
+        }
+
         $client = $this->dao->get($clientId);
         $device[] = $this->deviceDAO->getByClient($client->getJSON());
         foreach ($device as $dev)
         {
             $this->deviceDAO->delete($dev);
         }
-        if($this->dao->delete($client)) return true;
-        else return false;
+        if($this->dao->delete($client)) http_response_code(Authentication::HTTP_ACCEPTED);
+        else
+        {
+            throw new HTTP\HTTP_OPERATION_FAILED();
+        }
     }
 
-    public function put ($key = NULL, $xss_clean = NULL)
+    /**
+     * @param $data
+     * @param null $config
+     * @return mixed|void
+     */
+    public function put ($data, $config = NULL)
     {
         // TODO : WARNING! -> TEMPORARY
-        return $this->post($key);
-    }
-
-    public function REST_GET($id, $token = NULL)
-    {
-        return $this->get($id, $token);
-    }
-
-    public function REST_POST(string $json)
-    {
-        return $this->post($json);
-    }
-
-    public function REST_PUT(string $json)
-    {
-        $this->put($json);
-    }
-
-    public function REST_DELETE(string $json)
-    {
-        $this->delete($json);
-    }
-
-    public function index()
-    {
-        echo "Access Denied";
+        $this->post($data);
     }
 }

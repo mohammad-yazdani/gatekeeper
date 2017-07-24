@@ -17,7 +17,7 @@ use FileSystem\RSA_FileManager;
 use Firebase\JWT\JWT;
 use models\Client;
 use models\Device;
-use models\DeviceController;
+use controllers\DeviceController;
 use models\Token;
 use \ClientController;
 
@@ -94,14 +94,10 @@ class DeviceTokenManager implements TokenManager
         {
             case 0:
                 http_response_code(406);
-                echo Authentication::$notAcceptable_406;
-                return false;
-                break;
+                die(Authentication::$notAcceptable_406);
             case 2:
                 http_response_code(403);
-                echo Authentication::$expired_403;
-                return false;
-                break;
+                die(Authentication::$expired_403);
             default:
                 return $aud;
                 //return false; // TODO : FOR TEST
@@ -127,7 +123,7 @@ class DeviceTokenManager implements TokenManager
             $aud = $decoded['aud'];
             $uid = $decoded['deviceInfo']->uid;
 
-            $client = (new ClientController())->get($aud);
+            $client = (new ClientController())->get_object($aud);
             $device = (new DeviceController())->get($uid);
 
             $newToken = self::generate($device, $client);

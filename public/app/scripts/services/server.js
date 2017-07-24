@@ -8,8 +8,8 @@ AnalyticsApp.service('Server', ['$rootScope', '$timeout', '$http', '$localStorag
   function ($rootScope, $timeout, $http, $localStorage) {
 
   this.baseAddress = "http://" + $rootScope.host_address + "/gatekeeper/index.php/";
-  //this.authAddress = "ClientAuth";
-  this.authAddress = "AnalyticsAuth";
+  this.authAddress = "ClientAuth";
+  //this.authAddress = "AnalyticsAuth";
 
     this.login = function (username, password) {
     var params = "/null/" + username + "/" + password;

@@ -10,11 +10,15 @@
 require_once 'Controller.php';
 require_once 'Authentication.php';
 require_once 'ClientController.php';
+require_once APPPATH.'helpers\Exceptions\HTTP\HTTP_OPERATION_FAILED.php';
 
+// TODO : CLEAN CODE
+
+/**
+ * @property ClientController controller
+ */
 class ClientAuth extends Authentication
 {
-
-
     /**
      * TestController constructor.
      */
@@ -24,112 +28,76 @@ class ClientAuth extends Authentication
         $this->controller = new ClientController();
     }
 
+    /**
+     *
+     */
     public function index_get()
     {
-        $key = $this->uri->segment(2);
-
-        if ($key == "check")
+        $name = $this->uri->segment(2);
+        $token_result = $this->authorize();
+        if (strlen($name) > 0)
         {
-            $statusReturn = 1;
-            $id = $this->uri->segment(3);
-            try
+            if ($token_result)
             {
-                if (!$this->controller->get($id, true)) {
-                    $statusReturn = 1;
-                } else {
-                    $statusReturn = 0;
-                }
+                $this->controller->get($name);
             }
-            catch (Exception $e)
+            else
             {
-                log_message('error', $e->getMessage());
-                $statusReturn = 1;
+                $this->controller->unauthorized_get($name);
             }
-            echo $statusReturn;
-            return $statusReturn;
         }
-
-        if ($key == "null") $key = null;
-
-        $username = $this->uri->segment(3);
-        $password = $this->uri->segment(4);
-        $id = $this->uri->segment(3);
-
-        $evaluation_result = $this->evaluate($key, $username, $password);
-
-        $clientResult = null;
-
-        if ($evaluation_result)
+        else if ($token_result)
         {
-            $clientResult =  $this->controller->REST_GET($id, $key);
+            http_response_code(Authentication::HTTP_ACCEPTED);
+            die($this->update_token($token_result));
         }
         else
         {
-            http_response_code(403);
-            echo Authentication::$forbidden_403;
-            return false;
+            $this->register_credentials();
         }
-
-        http_response_code(202);
-        return $clientResult;
     }
 
-    // TODO : DONE
+    /**
+     * Sample json input: { username, email, password, data, uid }
+     */
     public function index_post()
     {
-        $json = new stdClass();
-        $json->key = $this->uri->segment(2);
-        $json->username = $this->uri->segment(3);
-        $json->email = $this->uri->segment(4);
-        $json->password = $this->uri->segment(5);
-        $json->data = $this->uri->segment(6);
-        $json->uid = $this->uri->segment(7);
-
-        print_r($json);
-
-        if ($json->uid == "null") $json->uid = null;
-
+        $json = json_decode($this->input->raw_input_stream);
+        $json->uid = null;
         $authId = $this->dao->encrypt($json->password)->getId();
         $json->authId = $authId;
-
         try
         {
-            $jwt = $this->controller->REST_POST(json_encode($json));
-            if ($jwt)
-            {
-                http_response_code(200);
-                echo $jwt;
-            }
+            $this->controller->post($json);
         }
         catch (Exception $e)
         {
-            log_message('error', $e->getMessage());
-            http_response_code(409);
-            echo Authentication::$conflict_409;
+            echo $e->getMessage();
+            throw new \Exceptions\HTTP\HTTP_OPERATION_FAILED();
         }
     }
 
+    /**
+     *
+     */
     public function index_put()
     {
-        $key = $this->uri->segment(1);
-        $username = $this->uri->segment(2);
-        $password = $this->uri->segment(3);
-        $json = $this->uri->segment(4);
-        if ($this->evaluate($key, $username, $password))
+        if ($this->authorize())
         {
-            $this->controller->REST_PUT($json);
+            $json = json_decode($this->input->raw_input_stream);
+            $this->controller->put($json);
         }
     }
 
+    /**
+     *
+     */
     public function index_delete()
     {
-        $key = $this->uri->segment(1);
-        $username = $this->uri->segment(2);
-        $password = $this->uri->segment(3);
-        $json = $this->uri->segment(4);
-        if ($this->evaluate($key, $username, $password))
+        if ($this->authorize())
         {
-            $this->controller->REST_DELETE($json);
+            $json = json_decode($this->input->raw_input_stream);
+            $this->controller->delete($json);
         }
     }
 }

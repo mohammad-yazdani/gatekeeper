@@ -10,6 +10,10 @@
 require_once 'Authentication.php';
 require_once 'AnalyticsController.php';
 
+/**
+ * @property ClientController clientCtrl
+ * @property AnalyticsController controller
+ */
 class AnalyticsAuth extends Authentication
 {
 
@@ -21,29 +25,20 @@ class AnalyticsAuth extends Authentication
     }
 
     /**
-     * Sample json input: { "data" }
-     * Input name: 'json'
-     * Sample URL input:
+     * Input:
+     * /type/{{type name}}/action/{{action name}}/{{associative input}}
      */
     public function index_get()
     {
-        $headers = $this->input->request_headers();
-        print_r($headers['authorization']);
-        return;
-        $type = $this->uri->segment[2];
-        $action = $this->uri->segment[3];
-
-        $input = json_decode($this->input->post('json'));
-        // TODO : Get token from header
-        $token = NULL;
-        $client = $this->validate_client($token);
-        if ($client)
+        if ($this->authorize())
         {
-            if ($type === 'command')
+            $params =  $this->uri->uri_to_assoc(2);
+            $input =  $this->uri->uri_to_assoc(4);
+
+            if ($params['type'] === 'command')
             {
-                $this->controller->get($input, $action);
+                $this->controller->get($input, $params['action']);
             }
-            // TODO : MORE TYPES TO COME
         }
         else
         {
@@ -53,16 +48,15 @@ class AnalyticsAuth extends Authentication
     }
 
     /**
-     * Sample input: { "key", "data" }
+     * Sample input: JSON
      * Input name: 'json'
      */
     public function index_post()
     {
-        $input = json_decode($this->input->post('json'));
-        $client = $this->validate_client($input['key']);
-        if ($client)
+        if ($this->authorize())
         {
-            $this->controller->post($input['data']);
+            $input = json_decode($this->input->post('json'));
+            $this->controller->post($input);
         }
         else
         {

@@ -23,6 +23,7 @@ use models\Device;
 use models\DeviceController;
 use models\Token;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Token\DeviceTokenManager;
 
 class AuthDAOImpl extends \DAOImpl implements AuthDAO
 {
@@ -81,6 +82,11 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
             }
         }
         return true;
+    }
+
+    public function get_key($client, $device)
+    {
+        return DeviceTokenManager::generate($device, $client);
     }
 
     /**
