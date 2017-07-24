@@ -8,6 +8,8 @@
 
 namespace Exceptions\HTTP;
 
+require_once 'HTTP_EXCEPTION.php';
+
 use \Authentication;
 
 /**

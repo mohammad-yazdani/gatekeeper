@@ -7,91 +7,87 @@
  */
 
 namespace controllers;
-namespace models;
-require_once 'File.php';
-
 
 use DAO\ClientFileDAOImpl;
+use Exceptions\HTTP\HTTP_OPERATION_FAILED;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use \FileSystem\Inspector;
+use ClientController;
 
+// TODO : CLEAN-CODE
+
+/**
+ * Class FileController
+ * @package controllers
+ */
 class FileController extends \Controller
 {
-    private $fileDAO;
+    /**
+     * @var Inspector
+     */
+    private $inspector;
+
+    /**
+     * @var ClientController
+     */
+    private $clientCtrl;
 
     /**
      * FileController constructor.
      */
     public function __construct()
     {
-        $CI =& get_instance();
-        $CI->load->library('doctrine');
-        $em = $CI->doctrine->em;
-        // TODO : Change to FileDAOImpl
-        $this->dao = new ClientFileDAOImpl($em);
+        $this->inspector = new Inspector();
+        $this->clientCtrl = new ClientController();
     }
 
-    public function get($key = NULL, $xss_clean = NULL)
-    {
-        // TODO: Implement get() method.
-        $id = (int) $key;
-        return $this->fileDAO->get($id);
-    }
+    /**
+     * @param string $name
+     * @param null $config
+     * @return mixed|void
+     */
+    public function get(string $name, $config = NULL) {}
 
-    public function post($key = NULL, $xss_clean = NULL)
+    /**
+     * @param $data
+     * @param null $config
+     * @return mixed|void
+     * @throws HTTP_OPERATION_FAILED
+     */
+    public function post($data, $config = NULL)
     {
-        // TODO: Implement post() method.
-        $json = json_decode($key);
-        $file = new File($json->clientId);
-        if($this->fileDAO->save($file)){
-            return true;
-        } else {
-            return false;
+        $client = $this->clientCtrl->get_object($data->client);
+        $category = $data->category;
+        if (!isset($data->directory)) $directory = "";
+        else $directory = $data->directory;
+        try
+        {
+            $this->inspector->upload($client, $category, $directory);
+        }
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+            throw new HTTP_OPERATION_FAILED();
         }
     }
 
-    public function put($key = NULL, $xss_clean = NULL)
+    /**
+     * @param $data
+     * @param null $config
+     * @return mixed|void
+     */
+    public function put($data, $config = NULL)
     {
         // TODO: Implement put() method.
-        $this->post($key); //temporary
     }
 
-    public function delete($key = NULL, $xss_clean = NULL)
+    /**
+     * @param $data
+     * @param null $config
+     * @return mixed|void
+     */
+    public function delete($data, $config = NULL)
     {
         // TODO: Implement delete() method.
-        $json = json_decode($key);
-        $file = $this->fileDAO->get($json->id);
-        if ($file) {
-            if($this->fileDAO->delete($file)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
     }
-
-    public function REST_GET($id, $token = NULL)
-    {
-        // TODO: Implement REST_GET() method.
-        $this->get($id);
-    }
-
-    public function REST_POST(string $json)
-    {
-        // TODO: Implement REST_POST() method.
-        $this->post($json);
-    }
-
-    public function REST_PUT(string $json)
-    {
-        // TODO: Implement REST_PUT() method.
-        $this->put($json);
-    }
-
-    public function REST_DELETE(string $json)
-    {
-        // TODO: Implement REST_DELETE() method.
-        $this->delete($json);
-    }
-
 }

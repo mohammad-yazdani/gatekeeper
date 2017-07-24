@@ -43,13 +43,8 @@ class DeviceTokenManager implements TokenManager
     static public function validate(string $key)
     {
         $result = 1;
-        // TODO : Validate JWT:
-        // TODO : Validate the issuer, and the info
         $key_res = new RSA_FileManager();
-        // TODO : THE DECODE PART
         $decoded = (array) JWT::decode($key, $key_res->getKey(), array('RS256'));
-
-        //print_r($decoded);
 
         $iss = $decoded['iss'];
         $aud = $decoded['aud'];
@@ -63,7 +58,7 @@ class DeviceTokenManager implements TokenManager
         if (!($username == $aud)) $result = 0;
         $deviceCtrl = new DeviceController();
 
-        $device = $deviceCtrl->get($uid);
+        $device = $deviceCtrl->get_object((int) $uid);
         if (!$device) $result = 0;
         else $device = $device->getPassIsSaved();
 
@@ -124,7 +119,7 @@ class DeviceTokenManager implements TokenManager
             $uid = $decoded['deviceInfo']->uid;
 
             $client = (new ClientController())->get_object($aud);
-            $device = (new DeviceController())->get($uid);
+            $device = (new DeviceController())->get_object($uid);
 
             $newToken = self::generate($device, $client);
 

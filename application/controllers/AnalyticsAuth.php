@@ -10,6 +10,8 @@
 require_once 'Authentication.php';
 require_once 'AnalyticsController.php';
 
+// TODO : CLEAN CODE
+
 /**
  * @property ClientController clientCtrl
  * @property AnalyticsController controller
@@ -17,6 +19,9 @@ require_once 'AnalyticsController.php';
 class AnalyticsAuth extends Authentication
 {
 
+    /**
+     * AnalyticsAuth constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -42,8 +47,7 @@ class AnalyticsAuth extends Authentication
         }
         else
         {
-            http_response_code(Authentication::HTTP_FORBIDDEN);
-            die(Authentication::$forbidden_403);
+            throw new \Exceptions\HTTP\HTTP_FORBIDDEN();
         }
     }
 
@@ -60,16 +64,21 @@ class AnalyticsAuth extends Authentication
         }
         else
         {
-            http_response_code(Authentication::HTTP_FORBIDDEN);
-            die(Authentication::$forbidden_403);
+            throw new \Exceptions\HTTP\HTTP_FORBIDDEN();
         }
     }
 
+    /**
+     *
+     */
     public function index_put()
     {
 
     }
 
+    /**
+     *
+     */
     public function index_delete()
     {
 

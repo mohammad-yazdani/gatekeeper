@@ -15,13 +15,26 @@ require_once APPPATH.'libraries/REST_Controller.php';
 require_once 'Controller.php';
 
 use \DAO\DeviceDAOImpl;
+use Exceptions\HTTP\HTTP_NOT_FOUND;
+use Exceptions\HTTP\HTTP_OPERATION_FAILED;
 use models\Device;
 
+// TODO : CLEAN-CODE
 
+/**
+ * Class DeviceController
+ * @package controllers
+ */
 class DeviceController extends \Controller
 {
+    /**
+     * @var DeviceDAOImpl
+     */
     private $deviceDAO;
 
+    /**
+     * DeviceController constructor.
+     */
     function __construct()
     {
         $CI =& get_instance();
@@ -30,62 +43,74 @@ class DeviceController extends \Controller
         $this->deviceDAO = new DeviceDAOImpl($em);
     }
 
-    public function get(string $key, $xss_clean = NULL) : Device
+    /**
+     * @param string $uid
+     * @param null $config
+     * @return mixed|void
+     */
+    public function get(string $uid, $config = NULL)
     {
-        $id = (int) $key;
+        $id = (int) $uid;
+        die($this->deviceDAO->get($id)->getJSON());
+    }
+
+    /**
+     * @param string $uid
+     * @param null $config
+     * @return mixed|void
+     */
+    public function get_object(string $uid, $config = NULL)
+    {
+        $id = (int) $uid;
         return $this->deviceDAO->get($id);
     }
 
-    public function post($key = NULL, $xss_clean = NULL)
+    /**
+     * @param $data
+     * @param null $config
+     * @return mixed|void
+     * @throws HTTP_OPERATION_FAILED
+     */
+    public function post($data, $config = NULL)
     {
-        $json = json_decode($key);
-        $device = new Device($json->clientId);
+        $device = new Device($data->clientId);
         if($this->deviceDAO->save($device)){
-            return true;
+            http_response_code(\Authentication::HTTP_CREATED);
         } else {
-            return false;
+            throw new HTTP_OPERATION_FAILED();
         }
     }
 
-    public function put($key = NULL, $xss_clean = NULL)
+    /**
+     * @param $key
+     * @param null $xss_clean
+     * @return mixed|void
+     */
+    public function put($key, $xss_clean = NULL)
     {
         $this->post($key);
     }
 
-    public function delete($key = NULL, $xss_clean = NULL)
+    /**
+     * @param $name
+     * @param null $config
+     * @return mixed|void
+     * @throws HTTP_NOT_FOUND
+     * @throws HTTP_OPERATION_FAILED
+     */
+    public function delete($name, $config = NULL)
     {
-        $json = json_decode($key);
+        $json = json_decode($name);
         $device = $this->deviceDAO->get($json->id);
         if ($device) {
             if($this->deviceDAO->delete($device)) {
-                return true;
+                http_response_code(\Authentication::HTTP_ACCEPTED);
             } else {
-                return false;
+                throw new HTTP_OPERATION_FAILED();
             }
         } else {
-            return false;
+            throw new HTTP_NOT_FOUND();
         }
 
     }
-
-
-    // TODO : Do token part later
-    public function REST_GET ($id, $token = NULL)
-    {
-        return $this->get($id);
-    }
-    public function REST_POST (string $json)
-    {
-        $this->post($json);
-    }
-    public function REST_PUT (string $json)
-    {
-        $this->put($json);
-    }
-    public function REST_DELETE (string $json)
-    {
-        $this->delete($json);
-    }
-
-
 }

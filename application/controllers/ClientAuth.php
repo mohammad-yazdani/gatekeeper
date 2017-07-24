@@ -49,7 +49,7 @@ class ClientAuth extends Authentication
         else if ($token_result)
         {
             http_response_code(Authentication::HTTP_ACCEPTED);
-            die($this->update_token($token_result));
+            // die($this->update_token($token_result));
         }
         else
         {

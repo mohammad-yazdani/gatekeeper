@@ -9,8 +9,13 @@
 
 require_once 'Authentication.php';
 
-use \models\DeviceController;
+use controllers\DeviceController;
 
+// TODO : CLEAN-CODE
+
+/**
+ * Class DeviceAuth
+ */
 class DeviceAuth extends Authentication
 {
     /**
@@ -22,109 +27,65 @@ class DeviceAuth extends Authentication
         $this->controller = new DeviceController();
     }
 
+    /**
+     * @throws \Exceptions\HTTP\HTTP_NOT_ACCEPTABLE
+     * @throws \Exceptions\HTTP\HTTP_UNAUTHORIZED
+     */
     public function index_get()
     {
-        $key = $this->uri->segment(2);
-        $uid = $this->uri->segment(3);
 
-        if (strlen($key) === 0)
+        $uid = $this->uri->segment(2);
+        $token_result = $this->authorize();
+        if (strlen($uid) > 0)
         {
-            http_response_code(401);
-            echo Authentication::$unauthorized_401;
-            return null;
-        }
-
-        $deviceResult = null;
-
-        try
-        {
-            $evaluation_result = $this->evaluate($key);
-        }
-        catch (UnexpectedValueException $e)
-        {
-            log_message('error', $e->getMessage());
-            http_response_code(400);
-            echo Authentication::$badRequest_400;
-            return false;
-        }
-        if ($evaluation_result)
-        {
-            if (strlen($uid) === 0)
+            if ($token_result)
             {
-                // TODO : validate the token and send back
-                http_response_code(202);
-                return true;
+                http_response_code(Authentication::HTTP_ACCEPTED);
+                die($this->controller->get($uid)->getJSON());
             }
-            $deviceResult = $this->controller->REST_GET($uid, $key);
+            else
+            {
+                throw new \Exceptions\HTTP\HTTP_UNAUTHORIZED();
+            }
         }
         else
         {
-            http_response_code(403);
-            echo Authentication::$forbidden_403;
-            return false;
+            throw new \Exceptions\HTTP\HTTP_NOT_ACCEPTABLE();
         }
-
-        if ($deviceResult == null)
-        {
-            http_response_code(404);
-            echo Authentication::$notFound_404;
-            return null;
-        }
-        http_response_code(202);
-
-        // TODO : FOR TEST
-        print_r($deviceResult);
-
-        http_response_code(201);
-        echo \Token\DeviceTokenManager::update($key);
-        return true;
     }
 
+    /**
+     * Sample json input: { username }
+     */
     public function index_post()
     {
-        $json = new stdClass();
-        $json->key = $this->uri->segment(2);
-        $json->clientId = $this->uri->segment(3);
-
-        if (strlen($json->key) === 0)
+        if ($this->authorize())
         {
-            http_response_code(401);
-            echo Authentication::$unauthorized_401;
-            return null;
-        }
-
-        $deviceResult = null;
-
-        try
-        {
-            $evaluation_result = $this->evaluate($json->key);
-        }
-        catch (UnexpectedValueException $e)
-        {
-            log_message('error', $e->getMessage());
-            http_response_code(400);
-            echo Authentication::$badRequest_400;
-            return false;
-        }
-
-        if ($evaluation_result)
-        {
-            if ($this->controller->post(json_encode($json)))
+            $json = json_decode($this->input->raw_input_stream);
+            try
             {
-                http_response_code(201);
-                \Token\DeviceTokenManager::update($json->key);
-                return true;
+                $this->controller->post($json);
             }
-            else false;
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+                throw new \Exceptions\HTTP\HTTP_OPERATION_FAILED();
+            }
         }
-        return false;
+        else throw new \Exceptions\HTTP\HTTP_UNAUTHORIZED();
     }
 
+    /**
+     *
+     */
     public function index_put()
     {
 
     }
 
+    /**
+     *
+     */
     public function index_delete()
     {
         // TODO: Implement index_delete() method.

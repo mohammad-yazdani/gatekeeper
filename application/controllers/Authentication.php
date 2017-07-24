@@ -18,6 +18,8 @@ use \models\Client;
 use controllers\DeviceController;
 use \models\Device;
 
+// TODO : CLEAN-CODE
+
 /**
  * Class Authentication
  */
@@ -96,6 +98,10 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
     /**
      * @var string
      */
+    static public $unprocessable_422 = "cannot_process_entity";
+    /**
+     * @var string
+     */
     static public $operation_failed_501 = "operation_failed";
 
     /**
@@ -169,7 +175,12 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
             $headers = $this->input->request_headers();
             if (!isset($headers['token'])) throw new Exception();
             $token = $headers['token'];
-            return $this->evaluate_token($token);
+            $result =  $this->evaluate_token($token);
+            if ($result)
+            {
+                $this->output->set_header('token: '.$this->update_token($token));
+            }
+            return $result;
         }
         catch (Exception $e)
         {

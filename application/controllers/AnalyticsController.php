@@ -7,7 +7,7 @@
  * Time: 3:59 PM
  */
 
-// TODO : CODE CLEANED
+// TODO : CODE CLEANED (EXCEPT POST)
 
 require_once 'Authentication.php';
 require_once APPPATH.'helpers/os/Analytics/MonthlyReports.php';
@@ -16,6 +16,7 @@ require_once APPPATH.'helpers/DAO/ProfileDAOImpl.php';
 use \models\Profile;
 use \DAO\ProfileDAOImpl;
 use \OS\Analytics\MonthlyReports as MonthlyReports;
+use \FileSystem\Injector;
 
 /**
  * Class AnalyticsController
@@ -42,28 +43,29 @@ class AnalyticsController extends Controller
     }
 
     /**
-     * @param null $json_input
+     * @param null|string $json_input
      * @param null $action
      * Sample input = { 'command', 'subject', other fields}
+     * @return mixed|void
+     * @throws \Exceptions\HTTP\HTTP_OPERATION_FAILED
      */
-    public function get($json_input = NULL, $action = NULL)
+    public function get(string $json_input, $action = NULL)
     {
         try
         {
             $options_json = json_encode($json_input);
-            $option_file_name = APPPATH."analytics\\temp.json";
-            $option_file = fopen($option_file_name, "w") or die("Unable to open file!");
-            fwrite($option_file, $options_json);
-            fclose($option_file);
+            $option_file_dir = APPPATH."analytics\\";
+            $option_file_name = "temp.json";
+            $injector = new Injector($option_file_dir);
+            $option_file = $injector->send_unique($option_file_name, $options_json);
 
-            if ($options_json != false && $option_file_name != false)
+            if ($options_json != false && $option_file != false)
             {
-                $this->os->setScript($action, $option_file_name);
+                $this->os->setScript($action, $option_file);
                 $result = $this->os->Run();
                 if (!$result)
                 {
-                    http_response_code(Authentication::HTTP_UNPROCESSABLE_ENTITY);
-                    return;
+                    throw new \Exceptions\HTTP\HTTP_UNPROCESSABLE_ENTITY();
                 }
                 else
                 {
@@ -75,24 +77,25 @@ class AnalyticsController extends Controller
             }
             else
             {
-                http_response_code(Authentication::HTTP_BAD_REQUEST);
-                die(Authentication::$badRequest_400);
+                throw new \Exceptions\HTTP\HTTP_BAD_REQUEST();
             }
         }
         catch (Exception $e)
         {
             echo $e->getMessage();
-            http_response_code(Authentication::HTTP_NO_CONTENT);
+            throw new \Exceptions\HTTP\HTTP_OPERATION_FAILED();
         }
     }
 
 
+    // TODO : LATER
     /**
      * @param null $input
      * @param null $config
      * Sample input = { 'info': { key, name, type }, 'data': { Input data }}*
+     * @return mixed|void
      */
-    public function post($input = NULL, $config = NULL)
+    public function post($input, $config = NULL)
     {
         $input = json_decode($input)['info'];
         $data = json_decode($input)['data'];
@@ -120,6 +123,7 @@ class AnalyticsController extends Controller
     /**
      * @param null $key
      * @param null $xss_clean
+     * @return mixed|void
      */
     public function put($key = NULL, $xss_clean = NULL)
     {
@@ -129,43 +133,10 @@ class AnalyticsController extends Controller
     /**
      * @param null $key
      * @param null $xss_clean
+     * @return mixed|void
      */
     public function delete($key = NULL, $xss_clean = NULL)
     {
         // TODO: Implement delete() method.
-    }
-
-    /**
-     * @param null $json_input
-     * @param null $action
-     */
-    public function REST_GET($json_input = NULL, $action = NULL)
-    {
-        $this->get($json_input, $action);
-    }
-
-    /**
-     * @param string $json
-     * @param null $config
-     */
-    public function REST_POST(string $json, $config = NULL)
-    {
-        $this->post($json, $config);
-    }
-
-    /**
-     * @param string $json
-     */
-    public function REST_PUT(string $json)
-    {
-        // TODO: Implement REST_PUT() method.
-    }
-
-    /**
-     * @param string $json
-     */
-    public function REST_DELETE(string $json)
-    {
-        // TODO: Implement REST_DELETE() method.
     }
 }
