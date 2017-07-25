@@ -2,18 +2,18 @@
  * Created by myazdani on 6/21/2017.
  */
 
+// TODO : CLEAN-CODE
+
 'use strict';
 
 angular
-  .module('analyticsApp').controller('CatalogCtrl', function ($scope, $location, $localStorage) {
-
-  var params = $location.search();
-
+  .module('analyticsApp').controller('CatalogCtrl', function ($scope, $location, $localStorage, $rootScope) {
+  /*
   console.log("Token: " + $localStorage.token);
   console.log("User: " + $localStorage.user);
+  */
 
-  //$localStorage.token = params['token'];
-  //$localStorage.user = params['user'];
+  $scope.current_user = $rootScope.current_user_name;
 
   $scope.apps = [
     'Monthly Report'
@@ -30,9 +30,6 @@ angular
 
   $scope.open_application = function (name) {
     var address = $scope.app_address[name];
-
-    console.log("Opening " + address);
-
     $location.path("analytics");
   };
 

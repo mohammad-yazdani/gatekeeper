@@ -2,61 +2,55 @@
  * Created by Mohammad Yazdani on 2017-07-04.
  */
 
+// TODO : CLEAN-CODE
+
 'use strict';
 
-AnalyticsApp.controller('SignUpCtrl', ['$scope', 'fileUpload', 'fileService', '$rootScope', '$location', '$window',
-  'Server', function ($scope, fileUpload, fileService, $rootScope, $location, $window, Server) {
-
+AnalyticsApp.controller('SignUpCtrl',
+  ['$scope', 'fileService', '$rootScope', '$location', 'Server', '$window', '$timeout', '$localStorage',
+  function ($scope, fileService, $rootScope, $location, Server, $window, $timeout, $localStorage) {
     $scope.email = null;
     $scope.email_confirm = null;
     $scope.username = null;
     $scope.password = null;
     $scope.password_confirm = null;
+    $scope.special = "None";
     $scope.error = null;
 
-    $scope.signUp = function () {
-      // TODO : Get username from input
-      // TODO : Get password from input
-      console.log("Sign up begin...");
+    $scope.register = function () {
+      var error_stop = true;
+      $scope.error = null;
 
       if (!$scope.email || $scope.email.length <= 0) {
         $scope.error = "Email field empty!";
-        return;
+        if (error_stop) return;
       }
 
       if ($scope.email_confirm !== $scope.email) {
         $scope.error = "Emails do not match!";
-        return;
+        if (error_stop) return;
       }
-
       if (!$scope.username || $scope.username.length <= 0) {
         $scope.error = "Username field empty!";
-        return;
+        if (error_stop) return;
       }
-
       if (!$scope.password || $scope.password.length <= 0) {
         $scope.error = "Password field empty!";
-        return;
+        if (error_stop) return;
       }
-
       if ($scope.password_confirm !== $scope.password) {
         $scope.error = "Passwords do not match!";
-        return;
+        if (error_stop) return;
       }
 
-
-
-      $scope.error = null;
-      return;
-
-      // TODO : Call cred login
-      var result = Server.signUp($scope.username, $scope.password, $scope.email)
+      Server.register($scope.username, $scope.password, $scope.email, $scope.special)
         .then(function (data) {
-          if (data.length > 1) {
+          if (data.headers('token').length > 1) {
             $localStorage.token = data;
-            console.log("Transfer");
             $localStorage.user = $scope.username;
             $location.path("/catalog");
+          } else {
+            $scope.error = data.data.replace(/_/g, ' ');
           }
         });
     };
@@ -64,5 +58,4 @@ AnalyticsApp.controller('SignUpCtrl', ['$scope', 'fileUpload', 'fileService', '$
     $scope.goToLogin = function () {
       $location.path("/");
     };
-
   }]);
