@@ -7,14 +7,17 @@
  * # AboutCtrl
  * Controller of the analyticsApp
  */
-AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScope', '$timeout', '$localStorage',
+AnalyticsApp.controller('ProfileManagerCtrl',
+  ['$scope', '$location', '$rootScope', '$timeout', '$localStorage', 'Server',
   function(
   $scope,
   $location,
   $rootScope,
   $timeout,
-  $localStorage
+  $localStorage,
+  Server
 ) {
+    Server.checkSession();
 
     $localStorage.profile_files = "";
     $localStorage.profile_files_tb = "";
@@ -90,6 +93,7 @@ AnalyticsApp.controller('ProfileManagerCtrl', ['$scope', '$location', '$rootScop
 
     console.log($scope.appMenu);
 
+    console.log("Manager");
     console.log("Adding: " + $scope.apps[0]);
 
     $scope.open_app = function (name) {

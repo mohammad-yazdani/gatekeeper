@@ -27,7 +27,7 @@ use \ClientController;
  */
 class DeviceTokenManager implements TokenManager
 {
-    static public function generate(Device $device, Client $client) : string
+    static public function generate($device, Client $client) : string
     {
         $token = (new Token($device, $client->getUsername()))->jsonSerialize();
         $key_res = new RSA_FileManager();
@@ -50,23 +50,28 @@ class DeviceTokenManager implements TokenManager
         $aud = $decoded['aud'];
         $init = (int) $decoded['init'];
         $exp = (int) $decoded['exp'];
-        $uid = $decoded['deviceInfo']->uid;
-        $username = $decoded['deviceInfo']->client;
-        $passSaved = $decoded['deviceInfo']->passSaved;
+        $uid = 0;
+        $username = "TEST";
+        $passSaved = false; // TODO : TEST
 
         if (!($iss == "gatekeeper")) $result = 0;
         if (!($username == $aud)) $result = 0;
-        $deviceCtrl = new DeviceController();
 
+        /* // TODO : IMPLEMENT AFTER DEVICE INFORMATION IS STORED IN CLIENT
+        $uid = $decoded['deviceInfo']->uid;
+        $username = $decoded['deviceInfo']->client;
+        $passSaved = $decoded['deviceInfo']->passSaved;
+        $deviceCtrl = new DeviceController();
         $device = $deviceCtrl->get_object((int) $uid);
         if (!$device) $result = 0;
         else $device = $device->getPassIsSaved();
+        if ($passSaved !== $device) $result = 0;
+        */
 
         if (time() > ($init + $exp)) $result = 2;
 
         if ($passSaved == 'true') $passSaved = true;
         else $passSaved = false;
-        if ($passSaved !== $device) $result = 0;
 
         /* TODO : FOR TEST
         $passSavedString = "false";
@@ -119,8 +124,10 @@ class DeviceTokenManager implements TokenManager
             $uid = $decoded['deviceInfo']->uid;
 
             $client = (new ClientController())->get_object($aud);
-            $device = (new DeviceController())->get_object($uid);
 
+            // TODO : IMPLEMENT AFTER DEVICE INFORMATION IS STORED IN CLIENT
+            // $device = (new DeviceController())->get_object($uid);
+            $device = null;
             $newToken = self::generate($device, $client);
 
             return $newToken;

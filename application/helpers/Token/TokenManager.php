@@ -17,7 +17,7 @@ use models\Device;
  */
 interface TokenManager
 {
-    static public function generate (Device $device, Client $client) : string;
+    static public function generate ($device, Client $client) : string;
 
     static public function validate (string $key);
 

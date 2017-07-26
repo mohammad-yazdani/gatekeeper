@@ -5,8 +5,10 @@
 'use strict';
 
 AnalyticsApp.controller('ProfileConfig',
-    ['$scope', 'fileUpload', 'fileService', '$rootScope', '$location', '$window', '$localStorage',
-  function ($scope, fileUpload, fileService, $rootScope, $location, $window, $localStorage) {
+    ['$scope', 'fileUpload', 'fileService', '$rootScope', '$location', '$window', '$localStorage', 'Server',
+  function ($scope, fileUpload, fileService, $rootScope, $location, $window, $localStorage, Server) {
+
+    Server.checkSession();
 
     // Error display
     $scope.error = "";

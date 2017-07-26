@@ -10,6 +10,9 @@
 AnalyticsApp.controller('ProfileCtrl',
   ['$scope', 'fileService', '$rootScope', '$location', '$window', '$localStorage', 'Server',
     function ($scope, fileService, $rootScope, $location, $window, $localStorage, Server) {
+
+      Server.checkSession();
+
     $scope.garbage = "garbage";
     $scope.files = [];
     $scope.selected = {

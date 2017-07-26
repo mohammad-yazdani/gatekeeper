@@ -46,7 +46,7 @@ AnalyticsApp.controller('SignUpCtrl',
       Server.register($scope.username, $scope.password, $scope.email, $scope.special)
         .then(function (data) {
           if (data.headers('token').length > 1) {
-            $localStorage.token = data;
+            $localStorage.token = data.headers('token');
             $localStorage.user = $scope.username;
             $location.path("/catalog");
           } else {

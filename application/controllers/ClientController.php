@@ -115,7 +115,7 @@ class ClientController extends \Controller
     /**
      * @param $json
      * @param null $config
-     * @return void
+     * @return array|mixed
      * @throws HTTP\HTTP_OPERATION_FAILED
      */
     public function post ($json, $config = NULL)
@@ -158,13 +158,18 @@ class ClientController extends \Controller
                 $device = new Device($client->getUsername());
                 if (!$this->deviceDAO->save($device))
                 {
-                    http_response_code(Authentication::HTTP_NOT_IMPLEMENTED);
-                    die(Authentication::$operation_failed_501);
+                    throw new HTTP\HTTP_OPERATION_FAILED();
                 }
-                $jwt = \Token\DeviceTokenManager::generate($device, $client);
             }
 
-            if($this->dao->save($client)) die($jwt);
+            if($this->dao->save($client))
+            {
+                http_response_code(201);
+                return [
+                    'client' => $client,
+                    'device' => $device
+                ];
+            }
             else
             {
                 throw new HTTP\HTTP_OPERATION_FAILED();

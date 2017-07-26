@@ -49,7 +49,7 @@ class Token extends \Model
      * @param Device $device
      * @param string $issuedTo
      */
-    public function __construct(Device $device, string $issuedTo)
+    public function __construct($device, string $issuedTo)
     {
         parent::__construct();
 
@@ -61,7 +61,9 @@ class Token extends \Model
 
         $this->expiresAt = (30 * 60); // 30 minutes
 
-        $this->deviceInfo = $device->jsonSerialize();
+        // TODO : IMPLEMENT AFTER DEVICE INFORMATION IS STORED IN CLIENT
+        // $this->deviceInfo = $device->jsonSerialize();
+        $this->deviceInfo = "None";
 
         $this->setJSON(json_encode($this->jsonSerialize()));
     }

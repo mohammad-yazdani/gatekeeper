@@ -105,15 +105,10 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
         {
             $auth = new Auth();
         }
-        // TODO : Implement algorithms for authentication
-        // TODO : Generate salt
-
-        // TODO : WARNING! -> NOT SECURE / TEMPORARY
-        $auth->setSalt("saltVal");
-        $auth->setAuthString(base64_encode($password.$auth->getSalt()));
+        $auth_string = password_hash($password, PASSWORD_BCRYPT);
+        $auth->setAuthString(base64_encode($auth_string));
 
         $this->save($auth);
-
         return $auth;
     }
 
@@ -125,87 +120,18 @@ class AuthDAOImpl extends \DAOImpl implements AuthDAO
     public function decrypt(int $id, string $password) : bool
     {
         $auth = $this->get($id);
-        // TODO : Implement algorithms for authentication
-
-        // TODO : WARNING! -> NOT SECURE / TEMPORARY
-        $result = ($password."".$auth->getSalt() == base64_decode($auth->getAuthString()));
+        $result = password_verify($password, base64_decode($auth->getAuthString()));
         return $result;
     }
-
-    /*static public function validateKey(string $key) : bool
-    {
-        $result = 1;
-        // TODO : Validate JWT:
-        // TODO : Validate the issuer, and the info
-        $key_res = new RSA_FileManager();
-        // TODO : THE DECODE PART
-        $decoded = (array) JWT::decode($key, $key_res->getKey(), array('RS256'));
-
-        //print_r($decoded);
-
-        $iss = $decoded['iss'];
-        $aud = $decoded['aud'];
-        $init = (int) $decoded['init'];
-        $exp = (int) $decoded['exp'];
-        $uid = $decoded['deviceInfo']->uid;
-        $username = $decoded['deviceInfo']->client;
-        $passSaved = $decoded['deviceInfo']->passSaved;
-
-        if (!($iss == "gatekeeper")) $result = 0;
-        if (!($username == $aud)) $result = 0;
-        $deviceCtrl = new DeviceController();
-        $device = $deviceCtrl->get($uid);
-        if (!$device) $result = 0;
-        else $device = $device->getPassIsSaved();
-
-        if (time() > ($init + $exp)) $result = 2;
-
-        if ($passSaved == 'true') $passSaved = true;
-        else $passSaved = false;
-        if ($passSaved !== $device) $result = 0;
-        // TODO : Compare save password against database
-
-        switch ($result)
-        {
-            case 0:
-                echo "Corrupted";
-                return false;
-                break;
-            case 2:
-                echo "Expired";
-                return false;
-                break;
-            default:
-                return true;
-        }
-    }
-
-    static public function generateKey(Device $device, Client $client): string
-    {
-        // TODO : Send token
-        $token = (new Token($device, $client->getUsername()))->jsonSerialize();
-        $key_res = new RSA_FileManager();
-        $jwt = JWT::encode($token, $key_res->getKey(true), 'RS256');
-        return $jwt;
-    }
-
-    static public function updateKey(string $key): string
-    {
-        // TODO: Implement updateKey() method.
-    }
-    */
-
 
     public function getByDateCreated(DateTime $date)
     {
         // TODO: Implement getByDateCreated() method.
     }
-
     public function getByDateModified(DateTime $date)
     {
         // TODO: Implement getByDateModified() method.
     }
-
     public function getByJSON(string $json)
     {
         // TODO: Implement getByJSON() method.

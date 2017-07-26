@@ -68,7 +68,8 @@ class ClientAuth extends Authentication
         $json->authId = $authId;
         try
         {
-            $this->controller->post($json);
+            $params = $this->controller->post($json);
+            $this->new_token($params['client'], $params['device']);
         }
         catch (Exception $e)
         {

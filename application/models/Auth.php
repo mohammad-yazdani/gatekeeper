@@ -28,9 +28,6 @@ class Auth extends \Model
     private $id;
 
     /** @ORM\Column(type="string") */
-    private $salt;
-
-    /** @ORM\Column(type="string") */
     private $auth_string;
 
     /**
@@ -53,22 +50,6 @@ class Auth extends \Model
     /**
      * @return string
      */
-    public function getSalt(): string
-    {
-        return $this->salt;
-    }
-
-    /**
-     * @param string $salt
-     */
-    public function setSalt(string $salt)
-    {
-        $this->salt = $salt;
-    }
-
-    /**
-     * @return string
-     */
     public function getAuthString(): string
     {
         return $this->auth_string;
@@ -81,8 +62,6 @@ class Auth extends \Model
     {
         $this->auth_string = $auth_string;
     }
-    
-    
 
     /**
      * @return array
@@ -92,7 +71,6 @@ class Auth extends \Model
         return [
             'dateCreated' => $this->getDateCreated()->format('Y-m-d H:i:s'),
             'dateModified' => $this->getDateModified()->format('Y-m-d H:i:s'),
-            'salt' => $this->salt,
             'auth_string' => $this->auth_string
         ];
     }

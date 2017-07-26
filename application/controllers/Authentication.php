@@ -12,6 +12,7 @@ require_once APPPATH."helpers/DAO/DAOImpl.php";
 require_once APPPATH."helpers/DAO/ClientDAOImpl.php";
 require_once APPPATH."helpers\Token\DeviceTokenManager.php";
 require_once APPPATH."helpers\Exceptions\HTTP\HTTP_USER_NOT_FOUND.php";
+require_once APPPATH."helpers\Exceptions\HTTP\HTTP_WRONG_PASSWORD.php";
 
 use \DAO\AuthDAOImpl;
 use \models\Client;
@@ -140,7 +141,7 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
      * @param $username
      * @param $password
      * @param null|string $device
-     * @return string
+     * @return void
      * @throws \Exceptions\HTTP\HTTP_USER_NOT_FOUND
      * @throws \Exceptions\HTTP\HTTP_WRONG_PASSWORD
      */
@@ -162,7 +163,8 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
             $device = new Device($client->getUsername(), $agent);
         }
         else $device = $this->deviceCtrl->get($device);
-        return $this->dao->get_key($client, $device);
+
+        $this->new_token($client, $device);
     }
 
     /**
@@ -178,7 +180,7 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
             $result =  $this->evaluate_token($token);
             if ($result)
             {
-                $this->output->set_header('token: '.$this->update_token($token));
+                $this->send_token($this->update_token($token));
             }
             return $result;
         }
@@ -200,7 +202,8 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
             if(!isset($headers['username']) || !isset($headers['password'])) throw new Exception();
             $username = $headers['username'];
             $password = $headers['password'];
-            die($this->evaluate_credential($username, $password));
+            $this->evaluate_credential($username, $password);
+            return true;
         }
         catch (Exception $e)
         {
@@ -212,6 +215,19 @@ abstract class Authentication extends \Restserver\Libraries\REST_Controller
     protected function update_token($token)
     {
         return \Token\DeviceTokenManager::update($token);
+    }
+
+    protected function new_token($client, $device)
+    {
+        print_r($client);
+        print_r($device);
+        $this->send_token(\Token\DeviceTokenManager::generate($device, $client));
+    }
+
+    private function send_token($token)
+    {
+        $this->output->set_header('Access-Control-Expose-Headers: token');
+        $this->output->set_header('token: '.$token);
     }
 
     /**

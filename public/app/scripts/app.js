@@ -78,30 +78,23 @@ var AnalyticsApp = angular
       .otherwise({
         redirectTo: '/login'
       });
-
-    /*$locationProvider.html5Mode({
-      enabled: true,
-      requireBase: false
-    });*/
   }])
-  .run(function ($localStorage, $rootScope, $location) {
+  .run(["$localStorage", "$rootScope", "$location",
+    function ($localStorage, $rootScope, $location) {
     if (!$localStorage.token) {
       $location.token = "";
     }
-    console.log("Present token: " + $localStorage.token);
     $rootScope.lastCallBack = "";
     $rootScope.host_address = "localhost";
     //$rootScope.host_address = "192.168.68.145";
-
     $rootScope.logOut = function () {
       $localStorage.token = "";
       $localStorage.user = "";
+      $rootScope.current_user_name = $localStorage.user;
       $location.path("/");
     };
 
     $rootScope.home = function () {
       $location.path("/catalog");
     };
-
-    // console.log($localStorage);
-  });
+  }]);

@@ -7,11 +7,10 @@
 'use strict';
 
 angular
-  .module('analyticsApp').controller('CatalogCtrl', function ($scope, $location, $localStorage, $rootScope) {
-  /*
-  console.log("Token: " + $localStorage.token);
-  console.log("User: " + $localStorage.user);
-  */
+  .module('analyticsApp').controller('CatalogCtrl', function ($scope, $location, $localStorage, $rootScope, Server) {
+  Server.checkSession();
+
+  console.log($localStorage.token);
 
   $scope.current_user = $rootScope.current_user_name;
 
