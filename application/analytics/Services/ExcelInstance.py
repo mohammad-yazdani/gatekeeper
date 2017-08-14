@@ -15,10 +15,10 @@ class ExcelInstance:
 
 		self.macros_path = ROOT_DIR + "Functions\\Macros\\"""
 		self.instance = win32.Dispatch('Excel.Application')
+		self.application = self.instance.Application
 		self.instance.DisplayAlerts = False
 		self.instance.Visible = False
 
-		self.application = self.instance.Application
 		# self.application = self.instance
 		self.workbook = self.instance.Workbooks.Open(Filename=self.file)
 
@@ -45,7 +45,7 @@ class ExcelInstance:
 				macro = "FillDown"
 				macro_path = self.macros_path + macro + ".vb"
 				excel_module = self.workbook.VBProject.VBComponents.Add(1)
-				excel_module.CodeModule.AddFromString(str(open(macro_path).read()))
+				excel_module.CodeModule.AddFromString(str(open(macro_path, encoding='utf8').read()))
 
 				self.fill_down(row)
 			else:
@@ -66,16 +66,14 @@ class ExcelInstance:
 		try:
 			self.application.Run(macro, switch)
 		except Exception as e:
-			print(e)
 			no_macro = (str(e).
 						find("The macro may not be available in this workbook or "
 							 "all macros may be disabled.")
 						>= 0)
 			if no_macro:
-				print("Adding macro: " + macro,)
 				macro_path = self.macros_path + macro + ".vb"
 				excel_module = self.workbook.VBProject.VBComponents.Add(1)
-				excel_module.CodeModule.AddFromString(str(open(macro_path).read()))
+				excel_module.CodeModule.AddFromString(str(open(macro_path, encoding='utf8').read()))
 
 				# self.display_alert(switch)
 			else:
@@ -94,7 +92,7 @@ class ExcelInstance:
 				macro = "Update"
 				macro_path = self.macros_path + macro + ".vb"
 				excel_module = self.workbook.VBProject.VBComponents.Add(1)
-				excel_module.CodeModule.AddFromString(str(open(macro_path).read()))
+				excel_module.CodeModule.AddFromString(str(open(macro_path, encoding='utf8').read()))
 
 				self.update()
 			else:
@@ -113,7 +111,7 @@ class ExcelInstance:
 				macro = "UpdateFormula"
 				macro_path = self.macros_path + macro + ".vb"
 				excel_module = self.workbook.VBProject.VBComponents.Add(1)
-				excel_module.CodeModule.AddFromString(str(open(macro_path).read()))
+				excel_module.CodeModule.AddFromString(str(open(macro_path, encoding='utf8').read()))
 
 				self.update_formula()
 			else:
@@ -123,3 +121,9 @@ class ExcelInstance:
 	def add_to_catalog(self, name: str):
 		# TODO : Fix later
 		self.catalog[name] = None
+
+	@staticmethod
+	def prepare():
+		instance = win32.Dispatch('Excel.Application')
+		application = instance.Application
+		application.Quit()

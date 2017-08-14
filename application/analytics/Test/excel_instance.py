@@ -11,9 +11,10 @@ class MyTestCase(unittest.TestCase):
 		# xl.Workbooks.Open(Filename="C:\\xampp\htdocs\gatekeeper\\application\\analytics\Test\BF Monthly.xlsm")
 		file_name = "C:\\xampp\htdocs\gatekeeper\\application\\analytics\Test\\BF_Monthly output.xlsm"
 
-		xl = ExcelInstance(file_name)
-		xl.fill_down(50)
-		xl.save_and_quit()
+		excel_direct = ExcelInstance(file_name)
+		excel_direct.update()
+		excel_direct.update_formula()
+		excel_direct.save_and_quit()
 
 		# xl.Application.Run('Dim prev_row As Integer Dim rg As String prev_row = 48 - 1 rg = "G" & prev_row & ":" & "Q" & row Worksheets("Chart").Range(rg).FillDown')
 		# xl.Application.Run('MsgBox "Macro"')

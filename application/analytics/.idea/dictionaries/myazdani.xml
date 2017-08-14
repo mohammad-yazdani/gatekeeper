@@ -2,7 +2,9 @@
   <dictionary name="myazdani">
     <words>
       <w>assetsand</w>
+      <w>monthend</w>
       <w>strftime</w>
+      <w>tbill</w>
     </words>
   </dictionary>
 </component>

@@ -51,8 +51,7 @@ class WordInstance:
 		return self.file
 
 	@staticmethod
-	def total_quit():
-		pass
-		# instance = win32.Dispatch('Word.Application')
-		# application = instance.Application
-		# application.Quit()
+	def prepare():
+		instance = win32.Dispatch('Word.Application')
+		application = instance.Application
+		application.Quit()
