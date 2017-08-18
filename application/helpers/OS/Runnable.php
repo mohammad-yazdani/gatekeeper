@@ -8,6 +8,7 @@
 
 namespace OS;
 
+require_once APPPATH."controllers\\HomeController.php";
 
 /**
  * Class Runnable
@@ -39,21 +40,27 @@ abstract class Runnable
      * @param string $base
      * @param array $args
      */
-    function __construct(string $env, string $name, string $base, array $args)
+    function __construct(string $env, string $name, string $base, array $args = NULL)
     {
 
         $this->script = $name;
         $this->base_path = $base;
         $this->args = $args;
+        if ($this->args == NULL)
+        {
+            $this->args = [];
+        }
         $this->env = $env;
     }
 
     /**
      * @param string $script
+     * @param $args
      */
-    public function setScript(string $script)
+    public function setScript(string $script, $args)
     {
         $this->script = $script;
+        array_push($this->args, $args);
     }
 
     /**
@@ -61,39 +68,59 @@ abstract class Runnable
      */
     public function Run()
     {
+        //flush(); ob_flush();
+        //sleep(3);
+
         //$command = $this->base_path.$this->script;
         $command = $this->base_path.$this->script;
 
-        foreach ($this->args as $arg )
-        {
-            $command = $command." ".$arg;
-        }
-
-        $command = $this->env." ".$command;
-
-        # $result = exec($command);
-        // $result = exec($command);
+        // echo "<br/><br/>".$command."<br/>";
 
         //$command = APPPATH."analytics\\BF_Script.py";
         // $command = "py ".$command;
-        echo "Command: ".$command."<br/>";
+        // echo "Command: ".$command."<br/>";
 
         set_time_limit(60 * 5);
-        $result = exec($command);
+
+        $CI =& get_instance();
+
+        // print_r($this->args);
+
+        foreach ($this->args as $arg)
+        {
+            $command .= (" ".$arg);
+        }
+
+        // $result = exec($command);
+
+        echo "Running: ".$command."<br/>";
+        //return null;
+        $result = shell_exec($command);
 
         echo "Results: ".$result."\n";
 
         // TODO : Load download
-        $CI =& get_instance();
+
         $CI->load->helper('download');
 
-        $data = file_get_contents($result);
-        // echo $data;
-        force_download("report.xlsx", $data);
-        // force_download($result);
+        $separator = "\r\n";
+        $line = strtok($result, $separator);
 
-        echo "Result: \n".$result;
+        # do something with $line
+        $last_line = "";
+        while ($line !== $last_line)
+        {
+            $last_line = $line;
+            # echo "CURRENT ".$last_line."<br/>";
+            $line = strtok( $separator );
+            if ($line == "") break;
+        }
+        echo "<br/>Last line: ".$last_line."<br/>";
+        $line = $last_line;
 
-        return $result;
+
+        # echo "<br/>LAST LINE: ".$last_line."<br/>";
+
+        return $line;
     }
 }

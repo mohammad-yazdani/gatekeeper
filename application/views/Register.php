@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var httpStatus = -1;
 
     function Server(address) {
-        this.baseAddress = "http://localhost/gatekeeper/index.php/";
+        this.baseAddress = "http://192.168.68.145/gatekeeper/index.php/";
         this.address = this.baseAddress + address;
         this.get = function (param) {
             let args = "";

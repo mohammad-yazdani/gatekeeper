@@ -27,7 +27,7 @@ var AnalyticsApp = angular
         controller: 'MainCtrl',
         controllerAs: 'old_main'
       })
-      .when('/', {
+      .when('/catalog', {
         templateUrl: 'views/catalog.html',
         controller: 'CatalogCtrl',
         controllerAs: 'CatalogCtrl'
@@ -42,18 +42,61 @@ var AnalyticsApp = angular
         controller: 'ProfileCtrl',
         controllerAs: 'ProfileCtrl'
       })
+      .when('/config_profile', {
+        templateUrl: 'views/profile_config.html',
+        controller: 'ProfileConfig',
+        controllerAs: 'ProfileConfig'
+      })
+      .when('/loading', {
+        templateUrl: 'views/loading.html',
+        controller: 'ProfileCtrl',
+        controllerAs: 'ProfileCtrl'
+      })
+      .when('/', {
+        url: '/login',
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+
+      .when('/sign_up', {
+        url: '/sign_up',
+        templateUrl: 'views/signup.html',
+        controller: 'SignUpCtrl'
+      })
+
+      .when('unable_to_login', {
+        url: '/cannot_login',
+        templateUrl: 'views/forgot_password.html',
+        controller: 'UnableToLoginCtrl'
+      })
+
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
       });
 
-    $locationProvider.html5Mode({
+    /*$locationProvider.html5Mode({
       enabled: true,
       requireBase: false
-    });
+    });*/
   }])
-  .run(function ($localStorage) {
-    $localStorage.token = "";
-    $localStorage.user = "";
+  .run(function ($localStorage, $rootScope, $location) {
+    if (!$localStorage.token) {
+      $location.token = "";
+    }
+    console.log("Present token: " + $localStorage.token);
+    $rootScope.lastCallBack = "";
+    // $rootScope.host_address = "localhost";
+    $rootScope.host_address = "192.168.68.145";
 
-    console.log($localStorage);
+    $rootScope.logOut = function () {
+      $localStorage.token = "";
+      $localStorage.user = "";
+      $location.path("/");
+    };
+
+    $rootScope.home = function () {
+      $location.path("/catalog");
+    };
+
+    // console.log($localStorage);
   });

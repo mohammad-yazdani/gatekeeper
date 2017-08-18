@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var httpStatus;
 
     function Server(address) {
-        this.baseAddress = "http://localhost/gatekeeper/index.php/";
+        this.baseAddress = "http://192.168.68.145/gatekeeper/index.php/";
         this.address = this.baseAddress + address;
         this.get = function (param) {
             let args = "";
@@ -128,7 +128,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         this.go_to_angular = function () {
             // TODO : FOR NOW
-            window.location.href = "http://localhost:9000?token=" + this.get() + "&user=" + user;
+            let app_url = "http://192.168.68.145:9000?token=" + this.get() + "&user=" + user;
+            console.log("App url: " + app_url);
+            window.location.href = app_url;
         }
     }
 
