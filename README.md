@@ -17,4 +17,9 @@ To see the software architecture files please go to the Architecture folder and 
 2. Open MySQL on command line with ``-u root`` option (to be root!) and run the following:
 ``CREATE DATABASE gatekeeper;``
 ``USE gatekeeper;``
-``GRANT ALL PRIVILEGES ON gatekeeper.* TO 'gatekeeper'@'localhost' IDENTIFIED BY "gatekeeper";``
+``GRANT ALL PRIVILEGES ON gatekeeper.* TO 'gatekeeper'@'localhost' IDENTIFIED BY "gatekeeper";
+
+## [FOR DEVELOPERS]
+### For developement database
+
+``CREATE DATABASE gatekeeper_dev; USE gatekeeper_dev; GRANT ALL PRIVILEGES ON gatekeeper_dev.* TO 'gatekeeper'@'localhost' IDENTIFIED BY "gatekeeper";``
